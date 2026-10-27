@@ -9,7 +9,7 @@ Each surface shows an accessibility score from 0 to 100, next to its name. It's 
 
 The score covers **WCAG conformance only**. It counts rules mapped to a WCAG success criterion in your surface's target. [Best-practice](/issues/understanding-issues#wcag-issues-and-best-practices) issues are tracked separately and don't change the score.
 
-The score comes from the surface's latest completed surface-wide scan, the kind you start with **Run scan** or **Scan N unscanned pages**. Rescanning a single page or re-checking an issue doesn't change it.
+The score comes from the pages in the surface's latest completed surface-wide scan. **Run scan** scans every active page, so its score covers the whole site. **Scan N unscanned pages** scores only the pages it scanned, so run a full scan to get a site-wide score again. Rescanning a single page or re-checking an issue doesn't change the score.
 
 ## How it's calculated
 
@@ -19,7 +19,7 @@ For each page, ility compares the rules that passed with the rules that failed:
 - A failing rule weighs more the more elements fail it, on a logarithmic scale. A rule failing on 500 elements costs about ten times as much as one failing once, not 500 times, so one widespread problem can't wipe out everything else on the page.
 - Rules that don't apply to the page, or that need a person to review, are left out.
 
-The page score is the weighted share of passing rules. The surface score is the average of its page scores. Pages where no WCAG rule passed or failed have no score and aren't counted.
+The page score is the weighted share of passing rules. The surface score is the average of the page scores in that scan. Pages where no WCAG rule passed or failed have no score and aren't counted.
 
 ## Score bands
 
@@ -30,7 +30,7 @@ The page score is the weighted share of passing rules. The surface score is the 
 | Red | 0–49 | Widespread or serious WCAG failures. |
 
 <Warning>
-  A surface whose latest scan found a **critical** failure is never shown in green, whatever its number. A single blocking problem, such as a keyboard trap, can stop someone from using the site at all.
+  A surface whose latest scan found a **critical** WCAG failure is never shown in green, whatever its number. A single blocking problem, such as a keyboard trap, can stop someone from using the site at all.
 </Warning>
 
 ## Using the score

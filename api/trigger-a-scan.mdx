@@ -14,13 +14,15 @@ This guide starts a scan with the API, waits for it to finish, and fails the bui
 ```bash
 curl -s https://app.ilitylabs.com/v1/domains \
   -H "Authorization: Bearer $ILITY_API_KEY" \
-  | jq -r '.items[] | "\(.slug)\t\(.base_url)"'
+  | jq -r '.items[] | "\(.slug)\t\(.id)\t\(.base_url)"'
 ```
 
 ```text
-example-com	https://www.example.com
-staging-example-com	https://staging.example.com
+example-com	3f8e…	https://www.example.com
+staging-example-com	9a1c…	https://staging.example.com
 ```
+
+Keep the slug for the scan routes and the `id` for filtering issues.
 
 ## 2. Start the scan
 
@@ -69,7 +71,7 @@ curl -s https://app.ilitylabs.com/v1/domains/example-com/summary \
   | jq '{score, band, severity_breakdown}'
 ```
 
-To list the open critical issues, pass the domain's `id` to the issues list:
+To list the open critical issues, pass the domain's `id` from step 1 as `DOMAIN_ID`:
 
 ```bash
 curl -s -G https://app.ilitylabs.com/v1/issues \
