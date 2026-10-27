@@ -1,0 +1,74 @@
+---
+title: "Connect a client"
+description: "Add the ility MCP server to Claude, Claude Code, Cursor, or another MCP client."
+---
+
+## Sign in with ility
+
+Clients that support MCP sign-in only need the server URL. When you connect, the client opens an ility sign-in page. Sign in, then choose which workspace to allow and approve the request.
+
+<Tabs>
+  <Tab title="Claude">
+    In Claude on the web or desktop:
+
+    1. Open **Settings → Connectors** and choose **Add custom connector**.
+    2. Name it `ility` and enter the URL `https://app.ilitylabs.com/mcp`.
+    3. Choose **Connect**, then sign in and pick your workspace.
+
+    On Team and Enterprise plans, an admin may need to add the connector for your organization first.
+  </Tab>
+  <Tab title="Claude Code">
+    Add the server:
+
+    ```bash
+    claude mcp add --transport http ility https://app.ilitylabs.com/mcp
+    ```
+
+    Then run `/mcp` in Claude Code, select **ility**, and choose **Authenticate** to sign in.
+  </Tab>
+  <Tab title="Cursor">
+    Add the server to `~/.cursor/mcp.json`, or to `.cursor/mcp.json` in a project:
+
+    ```json
+    {
+      "mcpServers": {
+        "ility": {
+          "url": "https://app.ilitylabs.com/mcp"
+        }
+      }
+    }
+    ```
+
+    Cursor asks you to sign in the first time it uses the server.
+  </Tab>
+</Tabs>
+
+<Note>
+  A sign-in reaches every workspace you belong to. The workspace you pick when you sign in is the default. The assistant can work in your other workspaces by name, as described in [Choosing a workspace](/mcp/tools#choosing-a-workspace).
+</Note>
+
+If the client reports that it needs to reconnect, sign in again and make sure you pick a workspace on the approval screen.
+
+## Use an API key
+
+For clients without MCP sign-in, [create an API key](/api/api-keys) and send it in the `Authorization` header. Most clients take a configuration like this:
+
+```json
+{
+  "mcpServers": {
+    "ility": {
+      "type": "http",
+      "url": "https://app.ilitylabs.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ilk_..."
+      }
+    }
+  }
+}
+```
+
+The **API keys** settings tab has this configuration ready to copy. A key only works in its own workspace.
+
+## Disconnect
+
+To disconnect a client that signed in, remove the connector or server from the client. To cut off a client that uses a key, revoke the key in **Settings → API keys**.

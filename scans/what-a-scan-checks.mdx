@@ -1,0 +1,35 @@
+---
+title: "What a scan checks"
+description: "Which rules run, how they map to WCAG, and what automated coverage means."
+---
+
+## The engine
+
+ility scans each page in a real Chromium browser, so it sees the page as your visitors do, after scripts have run. The checks themselves come from [axe-core](https://github.com/dequelabs/axe-core), the open-source accessibility engine from Deque Systems.
+
+## Which rules run
+
+Every scan runs two kinds of rules.
+
+<CardGroup cols={2}>
+  <Card title="WCAG rules" icon="scale-balanced">
+    Rules mapped to a WCAG success criterion at or below the surface's [conformance target](/surfaces/surface-settings). With a **2.1-AA** target, that is every rule for a level A or AA criterion in WCAG 2.0 or 2.1. These rules decide the [accessibility score](/issues/accessibility-score).
+  </Card>
+  <Card title="Best-practice rules" icon="lightbulb">
+    Rules that improve accessibility but don't map to a WCAG criterion, such as having exactly one main landmark. They run on every scan, whatever the target. Their issues are labeled best practice and don't affect the score.
+  </Card>
+</CardGroup>
+
+ility only runs stable rules. Rules the engine marks as experimental or deprecated are left out, so every finding is one you can defend in an audit.
+
+## Automated coverage
+
+The **Automated coverage** card on a surface's **Overview** shows how much of the surface and of WCAG the last scans reached:
+
+- **Pages scanned**: how many of the pages ility knows about have been scanned.
+- **WCAG criteria evaluated**: the share of success criteria in your target that at least one automated check covers.
+- **Passed**, **Failed**, and **Needs review**: how the individual checks came out. A check needs review when the engine found something it can't judge on its own, such as text over a background image.
+
+## What automation can't catch
+
+Automated testing finds a large share of common accessibility problems, but not all of them. Many WCAG criteria need a person to judge, for example whether alt text actually describes the image or whether the reading order makes sense. A clean scan means no automated check failed. It doesn't on its own mean a site conforms to WCAG.

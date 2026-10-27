@@ -1,0 +1,126 @@
+---
+title: "Start a scan from CI"
+description: "Scan a site after each deploy, wait for the scan to finish, and read the results."
+---
+
+This guide starts a scan with the API, waits for it to finish, and fails the build if the surface has open critical issues. It uses `curl` and `jq`, so it runs in most CI systems.
+
+<Note>
+  Starting scans with an API key needs a plan that includes API triggers: Pro, an active trial, or Enterprise.
+</Note>
+
+## 1. Find the domain's slug
+
+```bash
+curl -s https://app.ilitylabs.com/v1/domains \
+  -H "Authorization: Bearer $ILITY_API_KEY" \
+  | jq -r '.items[] | "\(.slug)\t\(.base_url)"'
+```
+
+```text
+example-com	https://www.example.com
+staging-example-com	https://staging.example.com
+```
+
+## 2. Start the scan
+
+```bash
+curl -s -X POST https://app.ilitylabs.com/v1/domains/example-com/scans \
+  -H "Authorization: Bearer $ILITY_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{}'
+```
+
+An empty body scans every active page with the surface's own WCAG target and engines. You can override them:
+
+| Field | Values |
+| --- | --- |
+| `scope` | `all` (default) scans every active page. `unscanned` scans only pages that have never been scanned. |
+| `wcag_level` | A WCAG version and level, such as `2.2-AA`. Defaults to the surface's setting. |
+
+The response is a list of scan runs, one per engine. Most surfaces run one engine, so there is usually one run. Keep its `id`.
+
+If a scan is already running on the domain, the request fails with `409` and names the running scan in `conflicts`. If there's nothing to scan, it fails with `422` and `reason` set to `no_active_pages` or `no_unscanned_pages`.
+
+## 3. Wait for it to finish
+
+Poll `GET /v1/scans/{id}` until `status` is `complete`, `failed`, or `canceled`:
+
+```bash
+while true; do
+  status=$(curl -s "https://app.ilitylabs.com/v1/scans/$SCAN_ID" \
+    -H "Authorization: Bearer $ILITY_API_KEY" | jq -r .status)
+  case "$status" in
+    complete|failed|canceled) break ;;
+  esac
+  sleep 30
+done
+```
+
+A large site can take a while. Poll every 30 seconds or so rather than continuously.
+
+## 4. Read the results
+
+The domain summary has the score and open issue counts by severity:
+
+```bash
+curl -s https://app.ilitylabs.com/v1/domains/example-com/summary \
+  -H "Authorization: Bearer $ILITY_API_KEY" \
+  | jq '{score, band, severity_breakdown}'
+```
+
+To list the open critical issues, pass the domain's `id` to the issues list:
+
+```bash
+curl -s -G https://app.ilitylabs.com/v1/issues \
+  -H "Authorization: Bearer $ILITY_API_KEY" \
+  --data-urlencode "domain_id=$DOMAIN_ID" \
+  --data-urlencode "severity=critical"
+```
+
+## Full example: GitHub Actions
+
+Add your key as a repository secret named `ILITY_API_KEY`, then run this after your deploy step:
+
+```yaml .github/workflows/accessibility.yml
+name: Accessibility scan
+on:
+  workflow_dispatch:
+  deployment_status:
+
+jobs:
+  scan:
+    if: github.event_name == 'workflow_dispatch' || github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    env:
+      ILITY_API_KEY: ${{ secrets.ILITY_API_KEY }}
+      API: https://app.ilitylabs.com/v1
+      SLUG: example-com
+    steps:
+      - name: Start scan
+        run: |
+          scan_id=$(curl -sf -X POST "$API/domains/$SLUG/scans" \
+            -H "Authorization: Bearer $ILITY_API_KEY" \
+            -H "Content-Type: application/json" -d '{}' | jq -r '.[0].id')
+          echo "SCAN_ID=$scan_id" >> "$GITHUB_ENV"
+
+      - name: Wait for scan
+        timeout-minutes: 60
+        run: |
+          while true; do
+            status=$(curl -sf "$API/scans/$SCAN_ID" \
+              -H "Authorization: Bearer $ILITY_API_KEY" | jq -r .status)
+            echo "Scan status: $status"
+            case "$status" in
+              complete) break ;;
+              failed|canceled) exit 1 ;;
+            esac
+            sleep 30
+          done
+
+      - name: Fail on critical issues
+        run: |
+          critical=$(curl -sf "$API/domains/$SLUG/summary" \
+            -H "Authorization: Bearer $ILITY_API_KEY" | jq '.severity_breakdown.critical')
+          echo "Open critical issues: $critical"
+          test "$critical" -eq 0

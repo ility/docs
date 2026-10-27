@@ -1,0 +1,73 @@
+---
+title: "Run a scan"
+description: "Start, pause, and cancel scans, and see what changed between them."
+---
+
+A scan loads each page of a surface in a real browser on ility's servers and runs automated accessibility checks against it. Members and owners can start scans. Viewers can watch them.
+
+## Start a scan
+
+There are several ways to start a scan, depending on what you want to check.
+
+| To scan | Do this |
+| --- | --- |
+| Every active page on a surface | Open the surface and choose **Run scan** at the top right. |
+| Only pages that have never been scanned | On the surface's **Overview**, choose **Scan N unscanned pages** in the **Automated coverage** card. |
+| One page, or a handful | In **Crawled URLs**, choose **Rescan** on a page, or select pages and rescan them together. |
+| Just the pages where one issue appears | Open the issue and choose **Re-check**. See [Working with issues](/issues/working-with-issues). |
+
+Scans use the surface's [settings](/surfaces/surface-settings): its WCAG target and its enabled engines. Excluded pages are skipped.
+
+If scheduled scanning is turned on for a surface, ility also scans it automatically on a recurring schedule.
+
+<Note>
+  A surface can only have one scan running per engine. If you start a scan while another is in progress, ility tells you and leaves the running scan alone.
+</Note>
+
+## Follow progress
+
+While a scan runs, the surface header shows how many pages are done. Results appear as each page finishes, so you don't have to wait for the whole scan.
+
+- **Scans** in the sidebar lists every scan in the workspace, newest first. Filter it by status, and open a scan to see each page's result.
+- **Activity** shows scans and crawls as they happen across all your surfaces.
+
+A scan moves through these statuses:
+
+| Status | Meaning |
+| --- | --- |
+| Queued | Waiting for a free slot on the scanner. |
+| Running | Pages are being scanned. |
+| Paused | Stopped by someone on your team. It keeps its place and can be resumed. |
+| Complete | Every page has a result. Some pages may still have failed (see below). |
+| Failed | The scan as a whole couldn't finish. |
+| Canceled | Stopped by someone on your team. Pages already scanned keep their results. |
+
+## Pause, resume, or cancel
+
+While a scan runs, the surface header shows **Pause scan** and **Cancel** in place of **Run scan**. A paused scan shows **Resume scan**. Cancel asks you to confirm first.
+
+## When a page fails
+
+Sometimes a single page can't be scanned. The scan carries on with the other pages and records why that page failed. Common reasons:
+
+| Reason | What it means |
+| --- | --- |
+| Rate limited | The site refused repeated requests (HTTP 429 or 503) through every retry. Scanning fewer pages at once usually clears it. |
+| HTTP error | The page returned an error status, so there was nothing to scan. |
+| Redirects off-site | The URL redirects to a different site. Update the link or exclude the page. |
+| Blocked address | The URL resolved to a private or internal address. ility only scans publicly reachable sites. |
+| Navigation timed out | The page didn't finish loading in time. |
+| Page took too long | Scanning the page went over its overall time limit. |
+| Could not reach the page | The browser couldn't connect to the page. |
+
+<Tip>
+  If your site blocks unfamiliar traffic with a firewall or bot protection, pages may fail with rate limiting or HTTP errors. [Contact us](mailto:support@ilitylabs.com) and we'll help you allow ility's scanner through.
+</Tip>
+
+## Compare two scans
+
+On a surface's **Overview**, choose **Compare scans** in the scan history to see what changed between two scans. Issues are sorted into three columns:
+
+- **Disappeared**: found in the earlier scan and not in the later one.
+- **Persisted**: found in both.
+- **Appeared**: new in the later scan.

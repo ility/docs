@@ -1,0 +1,46 @@
+---
+title: "Install the browser extension"
+description: "Load the ility extension into Chrome and connect it to your workspace."
+---
+
+The ility extension adds an **ility** panel to Chrome DevTools. It shows the issues ility already knows about on the page you're looking at, and it can scan the page as it is right now, including states the crawler can't reach, such as an open menu or a step halfway through checkout.
+
+<Note>
+  The extension isn't in the Chrome Web Store yet. For now, we send it to you as a `.zip` file and you load it into Chrome yourself. [Email us](mailto:support@ilitylabs.com) to get a copy.
+</Note>
+
+## Load the extension
+
+<Steps>
+  <Step title="Unzip the file">
+    Unzip the file we sent you, and keep the folder somewhere it won't be deleted, such as your Documents folder. Chrome loads the extension from this folder every time it starts.
+  </Step>
+  <Step title="Open the extensions page">
+    In Chrome, go to `chrome://extensions`.
+  </Step>
+  <Step title="Turn on Developer mode">
+    Turn on **Developer mode** with the switch at the top right of the page.
+  </Step>
+  <Step title="Load it">
+    Choose **Load unpacked** and select the folder you unzipped. **ility** appears in your list of extensions.
+  </Step>
+  <Step title="Pin it (optional)">
+    Open the puzzle-piece menu in the toolbar and pin **ility**. Clicking its icon reminds you how to open the panel.
+  </Step>
+</Steps>
+
+The same steps work in other Chromium-based browsers, such as Microsoft Edge (`edge://extensions`).
+
+## Connect it to your workspace
+
+The extension doesn't have its own login. It uses your ility session from the same browser profile. Sign in at [app.ilitylabs.com](https://app.ilitylabs.com) in that profile, and the extension shows your workspace's issues.
+
+If you're signed out, the extension still works as a local scanner. It just can't show the issues your workspace already tracks.
+
+## Update the extension
+
+When we send you a new version, unzip it over the same folder, then choose the reload arrow on the **ility** card in `chrome://extensions`.
+
+## Privacy
+
+Installing the extension doesn't give it access to any site. The first time you scan or highlight on a site, Chrome asks whether ility may access that site, and you can say no. Local scans run in your browser. The extension only talks to ility to look up what your workspace already knows about the page.

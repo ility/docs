@@ -1,0 +1,35 @@
+---
+title: "Tools"
+description: "The tools the ility MCP server offers, and how to point them at a workspace."
+---
+
+Each tool calls the [ility API](/api/overview) on your behalf, so it returns the same data and the same errors an API client would see.
+
+| Tool | What it does |
+| --- | --- |
+| `list_workspaces` | Lists the workspaces you belong to, with each one's id, name, your role, and which one tools use by default. |
+| `list_domains` | Lists the websites in a workspace, with their slug, URL, plan, and latest scan state. |
+| `get_domain_summary` | One website's accessibility summary: score, open issue counts by severity, and pages scanned. |
+| `list_issues` | Lists issues, newest first. Filter by domain, scan, page, rule, severity, or status, or search the issue text. Only open issues unless you ask for other statuses. |
+| `get_issue` | One issue in full: rule, WCAG criteria, severity, status, and how many pages and instances it affects. |
+| `get_issue_fix_prompt` | A ready-made prompt describing how to fix one issue, with the failing markup and guidance. Hand it to a coding assistant working in the site's code. |
+| `list_scans` | Lists scans across a workspace, newest first. Filter by status or domain. |
+| `get_scan` | One scan's status, progress, page counts, and timing. |
+| `trigger_scan` | Starts a scan of a website. Choose all pages or only unscanned ones, and optionally a WCAG version and level. |
+
+Every tool except `trigger_scan` only reads. `trigger_scan` needs a plan that includes API triggers. Without one, it returns an error naming `api_triggers_not_entitled`.
+
+## Choosing a workspace
+
+Every tool except `list_workspaces` takes an optional `workspace_id`.
+
+- Without it, a tool works in the default workspace: the one you picked when you signed in, or the workspace an API key belongs to.
+- If you belong to several workspaces, the assistant can call `list_workspaces` and pass another workspace's id to work there. You can simply ask, for example "List the critical issues in the Acme workspace."
+- An API key only works in its own workspace. Naming another workspace returns an error rather than quietly using the key's workspace.
+
+## Example prompts
+
+- "Which of my sites has the lowest accessibility score?"
+- "List the open critical issues on example.com."
+- "Get the fix prompt for the top issue and fix it in this repo." (in Claude Code or Cursor, inside your site's codebase)
+- "Start a scan of the staging site and tell me when it's done."
