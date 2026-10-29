@@ -49,6 +49,10 @@ Clients that support MCP sign-in only need the server URL. When you connect, the
 
 If the client reports that it needs to reconnect, sign in again and make sure you pick a workspace on the approval screen.
 
+## Check the connection
+
+Ask the assistant "List my ility sites." It should return each site with its slug, open issue count, and latest scan. If the ility tools don't show up, turn the connector on for the chat, or see [Troubleshooting](/mcp/workflows#troubleshooting).
+
 ## Use an API key
 
 For clients without MCP sign-in, [create an API key](/api/api-keys) and send it in the `Authorization` header. Most clients take a configuration like this:

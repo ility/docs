@@ -27,9 +27,8 @@ Every tool except `list_workspaces` takes an optional `workspace_id`.
 - If you belong to several workspaces, the assistant can call `list_workspaces` and pass another workspace's id to work there. You can simply ask, for example "List the critical issues in the Acme workspace."
 - An API key only works in its own workspace. Naming another workspace returns an error rather than quietly using the key's workspace.
 
-## Example prompts
+## Slugs and ids
 
-- "Which of my sites has the lowest accessibility score?"
-- "List the open critical issues on example.com."
-- "Get the fix prompt for the top issue and fix it in this repo." (in Claude Code or Cursor, inside your site's codebase)
-- "Start a scan of the staging site and tell me when it's done."
+Domain tools, `list_scans`, and `trigger_scan` name a site by its **slug**, such as `www-example-com`. `list_issues` filters by the domain's **id** instead. Both come from `list_domains`, and the assistant handles the lookup when you name the site.
+
+For prompts that work well, see [Common workflows](/mcp/workflows).

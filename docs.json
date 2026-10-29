@@ -136,7 +136,8 @@
             "pages": [
               "mcp/overview",
               "mcp/connect",
-              "mcp/tools"
+              "mcp/tools",
+              "mcp/workflows"
             ]
           },
           {
