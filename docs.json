@@ -32,14 +32,29 @@
       {
         "header": "Ility Labs",
         "items": [
-          { "label": "Website", "href": "https://ilitylabs.com" },
-          { "label": "Open ility", "href": "https://app.ilitylabs.com" }
+          {
+            "label": "Website",
+            "href": "https://ilitylabs.com"
+          },
+          {
+            "label": "Open ility",
+            "href": "https://app.ilitylabs.com"
+          }
         ]
       }
     ]
   },
   "contextual": {
-    "options": ["copy", "view", "chatgpt", "claude", "perplexity", "mcp", "cursor", "vscode"],
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ],
     "display": "header"
   },
   "api": {
@@ -47,7 +62,11 @@
       "display": "interactive"
     },
     "examples": {
-      "languages": ["curl", "javascript", "python"]
+      "languages": [
+        "curl",
+        "javascript",
+        "python"
+      ]
     }
   },
   "navigation": {
@@ -127,5 +146,11 @@
         ]
       }
     ]
-  }
+  },
+  "redirects": [
+    {
+      "source": "/quickstart",
+      "destination": "/get-started/quickstart"
+    }
+  ]
 }
