@@ -16,6 +16,12 @@
           "index",
           "quickstart"
         ]
+      },
+      {
+        "group": "Workspaces",
+        "pages": [
+          "members"
+        ]
       }
     ]
   },
