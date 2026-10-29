@@ -1,0 +1,124 @@
+---
+title: "MCP server"
+description: "Connect Claude and other AI assistants to ility through its MCP server, and work across every workspace you belong to from one connection."
+---
+
+ility runs a Model Context Protocol (MCP) server, so AI assistants such as Claude can read your accessibility results and start scans for you. Ask your assistant which sites have the most critical issues, get a fix prompt for an issue, or trigger a scan, without opening the ility app.
+
+The server URL is:
+
+```text
+https://app.ilitylabs.com/mcp
+```
+
+## Connect an assistant
+
+You can connect with OAuth or with an API key.
+
+### Connect with OAuth
+
+Clients that support MCP sign-in, such as claude.ai and Claude Desktop custom connectors, Claude Code, and Cursor, need only the server URL. Add `https://app.ilitylabs.com/mcp` as a custom connector, then sign in to ility and approve the connection.
+
+The consent screen asks you to choose a workspace. That workspace becomes the connection's default, but the connection can reach every workspace you belong to. See [Work across workspaces](#work-across-workspaces).
+
+### Connect with an API key
+
+Workspace owners can create an API key in workspace settings, on the **API keys** tab. Configure your client with the server URL and the key as a bearer token:
+
+```json
+{
+  "mcpServers": {
+    "ility": {
+      "type": "http",
+      "url": "https://app.ilitylabs.com/mcp",
+      "headers": { "Authorization": "Bearer ilk_…" }
+    }
+  }
+}
+```
+
+An API key belongs to one workspace. A key connection can't reach your other workspaces.
+
+## Available tools
+
+| Tool | What it does |
+| --- | --- |
+| `list_workspaces` | Lists the workspaces you can use, with each one's id, name, your role, and which one is the default. |
+| `list_domains` | Lists the sites monitored in a workspace, with their slug, URL, plan, and latest scan state. |
+| `get_domain_summary` | Returns one site's open issue counts by severity, pages scanned, and score. |
+| `list_issues` | Lists issues. Filter by site, scan, page, rule, severity, or status, or search issue text. |
+| `get_issue` | Returns one issue in full: rule, WCAG criteria, severity, status, and affected pages. |
+| `get_issue_fix_prompt` | Returns a ready-to-use prompt for fixing one issue, to hand to a coding agent. |
+| `list_scans` | Lists scan runs, newest first. Filter by status or site. |
+| `get_scan` | Returns one scan run's status, progress, page counts, and timing. |
+| `trigger_scan` | Starts a scan of a site's pages. Requires a plan that includes programmatic triggers. |
+
+## Work across workspaces
+
+Each tool call acts in one workspace. If you don't name a workspace, the tool uses the connection's default: the workspace you chose on the consent screen, or the API key's workspace.
+
+Use this when you belong to more than one workspace, for example your company's workspace and a client's. You don't need a separate connection for each one.
+
+### List your workspaces
+
+Call `list_workspaces` to see the workspaces the connection can use. Each entry has:
+
+| Field | Description |
+| --- | --- |
+| `id` | The workspace id. Pass it as `workspace_id` to other tools. |
+| `name` | The workspace name. |
+| `role` | Your membership role in the workspace: `owner`, `member`, or `viewer`. |
+| `current` | `true` for the workspace tools use when you omit `workspace_id`. |
+
+```json
+[
+  {
+    "id": "3f6c2a1e-8b4d-4c7a-9e21-5d0b7f9a1c34",
+    "name": "Acme Marketing",
+    "role": "owner",
+    "current": true
+  },
+  {
+    "id": "a92e7d05-1f3b-4e68-b4c9-0c7e2d816f5a",
+    "name": "Client Sites",
+    "role": "member",
+    "current": false
+  }
+]
+```
+
+An API key connection lists only the key's own workspace.
+
+### Choose a workspace per call
+
+Every tool except `list_workspaces` takes an optional `workspace_id` argument. Set it to an id from `list_workspaces` to run that tool in that workspace:
+
+```json
+{
+  "name": "list_issues",
+  "arguments": {
+    "workspace_id": "a92e7d05-1f3b-4e68-b4c9-0c7e2d816f5a",
+    "severity": ["critical"]
+  }
+}
+```
+
+The choice applies to that call only. The next call goes back to the default unless it names a workspace too. In practice, you ask your assistant something like "Show critical issues in Client Sites", and it calls `list_workspaces` to find the id.
+
+Ids from one workspace, such as a site slug or an issue id, only work in that workspace. If a site or issue isn't found, the assistant can call `list_workspaces` and retry in the right workspace.
+
+### Roles and limits
+
+- **Role caps apply per workspace.** Through the MCP server you act at most as a `member` in each workspace, even if `list_workspaces` shows you as `owner`. If you're a `viewer` in a workspace, you stay a viewer there.
+- **Plan limits apply per workspace.** `trigger_scan` checks the plan of the site in the named workspace. Rate limits are the named workspace's limits.
+
+### Errors
+
+A tool call that names a workspace the connection can't use fails with `403 Forbidden`. The error body's `reason` tells you why:
+
+| Reason | Cause | Fix |
+| --- | --- | --- |
+| `not_a_workspace_member` | An OAuth connection named a workspace you don't belong to, or one that was deleted. | Call `list_workspaces` and use an id from the list. The connection stays signed in. |
+| `api_key_workspace_mismatch` | An API key connection named a workspace other than the key's own. | Omit `workspace_id`, or connect with OAuth to work across workspaces. |
+
+ility doesn't fall back to the default workspace when a call names one it can't use. That way, an assistant never reads one workspace's data while believing it came from another.
