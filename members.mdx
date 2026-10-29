@@ -1,0 +1,83 @@
+---
+title: "Manage members and client access"
+description: "Invite clients into your ility workspace, limit any member to specific surfaces, and revoke open invitations from Settings → Members."
+---
+
+By default, every member of a workspace sees every surface in it. Workspace owners can limit that. You can invite a client who sees only the surfaces you choose, or limit an existing teammate to specific surfaces.
+
+Use this when you run accessibility testing for several clients in one workspace. Each client sees the results for their own sites and nothing else.
+
+## Before you begin
+
+- You need to be an **owner** of the workspace. Other members who open **Settings → Members** see "Member access is managed by a workspace owner."
+- Your workspace needs at least one surface to grant.
+
+To open the page, select **Settings** in the sidebar, then the **Members** tab.
+
+## Invite a client
+
+A client is someone outside your team who joins the workspace with access to specific surfaces only. They're restricted from their first page load.
+
+<Steps>
+  <Step title="Enter their email">
+    Under **Invite a client**, enter the client's address in **Email**, such as `name@client.com`.
+  </Step>
+  <Step title="Choose a role">
+    Choose what the client can do on their surfaces:
+
+    - **Viewer** can see results, but not change them.
+    - **Member** can also comment, change issue status, and run scans.
+  </Step>
+  <Step title="Choose their surfaces">
+    Under **Surfaces they can see**, select at least one surface.
+  </Step>
+  <Step title="Send the invitation">
+    Select **Send invitation**. ility emails the client an invitation and confirms with "Invitation sent to" their address.
+  </Step>
+</Steps>
+
+You can't invite an email address that already belongs to a member or that already has an open invitation.
+
+## View and revoke invitations
+
+Invitations the client hasn't accepted yet appear under **Pending invitations**. Each one shows the email, the role, the surfaces, and when you sent it.
+
+To cancel an invitation, select **Revoke** next to it. The client can no longer use the invitation to join.
+
+## Change a member's access
+
+Every non-owner in the member list shows their role and either **All surfaces** or **Specific surfaces**. To change it:
+
+1. Select **Edit access** next to the member.
+2. Under **Can see**, choose one of these options:
+   - **All surfaces** gives them access to every surface in the workspace.
+   - **Only the surfaces I choose** limits them to the surfaces you select under **Surfaces**.
+3. Select **Save access**.
+
+Owners always see every surface, so they have no **Edit access** button. A member's role and their surface access are independent. Limiting a member doesn't change their role.
+
+<Note>
+  Access is granted per surface. Surfaces you add later aren't granted to restricted members automatically, even when they're in the same group. Edit the member's access to grant a new surface.
+</Note>
+
+## What restricted members see
+
+A restricted member, including every client, sees only their granted surfaces. Their issues, scans, and live updates come only from those surfaces. Other surfaces don't appear anywhere in the app.
+
+Restricted members also don't see workspace administration:
+
+- **Billing** in the sidebar
+- Each surface's **Imports** and **Settings**
+- The **Members**, **Integrations**, and **API keys** settings tabs
+
+They can't add or edit surfaces or surface groups, run imports, or manage integrations. That includes pushing, linking, or unlinking an issue in your issue tracker. They can still see the state of a ticket already linked to an issue on their surfaces.
+
+## Assignment and notifications
+
+ility only lets you assign an issue to a member who can see it. The assignee list for an issue shows only members with access to its surface. Notifications about an issue go only to members who can see it.
+
+Restricted members see only unrestricted members and members who share a surface with them in the member directory.
+
+## Member limit
+
+Clients are members of your workspace, so they count toward your workspace's member limit.
