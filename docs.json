@@ -16,6 +16,12 @@
           "index",
           "quickstart"
         ]
+      },
+      {
+        "group": "Product updates",
+        "pages": [
+          "changelog"
+        ]
       }
     ]
   },
