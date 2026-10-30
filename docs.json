@@ -117,6 +117,12 @@
               "extension/install",
               "extension/use-the-extension"
             ]
+          },
+          {
+            "group": "Product updates",
+            "pages": [
+              "changelog"
+            ]
           }
         ]
       },
