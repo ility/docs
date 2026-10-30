@@ -5,3 +5,7 @@
 # Draft content
 drafts/
 *.draft.mdx
+
+# Instructions for AI agents, not a docs page
+AGENTS.md
+scripts/

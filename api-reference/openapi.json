@@ -1,0 +1,3668 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ility API",
+    "version": "1.0.0",
+    "description": "Read accessibility results and start scans in your ility workspace."
+  },
+  "servers": [
+    {
+      "url": "https://app.ilitylabs.com"
+    }
+  ],
+  "security": [
+    {
+      "apiKey": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Workspaces"
+    },
+    {
+      "name": "Surfaces"
+    },
+    {
+      "name": "Domains"
+    },
+    {
+      "name": "Scans"
+    },
+    {
+      "name": "Issues"
+    }
+  ],
+  "paths": {
+    "/v1/me/workspaces": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "The workspaces the caller belongs to, by name",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyWorkspaces"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Workspaces"
+        ],
+        "summary": "List workspaces",
+        "description": "Lists the workspaces the caller belongs to. An API key only ever sees its own workspace."
+      }
+    },
+    "/v1/surfaces": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "web"
+              ]
+            },
+            "required": false,
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": false,
+            "name": "group_id",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "active",
+                "archived",
+                "all"
+              ],
+              "default": "active"
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true"
+              ]
+            },
+            "required": false,
+            "name": "attention",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "name",
+                "score",
+                "open_count",
+                "pages",
+                "last_scan"
+              ]
+            },
+            "required": false,
+            "name": "sort",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "required": false,
+            "name": "order",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkspaceSurfaceListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Surfaces"
+        ],
+        "summary": "List surfaces",
+        "description": "Lists the workspace's surfaces with each one's score, open issue count, and last scan."
+      }
+    },
+    "/v1/surfaces/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Surface"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Surfaces"
+        ],
+        "summary": "Get a surface",
+        "description": "Returns one surface, including the domain it wraps and that domain's slug."
+      }
+    },
+    "/v1/domains": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DomainListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Domains"
+        ],
+        "summary": "List domains",
+        "description": "Lists the websites in the workspace. Use a domain's `slug` with the other domain routes and its `id` to filter issues."
+      }
+    },
+    "/v1/domains/{slug}": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true,
+            "name": "slug",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Domain"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Domains"
+        ],
+        "summary": "Get a domain",
+        "description": "Returns one domain's settings, plan, and entitlements."
+      }
+    },
+    "/v1/domains/{slug}/summary": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true,
+            "name": "slug",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DomainSummary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Domains"
+        ],
+        "summary": "Get a domain summary",
+        "description": "Returns the domain's accessibility score and band, open issue counts by severity and WCAG level, page counts, and its last scan."
+      }
+    },
+    "/v1/domains/{slug}/scans": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true,
+            "name": "slug",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "domain",
+                "page"
+              ]
+            },
+            "required": false,
+            "name": "scope",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanRunCursorListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Domain not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scans"
+        ],
+        "summary": "List a domain's scans",
+        "description": "Lists scan runs for one domain, newest first."
+      },
+      "post": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true,
+            "name": "slug",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateScansRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanRunListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden \u2014 viewer role, or an API key on a domain whose plan has no programmatic triggers (reason: 'api_triggers_not_entitled')",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Domain not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Active scan exists for one or more engines",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanConflictResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Precondition failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanPreconditionResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scans"
+        ],
+        "summary": "Start a scan",
+        "description": "Queues a scan of the domain's pages and returns one scan run per engine. Omit the body to scan every active page with the domain's own WCAG target and engines. With an API key, the domain's plan must include API triggers, or the request fails with `403` and `reason: api_triggers_not_entitled`."
+      }
+    },
+    "/v1/scans": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "queued",
+                "running",
+                "paused",
+                "complete",
+                "failed",
+                "canceled",
+                "active"
+              ]
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": false,
+            "name": "domain",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanRunListItemCursorListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scans"
+        ],
+        "summary": "List scans",
+        "description": "Lists scan runs across the workspace, newest first. Filter by `status` (`active` means queued, running, or paused) or by domain slug."
+      }
+    },
+    "/v1/scans/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanRun"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scans"
+        ],
+        "summary": "Get a scan",
+        "description": "Returns one scan run with its status, page counts, score, and timing. Poll it to follow a scan you started."
+      }
+    },
+    "/v1/scans/{id}/pages": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "running",
+                "complete",
+                "failed",
+                "skipped",
+                "all"
+              ],
+              "default": "all"
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanPagesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Scans"
+        ],
+        "summary": "List a scan's pages",
+        "description": "Lists the pages in one scan run with each page's result, score, and any failure reason."
+      }
+    },
+    "/v1/issues": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": false,
+            "name": "domain_id",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": false,
+            "name": "scan_id",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": false,
+            "name": "page_id",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "rule_id",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "fingerprint",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "critical",
+                    "serious",
+                    "moderate",
+                    "minor"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "critical",
+                      "serious",
+                      "moderate",
+                      "minor"
+                    ]
+                  }
+                }
+              ]
+            },
+            "required": false,
+            "name": "severity",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "open",
+                    "resolved",
+                    "wont_fix",
+                    "false_positive"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "open",
+                      "resolved",
+                      "wont_fix",
+                      "false_positive"
+                    ]
+                  }
+                }
+              ]
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "A",
+                    "AA",
+                    "AAA"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "A",
+                      "AA",
+                      "AAA"
+                    ]
+                  }
+                }
+              ]
+            },
+            "required": false,
+            "name": "wcag_level",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "wcag",
+                "best_practice"
+              ]
+            },
+            "required": false,
+            "name": "issue_type",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "site",
+                "embed"
+              ]
+            },
+            "required": false,
+            "name": "source",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "required": false,
+            "name": "priority_page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "required": false,
+            "name": "engine",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "required": false,
+            "name": "framework",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required": false,
+            "name": "age",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "me"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "none"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              ]
+            },
+            "required": false,
+            "name": "assignee",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "found",
+                "last_seen",
+                "severity",
+                "status",
+                "rule",
+                "number",
+                "id",
+                "page_count",
+                "instance_count"
+              ]
+            },
+            "required": false,
+            "name": "sort",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "required": false,
+            "name": "order",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Issues"
+        ],
+        "summary": "List issues",
+        "description": "Lists issues across the workspace. Without a `status` filter, only open issues are returned. Paginate with `page` and `limit`; `total` counts every match."
+      }
+    },
+    "/v1/issues/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueDetail"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid UUID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Issue not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Issues"
+        ],
+        "summary": "Get an issue",
+        "description": "Returns one issue with its rule, WCAG criteria, severity, status, assignee, and page and instance counts."
+      },
+      "patch": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchIssueBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueDetail"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden (viewer role)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Issue not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Issues"
+        ],
+        "summary": "Update an issue",
+        "description": "Changes an issue's status, assignee, or external link. A status change can carry a short note, which appears on the timeline."
+      }
+    },
+    "/v1/issues/{id}/instances": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "open",
+                    "resolved"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "open",
+                      "resolved"
+                    ]
+                  }
+                }
+              ]
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 25
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueInstanceListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Issue not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Issues"
+        ],
+        "summary": "List an issue's instances",
+        "description": "Lists every place the issue appears: the page, the element's selector, and its markup."
+      }
+    },
+    "/v1/issues/{id}/fix-prompt": {
+      "get": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssueFixPromptResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid UUID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Issue not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Issues"
+        ],
+        "summary": "Get a fix prompt",
+        "description": "Returns a ready-made prompt that describes the issue, the failing markup, and how to fix it, for a coding assistant working in the site's codebase."
+      }
+    },
+    "/v1/issues/{id}/recheck": {
+      "post": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecheckIssueRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecheckIssueResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden (viewer role, a caller with no member row, or an API key on a domain whose plan has no programmatic triggers: reason 'api_triggers_not_entitled')",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Issue not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Issues"
+        ],
+        "summary": "Re-check an issue",
+        "description": "Rescans the pages where the issue appears. With an API key, the domain's plan must include API triggers."
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKey": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "An ility API key, such as `ilk_1a2b3c4d_\u2026`. Workspace owners create keys under Settings \u2192 API keys."
+      }
+    },
+    "schemas": {
+      "AccessibilityBreakdown": {
+        "type": "object",
+        "properties": {
+          "A": {
+            "$ref": "#/components/schemas/SeverityBreakdown"
+          },
+          "AA": {
+            "$ref": "#/components/schemas/SeverityBreakdown"
+          },
+          "AAA": {
+            "$ref": "#/components/schemas/SeverityBreakdown"
+          }
+        },
+        "required": [
+          "A",
+          "AA",
+          "AAA"
+        ]
+      },
+      "ActiveRecheck": {
+        "type": "object",
+        "properties": {
+          "scan_request_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pages_queued": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "requested_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "runs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActiveRecheckRun"
+            }
+          }
+        },
+        "required": [
+          "scan_request_id",
+          "pages_queued",
+          "requested_at",
+          "runs"
+        ]
+      },
+      "ActiveRecheckRun": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string"
+          },
+          "pages_done": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pages_failed": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "done_through": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "pages_done",
+          "pages_failed",
+          "done_through"
+        ]
+      },
+      "CreateScansRequest": {
+        "type": "object",
+        "properties": {
+          "engine_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "minItems": 1
+          },
+          "wcag_level": {
+            "type": "string",
+            "enum": [
+              "2.0-A",
+              "2.0-AA",
+              "2.0-AAA",
+              "2.1-A",
+              "2.1-AA",
+              "2.1-AAA",
+              "2.2-A",
+              "2.2-AA",
+              "2.2-AAA"
+            ]
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "all",
+              "unscanned"
+            ]
+          }
+        }
+      },
+      "Domain": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workspace_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "base_url": {
+            "type": "string"
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "slug": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "archived"
+            ]
+          },
+          "archived_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "wcag_level": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "environment": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "enabled_engine_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "crawl_include_query_params": {
+            "type": "boolean"
+          },
+          "scan_schedule_enabled": {
+            "type": "boolean"
+          },
+          "plan_tier": {
+            "type": "string",
+            "enum": [
+              "free",
+              "starter",
+              "pro"
+            ]
+          },
+          "page_blocks": {
+            "type": "integer"
+          },
+          "page_allowance": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "group_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "surface_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "entitlements": {
+            "$ref": "#/components/schemas/DomainEntitlements"
+          }
+        },
+        "required": [
+          "id",
+          "workspace_id",
+          "base_url",
+          "name",
+          "slug",
+          "created_at",
+          "updated_at",
+          "status",
+          "archived_at",
+          "wcag_level",
+          "environment",
+          "enabled_engine_ids",
+          "crawl_include_query_params",
+          "scan_schedule_enabled",
+          "plan_tier",
+          "page_blocks",
+          "page_allowance",
+          "group_id",
+          "surface_id",
+          "entitlements"
+        ]
+      },
+      "DomainCoverageSummary": {
+        "type": "object",
+        "properties": {
+          "covered_criteria": {
+            "type": "integer"
+          },
+          "target_criteria": {
+            "type": "integer"
+          },
+          "coverage_pct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "evaluated": {
+            "type": "integer"
+          },
+          "passed": {
+            "type": "integer"
+          },
+          "failed": {
+            "type": "integer"
+          },
+          "needs_review": {
+            "type": "integer"
+          },
+          "inapplicable": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "covered_criteria",
+          "target_criteria",
+          "coverage_pct",
+          "evaluated",
+          "passed",
+          "failed",
+          "needs_review",
+          "inapplicable"
+        ]
+      },
+      "DomainEntitlements": {
+        "type": "object",
+        "properties": {
+          "full_crawl": {
+            "type": "boolean"
+          },
+          "scheduled_scans": {
+            "type": "boolean"
+          },
+          "api_triggers": {
+            "type": "boolean"
+          },
+          "true_user_auth": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "full_crawl",
+          "scheduled_scans",
+          "api_triggers",
+          "true_user_auth"
+        ]
+      },
+      "DomainListItem": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Domain"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "summary": {
+                "$ref": "#/components/schemas/DomainListSummary"
+              }
+            },
+            "required": [
+              "summary"
+            ]
+          }
+        ]
+      },
+      "DomainListResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DomainListItem"
+            }
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ]
+      },
+      "DomainListSummary": {
+        "type": "object",
+        "properties": {
+          "pages_discovered": {
+            "type": "integer"
+          },
+          "open_count": {
+            "type": "integer"
+          },
+          "scan_count": {
+            "type": "integer"
+          },
+          "severity_breakdown": {
+            "$ref": "#/components/schemas/SeverityBreakdown"
+          },
+          "last_scan": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DomainSummaryLastScan"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "pages_discovered",
+          "open_count",
+          "scan_count",
+          "severity_breakdown",
+          "last_scan"
+        ]
+      },
+      "DomainSummary": {
+        "type": "object",
+        "properties": {
+          "domain_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "pages_discovered": {
+            "type": "integer"
+          },
+          "pages_scanned": {
+            "type": "integer"
+          },
+          "pages_unscanned": {
+            "type": "integer"
+          },
+          "scan_count": {
+            "type": "integer"
+          },
+          "open_count": {
+            "type": "integer"
+          },
+          "resolved_count": {
+            "type": "integer"
+          },
+          "total_count": {
+            "type": "integer"
+          },
+          "wcag_open_count": {
+            "type": "integer"
+          },
+          "best_practice_open_count": {
+            "type": "integer"
+          },
+          "severity_breakdown": {
+            "$ref": "#/components/schemas/SeverityBreakdown"
+          },
+          "status_breakdown": {
+            "$ref": "#/components/schemas/StatusBreakdown"
+          },
+          "accessibility_breakdown": {
+            "$ref": "#/components/schemas/AccessibilityBreakdown"
+          },
+          "last_scan": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DomainSummaryLastScan"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "score": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "band": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ScoreBand"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "has_blocking": {
+            "type": "boolean"
+          },
+          "coverage": {
+            "$ref": "#/components/schemas/DomainCoverageSummary"
+          }
+        },
+        "required": [
+          "domain_id",
+          "slug",
+          "pages_discovered",
+          "pages_scanned",
+          "pages_unscanned",
+          "scan_count",
+          "open_count",
+          "resolved_count",
+          "total_count",
+          "wcag_open_count",
+          "best_practice_open_count",
+          "severity_breakdown",
+          "status_breakdown",
+          "accessibility_breakdown",
+          "last_scan",
+          "score",
+          "band",
+          "has_blocking",
+          "coverage"
+        ]
+      },
+      "DomainSummaryLastScan": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string"
+          },
+          "started_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "completed_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "started_at",
+          "completed_at"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "detail"
+        ]
+      },
+      "Issue": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "number": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "fingerprint": {
+            "type": "string"
+          },
+          "rule_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "rule_name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "rule_description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "critical",
+              "serious",
+              "moderate",
+              "minor"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "wont_fix",
+              "false_positive"
+            ]
+          },
+          "domain_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "domain_slug": {
+            "type": "string"
+          },
+          "domain_name": {
+            "type": "string"
+          },
+          "group_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "surface_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "external_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "external_provider": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "github",
+                  "asana",
+                  "fake"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "external_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "external_key": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "external_linked_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "instance_count": {
+            "type": "integer"
+          },
+          "page_count": {
+            "type": "integer"
+          },
+          "representative_instance": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "page_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "page_url": {
+                "type": "string"
+              },
+              "selector": {
+                "type": "string"
+              },
+              "frame_origin": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "page_id",
+              "page_url",
+              "selector",
+              "frame_origin"
+            ]
+          },
+          "embed_origin": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "on_priority_page": {
+            "type": "boolean"
+          },
+          "first_seen_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_seen_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "wcag_criteria": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "assignee": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IssueAssignee"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "comment_count": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "number",
+          "fingerprint",
+          "rule_id",
+          "rule_name",
+          "rule_description",
+          "severity",
+          "status",
+          "domain_id",
+          "domain_slug",
+          "domain_name",
+          "group_id",
+          "surface_id",
+          "external_url",
+          "external_provider",
+          "external_ref",
+          "external_key",
+          "external_linked_at",
+          "instance_count",
+          "page_count",
+          "representative_instance",
+          "embed_origin",
+          "on_priority_page",
+          "first_seen_at",
+          "last_seen_at",
+          "wcag_criteria",
+          "assignee",
+          "comment_count"
+        ]
+      },
+      "IssueAssignee": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "display_name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "avatar_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "user_id",
+          "display_name",
+          "avatar_url"
+        ]
+      },
+      "IssueDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "number": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "fingerprint": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "critical",
+              "serious",
+              "moderate",
+              "minor"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "wont_fix",
+              "false_positive"
+            ]
+          },
+          "latest_help_text": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "external_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "external_provider": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "github",
+                  "asana",
+                  "fake"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "external_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "external_key": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "external_linked_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "engine": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "engine_version": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "first_seen_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_seen_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "assignee": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IssueAssignee"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "comment_count": {
+            "type": "integer"
+          },
+          "instance_count": {
+            "type": "integer"
+          },
+          "page_count": {
+            "type": "integer"
+          },
+          "embed_origin": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "rule": {
+            "$ref": "#/components/schemas/IssueRule"
+          },
+          "representative_instance": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IssueInstance"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "active_recheck": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ActiveRecheck"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "number",
+          "fingerprint",
+          "severity",
+          "status",
+          "latest_help_text",
+          "external_url",
+          "external_provider",
+          "external_ref",
+          "external_key",
+          "external_linked_at",
+          "engine",
+          "engine_version",
+          "created_at",
+          "first_seen_at",
+          "last_seen_at",
+          "assignee",
+          "comment_count",
+          "instance_count",
+          "page_count",
+          "embed_origin",
+          "rule",
+          "representative_instance",
+          "active_recheck"
+        ]
+      },
+      "IssueFinding": {
+        "type": "object",
+        "properties": {
+          "element_snippet": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "found_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "element_snippet",
+          "found_at"
+        ]
+      },
+      "IssueFixPromptResponse": {
+        "type": "object",
+        "properties": {
+          "issue_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "issue_number": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "prompt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "issue_id",
+          "issue_number",
+          "prompt"
+        ]
+      },
+      "IssueInstance": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "canonical_fingerprint": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "critical",
+              "serious",
+              "moderate",
+              "minor"
+            ]
+          },
+          "page_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "page_url": {
+            "type": "string"
+          },
+          "selector": {
+            "type": "string"
+          },
+          "frame_origin": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "dom_context": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": {}
+          },
+          "latest_help_text": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "first_seen_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_seen_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "findings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IssueFinding"
+            }
+          },
+          "has_screenshot": {
+            "type": "boolean"
+          },
+          "has_source": {
+            "type": "boolean"
+          },
+          "evidence_kind": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "screenshot",
+                  "image"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evidence_is_current": {
+            "type": "boolean"
+          },
+          "scan_page_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "element_marker": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "canonical_fingerprint",
+          "status",
+          "severity",
+          "page_id",
+          "page_url",
+          "selector",
+          "frame_origin",
+          "dom_context",
+          "latest_help_text",
+          "first_seen_at",
+          "last_seen_at",
+          "findings",
+          "has_screenshot",
+          "has_source",
+          "evidence_kind",
+          "evidence_is_current",
+          "scan_page_id",
+          "element_marker"
+        ]
+      },
+      "IssueInstanceListResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IssueInstance"
+            }
+          },
+          "total": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ]
+      },
+      "IssueListResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Issue"
+            }
+          },
+          "total": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ]
+      },
+      "IssueRule": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "help_text": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "why_it_matters": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "affected_groups": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "wcag_criteria": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IssueWcagCriterion"
+            }
+          },
+          "frameworks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "help_text",
+          "why_it_matters",
+          "affected_groups",
+          "wcag_criteria",
+          "frameworks"
+        ]
+      },
+      "IssueWcagCriterion": {
+        "type": "object",
+        "properties": {
+          "criterion_id": {
+            "type": "string"
+          },
+          "level": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "understanding_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "criterion_id",
+          "level",
+          "name",
+          "understanding_url"
+        ]
+      },
+      "MyWorkspaces": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "owner",
+                    "member",
+                    "viewer"
+                  ]
+                },
+                "current": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "role",
+                "current"
+              ]
+            }
+          }
+        },
+        "required": [
+          "items"
+        ]
+      },
+      "PatchIssueBody": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "wont_fix",
+              "false_positive"
+            ]
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 1000
+          },
+          "assignee_user_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "external_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 2048,
+            "format": "uri"
+          }
+        }
+      },
+      "RecheckIssueRequest": {
+        "type": "object",
+        "properties": {
+          "engine_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "RecheckIssueResponse": {
+        "type": "object",
+        "properties": {
+          "runs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScanRun"
+            }
+          },
+          "pages_queued": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "runs",
+          "pages_queued"
+        ]
+      },
+      "ScanConflictResponse": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string"
+          },
+          "conflicts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "engine_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "engine_slug": {
+                  "type": "string"
+                },
+                "existing_scan_run": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "started_at": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "status",
+                    "started_at"
+                  ]
+                }
+              },
+              "required": [
+                "engine_id",
+                "engine_slug",
+                "existing_scan_run"
+              ]
+            }
+          }
+        },
+        "required": [
+          "detail",
+          "conflicts"
+        ]
+      },
+      "ScanPageCounts": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer"
+          },
+          "pending": {
+            "type": "integer"
+          },
+          "running": {
+            "type": "integer"
+          },
+          "complete": {
+            "type": "integer"
+          },
+          "failed": {
+            "type": "integer"
+          },
+          "skipped": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total",
+          "pending",
+          "running",
+          "complete",
+          "failed",
+          "skipped"
+        ]
+      },
+      "ScanPageResult": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "page_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "url": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "http_status": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "issue_count": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "score": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "has_blocking": {
+            "type": "boolean"
+          },
+          "page_group": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "error": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "failure_kind": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "started_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "completed_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "duration_ms": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "page_id",
+          "url",
+          "status",
+          "http_status",
+          "issue_count",
+          "score",
+          "has_blocking",
+          "page_group",
+          "error",
+          "failure_kind",
+          "started_at",
+          "completed_at",
+          "duration_ms"
+        ]
+      },
+      "ScanPagesResponse": {
+        "type": "object",
+        "properties": {
+          "scan_run": {
+            "$ref": "#/components/schemas/ScanRunListItem"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScanPageResult"
+            }
+          },
+          "total": {
+            "type": "integer"
+          },
+          "counts": {
+            "$ref": "#/components/schemas/ScanPageCounts"
+          }
+        },
+        "required": [
+          "scan_run",
+          "items",
+          "total",
+          "counts"
+        ]
+      },
+      "ScanPreconditionResponse": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "no_active_pages",
+              "no_unscanned_pages"
+            ]
+          }
+        },
+        "required": [
+          "detail",
+          "reason"
+        ]
+      },
+      "ScanRun": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workspace_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "domain_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "engine_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "engine_slug": {
+            "type": "string"
+          },
+          "scan_request_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "trigger_source": {
+            "type": "string"
+          },
+          "triggered_by_user_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config_snapshot": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "pages_scanned": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "pages_failed": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "issues_found": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "score": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "has_blocking": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cancel_requested_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "pause_requested_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "paused_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "started_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "completed_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "workspace_id",
+          "domain_id",
+          "engine_id",
+          "engine_slug",
+          "scan_request_id",
+          "scope",
+          "status",
+          "trigger_source",
+          "triggered_by_user_id",
+          "config_snapshot",
+          "pages_scanned",
+          "pages_failed",
+          "issues_found",
+          "score",
+          "has_blocking",
+          "error",
+          "cancel_requested_at",
+          "pause_requested_at",
+          "paused_at",
+          "started_at",
+          "completed_at",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "ScanRunCursorListResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "$ref": "#/components/schemas/ScanRunListResponse"
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ]
+      },
+      "ScanRunListItem": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ScanRun"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "domain_slug": {
+                "type": "string"
+              },
+              "domain_name": {
+                "type": "string"
+              },
+              "group_id": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "uuid"
+              },
+              "surface_id": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "uuid"
+              },
+              "pages_complete": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "pages_total": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "domain_slug",
+              "domain_name",
+              "group_id",
+              "surface_id",
+              "pages_complete",
+              "pages_total"
+            ]
+          }
+        ]
+      },
+      "ScanRunListItemCursorListResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "$ref": "#/components/schemas/ScanRunListItemListResponse"
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor"
+        ]
+      },
+      "ScanRunListItemListResponse": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ScanRunListItem"
+        }
+      },
+      "ScanRunListResponse": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ScanRun"
+        }
+      },
+      "ScoreBand": {
+        "type": "string",
+        "enum": [
+          "green",
+          "amber",
+          "red"
+        ]
+      },
+      "SeverityBreakdown": {
+        "type": "object",
+        "properties": {
+          "critical": {
+            "type": "integer"
+          },
+          "serious": {
+            "type": "integer"
+          },
+          "moderate": {
+            "type": "integer"
+          },
+          "minor": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "critical",
+          "serious",
+          "moderate",
+          "minor"
+        ]
+      },
+      "StatusBreakdown": {
+        "type": "object",
+        "properties": {
+          "open": {
+            "type": "integer"
+          },
+          "resolved": {
+            "type": "integer"
+          },
+          "wont_fix": {
+            "type": "integer"
+          },
+          "false_positive": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "open",
+          "resolved",
+          "wont_fix",
+          "false_positive"
+        ]
+      },
+      "Surface": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workspace_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "group_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "web"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "config": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "domain_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "archived"
+            ]
+          },
+          "archived_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "domain": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SurfaceDomain"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "workspace_id",
+          "group_id",
+          "type",
+          "name",
+          "config",
+          "domain_id",
+          "status",
+          "archived_at",
+          "domain",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "SurfaceAttention": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "enum": [
+              "never-scanned",
+              "stale",
+              "blocked",
+              "regressed"
+            ]
+          },
+          "score_delta": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "new_issue_count": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "blocking_issue_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "blocking_issue_number": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "blocking_opened_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "failed_scan_count": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "latest_error": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "reason",
+          "score_delta",
+          "new_issue_count",
+          "blocking_issue_id",
+          "blocking_issue_number",
+          "blocking_opened_at",
+          "failed_scan_count",
+          "latest_error"
+        ]
+      },
+      "SurfaceDomain": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "base_url": {
+            "type": "string"
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "environment": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "slug",
+          "base_url",
+          "name",
+          "environment"
+        ]
+      },
+      "SurfaceListItem": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Surface"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "group": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name"
+                ]
+              },
+              "summary": {
+                "$ref": "#/components/schemas/SurfaceListSummary"
+              },
+              "attention": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/SurfaceAttention"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "group",
+              "summary",
+              "attention"
+            ]
+          }
+        ]
+      },
+      "SurfaceListSummary": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "band": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ScoreBand"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "has_blocking": {
+            "type": "boolean"
+          },
+          "open_count": {
+            "type": "integer"
+          },
+          "pages_discovered": {
+            "type": "integer"
+          },
+          "last_scan": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DomainSummaryLastScan"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "previous_scan_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "first_scan_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "open_delta": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "pages_delta": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "score",
+          "band",
+          "has_blocking",
+          "open_count",
+          "pages_discovered",
+          "last_scan",
+          "previous_scan_at",
+          "first_scan_at",
+          "open_delta",
+          "pages_delta"
+        ]
+      },
+      "WorkspaceSurfaceListResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SurfaceListItem"
+            }
+          },
+          "next_cursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "total": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "next_cursor",
+          "total"
+        ]
+      }
+    }
+  }
+}
