@@ -1,0 +1,37 @@
+---
+title: "Use the extension"
+description: "See known issues on the live page, scan the current page state, and jump to failing elements."
+---
+
+## Open the panel
+
+Open DevTools on the page you want to check: <kbd>⌥⌘I</kbd> on macOS, or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd> on Windows and Linux. Choose the **ility** tab. If you don't see it, look under the **»** menu at the end of the DevTools tab row.
+
+The panel follows the page as you navigate, including in single-page apps.
+
+## See the issues ility already knows about
+
+When the site is one of your workspace's surfaces, the panel lists **Known open issues** for the page, worst first. For each issue you can:
+
+- Select it to outline the element on the page.
+- Choose **Inspect** to select the element in the DevTools Elements panel.
+- Choose the issue number to open the issue in ility.
+
+Issues that ility saw on another page of the same site are listed too, but they can't be highlighted here.
+
+The panel tells you when it can't match the page:
+
+- **This site isn't in your ility workspace yet.** Choose **Add it now** to add it as a surface.
+- **ility knows this site but hasn't seen this page.** The page is probably behind a login or in the middle of a flow. Run a local scan to check it.
+
+## Scan the page as it is right now
+
+Under **Scan this page state**, choose **Run local scan**. The extension runs axe-core against the live page in your browser, so it checks whatever is on screen: an open dialog, an expanded menu, a form showing errors, or a page behind a login.
+
+The results list every finding with its severity, rule, and element. Select a finding to outline it on the page, or choose **Inspect** to open it in the Elements panel. When the page is already tracked by ility, the summary tells you which findings are **likely known** and which are **new**. Findings that fall outside a WCAG AA scan, such as AAA or best-practice rules, are labeled **AAA/best-practice**.
+
+<Tip>
+  Local scans stay in your browser. They don't create issues in ility. Use them to check a fix before you ship it, or to find problems on pages the crawler can't reach.
+</Tip>
+
+When the page is tracked, choose **Clear highlights** under the known issues to remove the outlines. Reloading the page also clears them.

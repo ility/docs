@@ -1,0 +1,49 @@
+---
+title: "Working with issues"
+description: "Assign, discuss, and close issues, re-check fixes, and hand issues to your tools."
+---
+
+Open an issue from any issue list to see everything about it on one page. Members and owners can change an issue. Viewers can read it.
+
+## What's on an issue
+
+- **Where it appears**: every instance of the issue, with the page, the element's selector, and the surrounding markup.
+- **How to fix it**: guidance from the rule that found the issue. The sidebar shows the rule and the WCAG criteria it relates to.
+- **Timeline**: when the issue was detected, every status change by a person or a scan, assignments, and comments, in order.
+
+## Assign an issue
+
+Use **Assignee** in the sidebar to give the issue to one person. You can assign anyone in the workspace who can see the issue's surface. The person you assign is notified.
+
+To see your own work, filter an issue list by assignee and choose yourself.
+
+## Change the status
+
+Use **Status** in the sidebar to mark an issue **Resolved**, **Won't fix**, or **False positive**, or to reopen it. You can add a short note to explain why.
+
+You don't need to resolve issues by hand after a fix ships. The next scan that checks those pages resolves the issue for you. See [how scans update status](/issues/understanding-issues#status).
+
+## Comment and mention teammates
+
+Leave a comment at the bottom of the timeline. Comments support Markdown. Type `@` to mention a teammate, and they're notified.
+
+## Get notified
+
+Choose **Subscribe** in the **Notifications** section of the sidebar to follow an issue. You're subscribed automatically when you comment on an issue, are assigned to it, or are mentioned in it. Notifications arrive in the inbox under the bell in the header. Choose **Unsubscribe** to stop following.
+
+## Re-check a fix
+
+After you deploy a fix, choose **Re-check** in the sidebar. ility rescans just the pages where the issue appears and updates its status when the scan finishes. The sidebar shows progress, and **View in Activity** opens the scan.
+
+## Fix with AI
+
+**Copy fix prompt** copies a ready-made prompt that describes the issue, the failing markup, and how to fix it. Paste it into a coding assistant, such as Claude Code or Cursor, that's working in your site's codebase.
+
+You can also get the same prompt through the [MCP server](/mcp/tools) or the [API](/api/overview).
+
+## Link a ticket
+
+Use **External link** in the sidebar to connect the issue to a work item in your team's tracker.
+
+- If an owner has connected a tracker under **Settings → Integrations**, choose **Send to…** to create a work item from the issue, or **Link existing item** to attach one you already have. ility shows the linked item's state on the issue.
+- Otherwise, paste the link to the ticket so everyone can find it.

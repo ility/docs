@@ -1,0 +1,38 @@
+---
+title: "Accessibility score"
+description: "What the 0–100 score measures, how it's calculated, and what the colors mean."
+---
+
+Each surface shows an accessibility score from 0 to 100, next to its name. It's a quick read on how well the surface's pages do against the WCAG rules that apply to them, and how that changes from scan to scan.
+
+## What it measures
+
+The score covers **WCAG conformance only**. It counts rules mapped to a WCAG success criterion in your surface's target. [Best-practice](/issues/understanding-issues#wcag-issues-and-best-practices) issues are tracked separately and don't change the score.
+
+The score comes from the pages in the surface's latest completed surface-wide scan. **Run scan** scans every active page, so its score covers the whole site. **Scan N unscanned pages** scores only the pages it scanned, so run a full scan to get a site-wide score again. Rescanning a single page or re-checking an issue doesn't change the score.
+
+## How it's calculated
+
+For each page, ility compares the rules that passed with the rules that failed:
+
+- Every rule is weighted by its severity: critical counts most, then serious, moderate, and minor.
+- A failing rule weighs more the more elements fail it, on a logarithmic scale. A rule failing on 500 elements costs about ten times as much as one failing once, not 500 times, so one widespread problem can't wipe out everything else on the page.
+- Rules that don't apply to the page, or that need a person to review, are left out.
+
+The page score is the weighted share of passing rules. The surface score is the average of the page scores in that scan. Pages where no WCAG rule passed or failed have no score and aren't counted.
+
+## Score bands
+
+| Band | Score | Meaning |
+| --- | --- | --- |
+| Green | 90–100 | Few or minor WCAG failures. |
+| Amber | 50–89 | Noticeable WCAG failures to work through. |
+| Red | 0–49 | Widespread or serious WCAG failures. |
+
+<Warning>
+  A surface whose latest scan found a **critical** WCAG failure is never shown in green, whatever its number. A single blocking problem, such as a keyboard trap, can stop someone from using the site at all.
+</Warning>
+
+## Using the score
+
+The score is useful for spotting trends and comparing surfaces. It isn't a conformance certificate. Automated checks can't evaluate every WCAG criterion, so a high score still needs manual testing behind it. See [What a scan checks](/scans/what-a-scan-checks#what-automation-cant-catch).

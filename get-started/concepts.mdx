@@ -1,0 +1,38 @@
+---
+title: "Key concepts"
+description: "The handful of objects ility is built around, and how they relate."
+---
+
+## Workspace
+
+A workspace is your team's account. It holds your sites, your teammates, your billing, and your API keys. You can belong to more than one workspace and switch between them with the workspace switcher at the top left of the app.
+
+## Surface
+
+A surface is one thing ility tests. Today every surface is a website, identified by its base URL, such as `https://www.example.com`. Your production site and its staging copy are two surfaces.
+
+Each surface has its own settings, such as which WCAG version and level to test against. See [Surface settings](/surfaces/surface-settings).
+
+You can optionally put surfaces in **groups**, for example to keep all the sites for one client together. A group is just a label. It doesn't change how surfaces are scanned.
+
+## Page
+
+A page is one URL on a surface. ility finds pages by crawling the site or reading its `sitemap.xml`. You can exclude pages you don't want scanned, and mark important pages as priority so their issues rank higher. The **Crawled URLs** view of a surface lists every page.
+
+## Scan
+
+A scan tests a surface's pages against accessibility rules. You can scan every page, only the pages that have never been scanned, or a single page. Scans run on ility's servers in a real browser. See [Run a scan](/scans/run-a-scan).
+
+## Issue
+
+An issue is one accessibility problem that is expected to have one fix. If the same problem appears on many pages, for example a footer link with too little contrast, ility records it as a single issue with an **instance** for each place it appears.
+
+Issues carry the workflow: a number, a status, an assignee, comments, and a timeline of what scans and people did. See [Understanding issues](/issues/understanding-issues).
+
+## Rule
+
+A rule is the automated check that found an issue, such as `color-contrast` or `image-alt`. Most rules map to one or more WCAG success criteria. Rules that don't map to a criterion are **best practices**.
+
+## Score
+
+The accessibility score is a number from 0 to 100 for a surface, based on its latest completed scan. It measures WCAG conformance only. See [Accessibility score](/issues/accessibility-score).

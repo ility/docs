@@ -1,0 +1,62 @@
+---
+title: "Client access"
+description: "Invite a client into your workspace and limit them, or any member, to specific surfaces."
+---
+
+If you manage sites for several clients in one workspace, you can invite each client to see only their own surfaces. You can also limit any existing member who isn't an owner in the same way.
+
+Only workspace owners can invite clients and change what members can see. Both happen under **Settings → Members**.
+
+## Invite a client
+
+<Steps>
+  <Step title="Open Members">
+    Go to **Settings**, then the **Members** tab.
+  </Step>
+  <Step title="Fill in Invite a client">
+    Enter the client's **Email** and choose their role:
+
+    - **Viewer** can see results but not change them.
+    - **Member** can also comment, change issue status, and run scans.
+  </Step>
+  <Step title="Choose their surfaces">
+    Under **Surfaces they can see**, select at least one surface.
+  </Step>
+  <Step title="Send the invitation">
+    Choose **Send invitation**. The client gets an email with a link to join.
+  </Step>
+</Steps>
+
+Open invitations are listed under **Pending invitations**, where you can revoke one before it's accepted.
+
+When the client accepts, they join already limited to the surfaces you chose. They never see the rest of the workspace, even for a moment.
+
+## Limit an existing member
+
+In the **Members** list, choose **Edit access** next to anyone who isn't an owner. Under **Can see**, choose:
+
+- **All surfaces**: the default for everyone you invite as a teammate.
+- **Only the surfaces I choose**: then select the surfaces.
+
+Choose **Save access**. The list shows each member's access as **All surfaces** or **Specific surfaces**.
+
+<Note>
+  Clients appear as **Member** in the workspace switcher's **Members** tab, whatever role you gave them in ility. Changing their role there can't give them more access than their invitation did.
+</Note>
+
+Owners always see every surface.
+
+## What a limited member sees
+
+A member limited to specific surfaces works only with those surfaces:
+
+- Lists, dashboards, scans, issues, and live activity only include their surfaces. Other surfaces don't appear anywhere, including in search and notifications.
+- They only see teammates who share a surface with them, and issues can only be assigned to people who can see them.
+- They can't add or change surfaces, groups, imports, or integrations, and they don't see **Billing** or the **Members**, **Integrations**, and **API keys** settings.
+
+Within their surfaces, their role applies as usual. A limited member can run scans and work on issues. A limited viewer can only read.
+
+## Limits
+
+- Access is granted per surface. Adding a surface to a group doesn't give anyone access to it, so grant new surfaces to clients as you add them.
+- A workspace can have up to 10 people, and clients count toward that.
