@@ -1,26 +1,36 @@
 ---
-title: "Introduction"
-description: "ility tests your websites for accessibility. It crawls and scans your pages, groups the issues it finds, scores each site, and tracks progress over time."
+title: "Welcome to ility"
+sidebarTitle: "Introduction"
+description: "ility finds accessibility issues across your websites, tracks them until they're fixed, and gives your team and your tools one place to work from."
 ---
 
-ility is accessibility testing for websites. Accessibility issues stop people from using a site: a button a screen reader can't name, text too faint to read, or a form you can't complete with a keyboard. ility helps you find those issues and track them until they're fixed.
+ility crawls your site, tests every page against the Web Content Accessibility Guidelines (WCAG), and turns what it finds into issues your team can assign, discuss, and close. Each scan updates those issues, so you can see what is new, what is fixed, and what came back.
 
-## What ility does
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/get-started/quickstart">
+    Sign up, add your first site, and see findings within a minute.
+  </Card>
+  <Card title="Key concepts" icon="book-open" href="/get-started/concepts">
+    Workspaces, surfaces, scans, issues, and how they fit together.
+  </Card>
+  <Card title="Understanding issues" icon="circle-exclamation" href="/issues/understanding-issues">
+    Severity, WCAG criteria, best practices, and issue status.
+  </Card>
+  <Card title="Accessibility score" icon="gauge" href="/issues/accessibility-score">
+    What the score measures and how it is calculated.
+  </Card>
+</CardGroup>
 
-- **Crawls your site.** ility follows links from the URL you give it, or reads your `sitemap.xml`, to find the pages on your site.
-- **Scans every page.** ility checks each page against WCAG, the Web Content Accessibility Guidelines, and against accessibility best practices.
-- **Groups the issues.** The same problem on many pages shows up as one issue, with a severity and the pages it affects.
-- **Scores each site.** Each site gets a score based on how many WCAG rules fail, how severe they are, and how many elements fail them.
-- **Tracks issues over time.** Each scan updates the issue list, so you can see what's new, what's resolved, and how the score changes.
-- **Exports evidence.** You can export evidence of your testing for audits and compliance reviews.
+## Work with ility from your own tools
 
-Automated testing finds many accessibility issues, but not all of them. Some checks still need a person to judge whether the result works for real users.
-
-## Who ility is for
-
-- **Web teams.** Developers, designers, QA, and content writers who want to find and fix accessibility issues on the sites they build.
-- **Compliance and product leads.** People who need to know how accessible their sites are, how that changes over time, and how to show it.
-
-<Card title="Get started" icon="rocket" href="/quickstart">
-  Sign in, add your first site, run a scan, and review its issues.
-</Card>
+<CardGroup cols={3}>
+  <Card title="Browser extension" icon="puzzle-piece" href="/extension/install">
+    See known issues on the live page and scan states the crawler can't reach.
+  </Card>
+  <Card title="REST API" icon="code" href="/api/overview">
+    Read results and start scans from scripts and CI.
+  </Card>
+  <Card title="MCP server" icon="robot" href="/mcp/overview">
+    Let an AI assistant read your issues and start scans.
+  </Card>
+</CardGroup>

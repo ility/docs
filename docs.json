@@ -2,39 +2,47 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "ility",
+  "description": "Accessibility testing for the sites you build and run.",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
-  },
-  "favicon": "/favicon.svg",
-  "navigation": {
-    "pages": [
-      {
-        "group": "Get started",
-        "pages": [
-          "index",
-          "quickstart"
-        ]
-      },
-      {
-        "group": "Product updates",
-        "pages": [
-          "changelog"
-        ]
-      }
-    ]
+    "primary": "#3061EF",
+    "light": "#6191FF",
+    "dark": "#3061EF"
   },
   "logo": {
     "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "dark": "/logo/dark.svg",
+    "href": "https://ilitylabs.com"
   },
+  "favicon": "/favicon.svg",
   "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:support@ilitylabs.com"
+      }
+    ],
     "primary": {
       "type": "button",
       "label": "Open ility",
       "href": "https://app.ilitylabs.com"
     }
+  },
+  "footer": {
+    "links": [
+      {
+        "header": "Ility Labs",
+        "items": [
+          {
+            "label": "Website",
+            "href": "https://ilitylabs.com"
+          },
+          {
+            "label": "Open ility",
+            "href": "https://app.ilitylabs.com"
+          }
+        ]
+      }
+    ]
   },
   "contextual": {
     "options": [
@@ -46,6 +54,110 @@
       "mcp",
       "cursor",
       "vscode"
+    ],
+    "display": "header"
+  },
+  "api": {
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": [
+        "curl",
+        "javascript",
+        "python"
+      ]
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": [
+              "index",
+              "get-started/quickstart",
+              "get-started/concepts"
+            ]
+          },
+          {
+            "group": "Surfaces",
+            "pages": [
+              "surfaces/add-a-surface",
+              "surfaces/surface-settings"
+            ]
+          },
+          {
+            "group": "Scans",
+            "pages": [
+              "scans/run-a-scan",
+              "scans/what-a-scan-checks"
+            ]
+          },
+          {
+            "group": "Issues and scores",
+            "pages": [
+              "issues/understanding-issues",
+              "issues/working-with-issues",
+              "issues/accessibility-score"
+            ]
+          },
+          {
+            "group": "Team",
+            "pages": [
+              "team/members-and-roles",
+              "team/client-access"
+            ]
+          },
+          {
+            "group": "Browser extension",
+            "pages": [
+              "extension/install",
+              "extension/use-the-extension"
+            ]
+          },
+          {
+            "group": "Product updates",
+            "pages": [
+              "changelog"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API and MCP",
+        "groups": [
+          {
+            "group": "API",
+            "pages": [
+              "api/overview",
+              "api/api-keys",
+              "api/trigger-a-scan"
+            ]
+          },
+          {
+            "group": "MCP server",
+            "pages": [
+              "mcp/overview",
+              "mcp/connect",
+              "mcp/tools",
+              "mcp/workflows"
+            ]
+          },
+          {
+            "group": "API reference",
+            "openapi": "api-reference/openapi.json"
+          }
+        ]
+      }
     ]
-  }
+  },
+  "redirects": [
+    {
+      "source": "/quickstart",
+      "destination": "/get-started/quickstart"
+    }
+  ]
 }

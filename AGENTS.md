@@ -1,33 +1,41 @@
-> **First-time setup**: Customize this file for your project. Prompt the user to customize this file for their project.
-> For Mintlify product knowledge (components, configuration, writing standards),
-> install the Mintlify skill: `npx skills add https://mintlify.com/docs`
+# ility customer docs — instructions for AI agents
 
-# Documentation project instructions
+This repository is the customer-facing documentation for **ility**, published by
+Mintlify at [docs.ilitylabs.com](https://docs.ilitylabs.com). Every push to `main` deploys.
 
-## About this project
+- Pages are MDX files with YAML frontmatter. Navigation and branding live in
+  `docs.json`.
+- The product lives in a separate repository, `ility/ility`. Ground every claim
+  in that code: the UI copy in `apps/web`, the API in `apps/api`, and the specs
+  in `docs/specs`. Don't document a feature from memory or from a plan.
+- `api-reference/openapi.json` is generated. Don't edit it by hand. Run
+  `python3 scripts/build-openapi.py <path to ility>/apps/api/openapi.json`, and
+  change the curated list of operations in that script.
+- Preview locally with `npx mint dev`, and check links with `npx mint broken-links`.
 
-- This is a documentation site built on [Mintlify](https://mintlify.com)
-- Pages are MDX files with YAML frontmatter
-- Configuration lives in `docs.json`
-- Use the Mintlify MCP server, `https://mcp.mintlify.com`, to edit content and settings via MCP
-- Use the Mintlify docs MCP server, `https://www.mintlify.com/docs/mcp`, to query information about using Mintlify via MCP
+## Audience
+
+Customers: people who test and fix websites, and the developers who connect ility
+to CI, scripts, and AI assistants. Not ility's own engineers. Leave out internal
+architecture, infrastructure, and anything only staff can do.
 
 ## Terminology
 
-{/* Add product-specific terms and preferred usage */}
-{/* Example: Use "workspace" not "project", "member" not "user" */}
+- The product is **ility**, always lowercase, even at the start of a sentence.
+  The company is **Ility Labs**.
+- **Workspace**: the account a team shares. Not "organization" or "project".
+- **Surface**: one thing ility tests, today always a website. The API addresses
+  the website behind a surface as a **domain**, by its slug.
+- **Issue** and **instance**: one problem with one fix, and each place it appears.
+- Roles are **owner**, **member**, and **viewer**.
+- Issue statuses are **Open**, **Resolved**, **Won't fix**, and **False positive**.
+- Severities are **critical**, **serious**, **moderate**, and **minor**.
 
-## Style preferences
+## Style
 
-{/* Add any project-specific style rules below */}
-
-- Use active voice and second person ("you")
-- Keep sentences concise — one idea per sentence
-- Use sentence case for headings
-- Bold for UI elements: Click **Settings**
-- Code formatting for file names, commands, paths, and code references
-
-## Content boundaries
-
-{/* Define what should and shouldn't be documented */}
-{/* Example: Don't document internal admin features */}
+- US English. Active voice, second person ("you").
+- Short sentences, one idea each. Sentence case for headings.
+- Bold for UI labels, exactly as the app spells them: choose **Run scan**.
+- Code formatting for URLs, paths, fields, and values.
+- Don't promise prices, plan limits, or dates. Link to the app for anything
+  billing-related.

@@ -1,0 +1,53 @@
+---
+title: "Understanding issues"
+description: "What an issue is, how severity and WCAG level work, and what each status means."
+---
+
+## Issues and instances
+
+An issue is one accessibility problem that is expected to have one fix. When the same problem appears in many places, such as a navigation link with low contrast on every page, ility tracks it as a single issue. Each place it appears is an **instance**, with its page, the element's selector, and the surrounding markup.
+
+Each issue has a number that is unique within its surface, such as **#42**, so you can refer to it in conversation and in tickets.
+
+## Severity
+
+Severity says how much a problem gets in the way of people using the page. It comes from the rule that found it.
+
+| Severity | What it usually means |
+| --- | --- |
+| **Critical** | Blocks some people from using the page at all, for example a keyboard trap or a form field with no label. |
+| **Serious** | Makes the page very hard to use for some people. |
+| **Moderate** | Causes noticeable friction. |
+| **Minor** | A small annoyance or an inconsistency. |
+
+A critical WCAG failure keeps a surface's score out of the green band. See [Accessibility score](/issues/accessibility-score).
+
+## WCAG issues and best practices
+
+Most rules map to one or more WCAG success criteria, such as **1.4.3 Contrast (Minimum)**. Issues from those rules are **WCAG issues**, and they show the criteria and level (A, AA, or AAA) they relate to.
+
+Some rules don't map to any criterion but still catch real barriers. Their issues are labeled **best practice**. They're worth fixing, but they don't count against your WCAG conformance or your score. To see them, filter an issue list by issue type.
+
+## Status
+
+| Status | Meaning |
+| --- | --- |
+| **Open** | The problem was found and hasn't been fixed. |
+| **Resolved** | The problem is gone. |
+| **Won't fix** | Your team decided not to fix it. |
+| **False positive** | Your team decided the finding is wrong. |
+
+Scans keep status up to date for you:
+
+- When a scan checks the pages where an issue appeared and no longer finds it, ility marks the issue **Resolved**.
+- If a resolved issue shows up again, ility reopens it and records the change on the timeline.
+- **Won't fix** and **False positive** are your team's decisions, so later scans never reopen them.
+
+Every change, by a person or by a scan, is recorded on the issue's timeline.
+
+## Find issues
+
+- **Issues** in the sidebar lists open issues across every surface in the workspace.
+- Each surface has its own **Issues** view.
+
+Filter by severity, status, WCAG level, issue type (WCAG or best practice), assignee, and more, or search the issue text. Filters are part of the page address, so you can bookmark or share a filtered list.
