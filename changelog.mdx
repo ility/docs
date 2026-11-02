@@ -1,0 +1,28 @@
+---
+title: "Changelog"
+description: "New features, updates, and fixes in ility."
+rss: true
+---
+
+<Update label="October 30, 2026" tags={["New feature", "Update"]}>
+  ## New features
+
+  ### Invite clients and limit access to specific surfaces
+
+  Owners can now share results with clients without giving them the whole workspace.
+
+  - **Settings → Members** is a new owner-only page. Use **Invite a client** to send an email invitation and choose the surfaces the client can see.
+  - Pick **Viewer** for read-only access or **Member** to let them comment, change issue status, and run scans on their surfaces.
+  - To limit an existing member, select **Edit access** and choose **Only the surfaces I choose**.
+  - Restricted members only see their own surfaces. ility hides workspace administration from them, such as billing, integrations, API keys, imports, and surface settings.
+  - You can revoke an open invitation from **Pending invitations**.
+
+  ### MCP tools work across all your workspaces
+
+  If you belong to more than one workspace, you no longer need to reconnect your AI assistant to switch between them. A new `list_workspaces` tool lists the workspaces you can use. Every other tool takes an optional `workspace_id`. API keys stay limited to their own workspace.
+
+  ## Updates
+
+  - **Clearer MCP tools.** Every MCP tool now has a readable title, and all parameters have explicit types. Assistants and connector directories can display and call the tools more reliably.
+  - **New ility logo.** The app, favicon, and home screen icons use the new stacked-layers logo. The browser extension now has its own toolbar and store icons.
+</Update>

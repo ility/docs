@@ -1,0 +1,82 @@
+---
+title: "API overview"
+description: "Read results and start scans from scripts, CI jobs, and your own tools."
+---
+
+The ility REST API gives programs the same view of a workspace that you get in the app. Use it to pull scores and issues into your own reports, or to start a scan from a deploy pipeline and check the results.
+
+## Base URL
+
+```text
+https://app.ilitylabs.com/v1
+```
+
+Requests and responses are JSON. Field names use `snake_case`.
+
+## Authentication
+
+Send an [API key](/api/api-keys) as a bearer token:
+
+```bash
+curl https://app.ilitylabs.com/v1/domains \
+  -H "Authorization: Bearer $ILITY_API_KEY"
+```
+
+A key belongs to one workspace, and every request acts in that workspace.
+
+## What a key can do
+
+A key can read everything in its workspace, and it can make the same changes a member can, such as updating an issue's status. It acts on behalf of the owner who created it, and never with more access than that person has.
+
+Some actions need more than a key:
+
+| Action | Requirement |
+| --- | --- |
+| Start a scan, re-check an issue, or start a crawl | The domain's plan must include **API triggers** (Pro, an active trial, or Enterprise). Otherwise the request fails with `403` and `reason: "api_triggers_not_entitled"`. |
+| Create, list, or revoke keys | Only possible when signed in to the app as an owner. A key can't manage keys. |
+
+## Domains, surfaces, and slugs
+
+In the app you work with **surfaces**. In the API, most routes address the website behind a surface as a **domain**, by its `slug`, such as `example-com`. Get slugs from [`GET /v1/domains`](/api-reference/domains/list-domains). Issues are filtered by the domain's `id`.
+
+## Errors
+
+Errors return a non-2xx status and a body with a human-readable `detail`. Many also carry a machine-readable `reason`:
+
+```json
+{
+  "detail": "programmatic scan and crawl triggers require a paid plan for this domain",
+  "reason": "api_triggers_not_entitled"
+}
+```
+
+| Status | Meaning |
+| --- | --- |
+| `400` | The request was invalid. `detail` says what to fix. |
+| `403` | The key is missing, invalid, or revoked (`detail` says so), or it isn't allowed to do this (check `reason`). |
+| `404` | The resource doesn't exist in this workspace. |
+| `409` | Conflicts with the current state, for example a scan is already running. |
+| `422` | The request can't be carried out, for example there are no pages to scan. |
+| `429` | Too many requests. Wait for the number of seconds in the `Retry-After` header. |
+
+## Pagination
+
+List routes return an `items` array.
+
+- Most lists use cursors. Pass the response's `next_cursor` as `cursor` to get the next page. `next_cursor` is `null` on the last page.
+- [`GET /v1/issues`](/api-reference/issues/list-issues) uses page numbers: pass `page` and `limit` (up to 100). The response's `total` counts every matching issue.
+
+## Rate limits
+
+Reading data isn't rate limited. Requests that start work, such as scans, crawls, and imports, are limited per workspace per minute. When you go over, the API returns `429` with a `Retry-After` header.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Create an API key" icon="key" href="/api/api-keys">
+    Mint a key for a script or CI job.
+  </Card>
+  <Card title="Start a scan from CI" icon="play" href="/api/trigger-a-scan">
+    Trigger a scan after a deploy and wait for the result.
+  </Card>
+</CardGroup>

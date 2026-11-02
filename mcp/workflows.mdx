@@ -1,0 +1,70 @@
+---
+title: "Common workflows"
+description: "Prompts that work well with the ility MCP server, plus tips, limits, and troubleshooting."
+---
+
+You don't call the [tools](/mcp/tools) yourself. Name the site and say what you need, and the assistant picks the tools and chains them. The prompts below are starting points.
+
+## Check a site's health
+
+- "What's the accessibility score for example.com, and how many critical and serious issues are open?"
+- "Compare open issue counts across all our sites, worst first."
+
+## Triage issues
+
+- "List the critical issues on example.com with the pages they affect."
+- "Which open issues on example.com fail WCAG Level A?"
+- "Show every color contrast issue on example.com."
+- "Explain issue #11 on example.com in plain language for a client."
+
+## Fix issues in code
+
+Use this in Claude Code, Cursor, or another coding assistant, with the site's codebase open.
+
+<Steps>
+  <Step title="Ask for the fix">
+    For example: "Get the ility fix prompt for the 'Form elements must have labels' issue on example.com and fix it in this repo."
+  </Step>
+  <Step title="Review the change">
+    The assistant pulls the failing markup and the fix guidance, finds the template that renders it, and proposes a change. Review the diff before you accept it.
+  </Step>
+  <Step title="Confirm the fix">
+    Deploy the change, then rescan the affected pages. The issue resolves once a scan no longer finds it.
+  </Step>
+</Steps>
+
+## Run and monitor scans
+
+- "Start a WCAG 2.2 AA scan of staging.example.com."
+- "Scan only the unscanned pages on example.com."
+- "Is that scan done yet?"
+- "Show any failed scans this week and why they failed."
+
+Starting a scan is the only action that changes anything, and most assistants ask you to confirm before they run it.
+
+## Report to a client or stakeholder
+
+- "Summarize the open issues for example.com as a short client update: the score, the top five issues, and what we're fixing first."
+
+## Tips
+
+- **Separate WCAG failures from best practices.** Best-practice findings can outnumber WCAG failures, and they don't affect the score. Ask for "WCAG failures only" when compliance is the question. See [WCAG and best practices](/issues/understanding-issues).
+- **Ask for other statuses when you need them.** Issue lists show open issues unless you ask for resolved, won't fix, or false positive issues too.
+- **Fix shared templates first.** One issue can cover many pages. If an issue affects 140 pages, fixing the shared template clears it everywhere.
+- **Run fix prompts where the code is.** A fix prompt contains the failing markup, not the source file, so the assistant needs your codebase open to find the right template.
+
+## Limits
+
+- Scans test against the surface's WCAG target, or WCAG 2.1 AA when it uses the workspace default, unless the request names another level. Automated testing doesn't catch every barrier, so manual review is still needed. See [What a scan checks](/scans/what-a-scan-checks).
+- Each tool call returns at most 100 items. The assistant pages through longer lists, so large sites take several calls.
+- The assistant can't change an issue's status, assign it, or comment on it. Do that in [ility](https://app.ilitylabs.com).
+
+## Troubleshooting
+
+| Symptom | Likely cause | What to do |
+| --- | --- | --- |
+| The ility tools don't appear | The connector isn't connected, or it's turned off for this chat | Reconnect it in your client's connector settings, then start a new chat |
+| A site is missing | It's in another workspace | Ask the assistant to list your workspaces and use the right one. See [Choosing a workspace](/mcp/tools#choosing-a-workspace) |
+| An error names `api_triggers_not_entitled` | Your plan doesn't include API triggers | Start the scan in ility, or upgrade to Pro |
+| A scan failed with "Every page in this run failed to scan" | The site was unreachable, password-protected, or blocking the scanner | Check that the URL loads publicly, then scan again |
+| An issue is still open after a fix | No scan has run since you deployed | Rescan the affected pages and check again |

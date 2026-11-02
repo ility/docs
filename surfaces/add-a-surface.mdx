@@ -1,0 +1,53 @@
+---
+title: "Add a surface"
+description: "Add a website to your workspace and choose how ility finds its pages."
+---
+
+A surface is one website that ility tests. Add one surface for each site, and a separate one for each environment you want to track, such as staging.
+
+## Add a site
+
+<Steps>
+  <Step title="Open Surfaces">
+    In the sidebar, choose **Surfaces**, then **Add surface**.
+  </Step>
+  <Step title="Enter the base URL">
+    Enter the address ility should start from, such as `https://www.example.com`. ility only crawls pages on this site.
+  </Step>
+  <Step title="Name it (optional)">
+    Give the surface a name your team will recognize, such as "Marketing site". ility shows the URL under the name. Leave it blank to show the URL alone.
+  </Step>
+  <Step title="Choose a group (optional)">
+    Pick a group to file the surface under, for example the client it belongs to. You can change this later.
+  </Step>
+  <Step title="Choose how ility finds pages">
+    - **Discover from the URL above** (recommended) follows links from the base URL to find pages. It works on any site.
+    - **Use sitemap.xml** reads the site's sitemap from the standard path. It is faster and more complete when the site has one.
+
+    Choose **Add surface and start crawl**, or **Add surface and crawl sitemap** if you picked the sitemap.
+  </Step>
+</Steps>
+
+ility starts mapping the site straight away and scans the first page it finds, so you see findings before the crawl finishes. When the crawl is done, scan the remaining pages from the **Automated coverage** card on the surface's **Overview**. See [Run a scan](/scans/run-a-scan).
+
+<Note>
+  Discovery crawling is included in paid plans and in your trial. Reading a sitemap is available on every plan.
+</Note>
+
+## Manage pages
+
+The **Crawled URLs** view of a surface lists every page ility knows about. From there you can:
+
+- **Exclude** a page so scans skip it, and include it again later.
+- Mark a page as **priority**. Issues on priority pages rank higher. The homepage is a priority page by default.
+- **Rescan** one page, or select several pages and rescan them together.
+- **Recrawl** the site to refresh the page list, either by discovery or from the sitemap.
+
+## Group surfaces
+
+Groups keep related surfaces together in the **Surfaces** list, for example every site for one client. A group is only a label. It doesn't change settings, scans, or who can see what.
+
+- To create, rename, or delete a group, use the **Groups** menu next to **Add surface**.
+- To move a surface into or out of a group, open the menu on the surface's row and choose **Move to group**.
+
+Deleting a group never deletes the surfaces in it. They become ungrouped.

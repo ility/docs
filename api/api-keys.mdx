@@ -1,0 +1,51 @@
+---
+title: "API keys"
+description: "Create, use, and revoke the keys that give programs access to your workspace."
+---
+
+An API key lets a script, CI job, or MCP client use your workspace without signing in. Treat each key like a password.
+
+## Create a key
+
+Only workspace owners can manage keys, and only while signed in to the app.
+
+<Steps>
+  <Step title="Open API keys">
+    Go to **Settings**, then the **API keys** tab.
+  </Step>
+  <Step title="Name the key">
+    Under **Create a key**, enter a **Key name** that says where the key will be used, such as "GitHub Actions" or "Claude Desktop".
+  </Step>
+  <Step title="Copy it">
+    ility shows the full key once. Choose **Copy key** and store it somewhere safe, such as your CI provider's secrets. If you lose it, revoke it and create a new one.
+  </Step>
+</Steps>
+
+Keys look like `ilk_1a2b3c4d_…`. The short part after `ilk_` is the key's prefix. ility shows the prefix in the key list so you can tell keys apart, but it never shows the full key again.
+
+## Use a key
+
+Send the key in the `Authorization` header:
+
+```bash
+curl https://app.ilitylabs.com/v1/domains \
+  -H "Authorization: Bearer $ILITY_API_KEY"
+```
+
+The same key works with the [MCP server](/mcp/connect).
+
+## What a key can access
+
+- A key works in one workspace, the one it was created in.
+- It acts on behalf of the owner who created it, at most with a member's access. If that person's role is lowered, the key's access is lowered too.
+- If the person who created a key leaves the workspace, every key they created there stops working immediately.
+- A key can't create, list, or revoke keys.
+- Starting scans and crawls needs a plan that includes API triggers. See [API overview](/api/overview#what-a-key-can-do).
+
+## See and revoke keys
+
+The **API keys** tab lists every key with its name, prefix, when it was created, and when it was last used. Choose **Revoke** on a key to stop it working straight away. Revoking can't be undone.
+
+<Tip>
+  Create a separate key for each place you use one. Then you can revoke one without breaking the others, and the **last used** time tells you which keys are still in use.
+</Tip>

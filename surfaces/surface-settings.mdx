@@ -1,0 +1,34 @@
+---
+title: "Surface settings"
+description: "Choose the WCAG target, engines, crawl behavior, and scan schedule for each surface."
+---
+
+Open a surface and choose **Settings** in the sidebar. Members and owners can change settings. Viewers see a view-only notice instead.
+
+## Scan configuration
+
+| Setting | What it does |
+| --- | --- |
+| **Name** | The label shown above the surface's URL. |
+| **WCAG conformance target** | The WCAG version and level scans test against, such as **2.2-AA**. **Workspace default** scans against WCAG 2.1 AA. |
+| **Environment** | An optional label, such as `production` or `staging`, to tell similar surfaces apart. |
+| **Enabled engines** | Which scan engines run against this surface. When none are selected, every engine available to the workspace runs. |
+
+<Tip>
+  Choose an explicit target, even if it's 2.1-AA. The **Automated coverage** card only shows how many WCAG criteria your scans cover once a target is set.
+</Tip>
+
+The WCAG target decides which rules count. A 2.1 AA target runs every rule mapped to a level A or AA success criterion in WCAG 2.0 or 2.1. Best-practice rules run on every scan, whatever the target. See [What a scan checks](/scans/what-a-scan-checks).
+
+## Crawl and scheduling
+
+| Setting | What it does |
+| --- | --- |
+| **Include query parameters when crawling** | Treat URLs that differ only by query string, such as `/products?page=2`, as separate pages. Leave this off for most sites. |
+| **Scheduled scanning** | Scan the surface automatically once a week, so new issues and fixes show up without anyone pressing **Run scan**. Requires a paid plan or an active trial. |
+
+Choose **Save changes** when you're done.
+
+## Delete a surface
+
+**Delete domain…** in the **Danger zone** at the bottom of Settings permanently deletes the surface with all of its pages, scans, and issues. It can't be undone. Only workspace owners can delete a surface, and you confirm by typing the surface's short name (its slug, such as `example-com`).
