@@ -1,0 +1,37 @@
+name: Markdown lint
+
+# Same check as ility/ility's markdown.yml, so Markdown follows one set of
+# rules across the Ility repos. This repo also lints its MDX pages. Config:
+# .markdownlint-cli2.jsonc.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '**/*.md'
+      - '**/*.mdx'
+      - '.markdownlint-cli2.jsonc'
+      - '.github/workflows/markdown.yml'
+
+concurrency:
+  group: markdown-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: markdownlint-cli2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Run markdownlint-cli2
+        uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: |
+            **/*.md
+            **/*.mdx
