@@ -93,7 +93,8 @@
             "group": "Scans",
             "pages": [
               "scans/run-a-scan",
-              "scans/what-a-scan-checks"
+              "scans/what-a-scan-checks",
+              "scans/ilitybot"
             ]
           },
           {
