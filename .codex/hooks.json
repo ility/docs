@@ -1,0 +1,34 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'.claude/hooks/block-main-commits.sh'"
+          },
+          {
+            "type": "command",
+            "command": "'.claude/hooks/block-conventional-commits.sh'"
+          },
+          {
+            "type": "command",
+            "command": "'.claude/hooks/guard-force-push.sh'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(Bash|mcp__.+__create_pull_request)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'.claude/hooks/remind-pr-review.sh'"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -6,6 +6,8 @@
 drafts/
 *.draft.mdx
 
-# Instructions for AI agents, not a docs page
+# Instructions and standards for AI agents, not docs pages
 AGENTS.md
+CLAUDE.md
+standards/
 scripts/

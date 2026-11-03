@@ -1,0 +1,64 @@
+// markdownlint-cli2 configuration for ility/docs, adapted from ility/ility
+// so agents write Markdown the same way in every Ility repo. It lints the
+// MDX pages too: Mintlify renders them, so a missing fence language or a
+// bare URL is a customer-visible bug.
+//
+// Philosophy: catch real bugs (missing code-fence languages, malformed links,
+// bare URLs); don't fight intentional house style (long prose paragraphs, bolded
+// inline labels). Standards live in
+// standards/markdown.md.
+//
+// Rule reference: https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+{
+  "config": {
+    "default": true,
+
+    // ---- Style rules disabled (intentional house style) ----
+    // These are off to match ility/ility's house style
+    // (docs/standards/markdown.md there). Keep this list in step with that
+    // repo's .markdownlint-cli2.jsonc rather than tuning it per repo.
+    "MD004": false, // ul-style
+    "MD013": false, // line-length: prose paragraphs vary
+    "MD022": false, // blanks-around-headings
+    "MD024": false, // no-duplicate-heading
+    "MD025": false, // single-h1: frontmatter + body H1 confuses the rule
+    "MD031": false, // blanks-around-fences
+    "MD032": false, // blanks-around-lists
+    "MD033": false, // no-inline-html: <!-- --> markers, <details>
+    "MD036": false, // no-emphasis-as-heading: **Label:** inline labels
+    "MD041": false, // first-line-heading: frontmatter detection is fragile
+    "MD060": false, // table-column-style: compact and aligned both allowed
+
+    // ---- Repo-specific ----
+
+    // MDX: rules that misread indented JSX children ----
+    // Mintlify components (<Steps>, <Update>, <Tab>) indent their Markdown
+    // children. These three rules read that indent as a list, heading or
+    // code-block mistake.
+    "MD007": false,
+    "MD023": false,
+    "MD046": false,
+
+    // MD010 no-hard-tabs — on for prose, off inside code fences, where
+    // example output is tab-separated on purpose.
+    "MD010": { "code_blocks": false }
+
+    // ---- Kept on (these catch real bugs) ----
+    // MD001 heading-increment — no skipping levels
+    // MD009 trailing-spaces
+    // MD018 no-missing-space-atx — typos in headings (`#Foo` vs `# Foo`)
+    // MD028 no-blanks-blockquote — adjacent blockquotes need merging
+    // MD029 ol-prefix — ordered-list numbering
+    // MD034 no-bare-urls — wrap bare URLs in <> or use link syntax
+    // MD038 no-space-in-code — typos in code spans
+    // MD040 fenced-code-language — every code fence gets a language tag
+  },
+  "ignores": [
+    "node_modules",
+    "**/node_modules/**",
+    // Agent worktrees and memory: git-ignored full checkouts and scratch.
+    ".claude/worktrees",
+    ".remember"
+  ],
+  "globs": ["**/*.md", "**/*.mdx"]
+}

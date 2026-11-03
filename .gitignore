@@ -1,0 +1,8 @@
+# Agent worktrees and memory: full checkouts and scratch, never committed.
+.claude/worktrees/
+.claude/settings.local.json
+.remember/
+
+# Local tooling
+node_modules/
+.DS_Store
