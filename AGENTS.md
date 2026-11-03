@@ -21,8 +21,8 @@ architecture, infrastructure, and anything only staff can do.
 
 ## Terminology
 
-- The product is **ility**, always lowercase, even at the start of a sentence.
-  The company is **Ility Labs**.
+- The product is **Ility**, with a capital I. The company is **Ility Labs**.
+  Lowercase only in the logo, package names, URLs, and code.
 - **Workspace**: the account a team shares. Not "organization" or "project".
 - **Surface**: one thing ility tests, today always a website. The API addresses
   the website behind a surface as a **domain**, by its slug.
@@ -32,6 +32,10 @@ architecture, infrastructure, and anything only staff can do.
 - Severities are **critical**, **serious**, **moderate**, and **minor**.
 
 ## Style
+
+The voice and tone guide for all Ility content is
+[`standards/voice.md`](standards/voice.md). Read it before writing a page. The
+points below are the ones that matter most here.
 
 - US English. Active voice, second person ("you").
 - Short sentences, one idea each. Sentence case for headings.

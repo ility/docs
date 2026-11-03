@@ -9,3 +9,6 @@ drafts/
 # Instructions for AI agents, not a docs page
 AGENTS.md
 scripts/
+
+# Internal standards, kept public in the repo but off the docs site
+standards/
