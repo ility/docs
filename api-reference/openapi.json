@@ -364,6 +364,170 @@
         "description": "Returns the domain's accessibility score and band, open issue counts by severity and WCAG level, page counts, and its last scan."
       }
     },
+    "/v1/domains/{slug}/scan-auth": {
+      "get": {
+        "description": "Returns how ility signs in to the domain's site before crawling and scanning it. The password is never returned: `has_password` says whether one is stored. `configured: false` means scans run as an anonymous visitor. `available: false` means scan logins aren't set up on this deployment.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true,
+            "name": "slug",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanAuth"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Domains"
+        ],
+        "summary": "Get a domain's scan login"
+      },
+      "put": {
+        "description": "Creates or replaces the domain's scan login. Use `basic` for HTTP basic auth, on every plan, or `form` to sign in through a login form, which needs the `true_user_auth` entitlement (Pro and Enterprise). A `form` login needs a `login_url` on the domain's site and a `logged_in_selector`. `password` is required the first time; omit it later to keep the stored one. Returns `403` for a viewer or for `form` without the entitlement, `400` for an off-site login URL or a missing logged-in check, and `503` when scan logins aren't available on this deployment.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true,
+            "name": "slug",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PutScanAuthBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanAuth"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Viewer role, or a scripted login without the trueUserAuth entitlement",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "This deployment cannot store credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Domains"
+        ],
+        "summary": "Set a domain's scan login"
+      },
+      "delete": {
+        "description": "Removes the domain's scan login. Later crawls and scans run as an anonymous visitor. Calling it when no login is set still succeeds.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true,
+            "name": "slug",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Removed"
+          },
+          "403": {
+            "description": "Forbidden (viewer role)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Domains"
+        ],
+        "summary": "Remove a domain's scan login"
+      }
+    },
     "/v1/domains/{slug}/scans": {
       "get": {
         "parameters": [
@@ -2766,6 +2930,67 @@
           }
         }
       },
+      "PutScanAuthBody": {
+        "type": "object",
+        "properties": {
+          "method": {
+            "type": "string",
+            "enum": [
+              "basic",
+              "form"
+            ]
+          },
+          "username": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 320
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "Required the first time. Omit to keep the stored password."
+          },
+          "login_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 2048
+          },
+          "username_selector": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 500
+          },
+          "password_selector": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 500
+          },
+          "submit_selector": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 500
+          },
+          "logged_in_selector": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "method",
+          "username"
+        ]
+      },
       "RecheckIssueRequest": {
         "type": "object",
         "properties": {
@@ -2796,6 +3021,91 @@
         "required": [
           "runs",
           "pages_queued"
+        ]
+      },
+      "ScanAuth": {
+        "type": "object",
+        "properties": {
+          "available": {
+            "type": "boolean",
+            "description": "False when this deployment cannot store credentials (SCAN_CREDENTIAL_KEY unset)."
+          },
+          "configured": {
+            "type": "boolean"
+          },
+          "method": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "basic",
+                  "form"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "username": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "has_password": {
+            "type": "boolean"
+          },
+          "login_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "username_selector": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "password_selector": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "submit_selector": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "logged_in_selector": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "updated_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "available",
+          "configured",
+          "method",
+          "username",
+          "has_password",
+          "login_url",
+          "username_selector",
+          "password_selector",
+          "submit_selector",
+          "logged_in_selector",
+          "updated_at"
         ]
       },
       "ScanConflictResponse": {

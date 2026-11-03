@@ -39,7 +39,7 @@ A scan moves through these statuses:
 | Running | Pages are being scanned. |
 | Paused | Stopped by someone on your team. It keeps its place and can be resumed. |
 | Complete | Every page has a result. Some pages may still have failed (see below). |
-| Failed | The scan as a whole couldn't finish. |
+| Failed | The scan as a whole couldn't finish. If a [scan login](/surfaces/scan-behind-a-login) can't sign in, the error starts with `Sign-in failed:`. |
 | Canceled | Stopped by someone on your team. Pages already scanned keep their results. |
 
 ## Pause, resume, or cancel
@@ -56,6 +56,8 @@ Sometimes a single page can't be scanned. The scan carries on with the other pag
 | HTTP error | The page returned an error status, so there was nothing to scan. |
 | Redirects off-site | The URL redirects to a different site. Update the link or exclude the page. |
 | Blocked address | The URL resolved to a private or internal address. ility only scans publicly reachable sites. |
+| Signed out | The page sent ility to the login screen, even after it signed in again. Check that the [scan login](/surfaces/scan-behind-a-login)'s account can see this page. |
+| Sign-out link skipped | The URL looks like a sign-out link, so ility didn't open it. Opening it would end the login for every page after it. |
 | Navigation timed out | The page didn't finish loading in time. |
 | Page took too long | Scanning the page went over its overall time limit. |
 | Could not reach the page | The browser couldn't connect to the page. |

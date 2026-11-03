@@ -86,7 +86,8 @@
             "group": "Surfaces",
             "pages": [
               "surfaces/add-a-surface",
-              "surfaces/surface-settings"
+              "surfaces/surface-settings",
+              "surfaces/scan-behind-a-login"
             ]
           },
           {

@@ -49,6 +49,29 @@ OPERATIONS = {
         "Get a domain summary",
         "Returns the domain's accessibility score and band, open issue counts by severity and WCAG level, page counts, and its last scan.",
     ),
+    ("/v1/domains/{slug}/scan-auth", "get"): (
+        "Domains",
+        "Get a domain's scan login",
+        "Returns how ility signs in to the domain's site before crawling and scanning it. "
+        "The password is never returned: `has_password` says whether one is stored. "
+        "`configured: false` means scans run as an anonymous visitor. "
+        "`available: false` means scan logins aren't set up on this deployment.",
+    ),
+    ("/v1/domains/{slug}/scan-auth", "put"): (
+        "Domains",
+        "Set a domain's scan login",
+        "Creates or replaces the domain's scan login. Use `basic` for HTTP basic auth, on every plan, or `form` to sign in through a login form, "
+        "which needs the `true_user_auth` entitlement (Pro and Enterprise). "
+        "A `form` login needs a `login_url` on the domain's site and a `logged_in_selector`. "
+        "`password` is required the first time; omit it later to keep the stored one. "
+        "Returns `403` for a viewer or for `form` without the entitlement, `400` for an off-site login URL or a missing logged-in check, "
+        "and `503` when scan logins aren't available on this deployment.",
+    ),
+    ("/v1/domains/{slug}/scan-auth", "delete"): (
+        "Domains",
+        "Remove a domain's scan login",
+        "Removes the domain's scan login. Later crawls and scans run as an anonymous visitor. Calling it when no login is set still succeeds.",
+    ),
     ("/v1/domains/{slug}/scans", "get"): (
         "Scans",
         "List a domain's scans",
