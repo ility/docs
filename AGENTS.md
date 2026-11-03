@@ -13,6 +13,27 @@ Mintlify at [docs.ilitylabs.com](https://docs.ilitylabs.com). Every push to `mai
   change the curated list of operations in that script.
 - Preview locally with `npx mint dev`, and check links with `npx mint broken-links`.
 
+## Git and Markdown
+
+These follow `ility/ility`, so agents work the same way in every Ility repo.
+Read the standard before acting:
+
+- Commits, branches, PRs: [`standards/git.md`](standards/git.md).
+  Imperative subjects with no prefixes (no `docs:`), atomic commits,
+  `claude/<name>` branches, never commit on `main`. PR bodies use
+  `## Why` / `## What Changed` / `## How to Test`.
+- **Review every PR you open, without asking first.** Open it as a draft,
+  dispatch an independent reviewer, post its findings, fix or disposition
+  each one, then mark it ready per
+  [`standards/code-review.md`](standards/code-review.md).
+- Markdown and MDX: [`standards/markdown.md`](standards/markdown.md).
+  `npx markdownlint-cli2@0.17.2` runs markdownlint with `.markdownlint-cli2.jsonc`
+  over every `.md` and `.mdx` file; CI runs it on every PR.
+- `.claude/hooks/` enforces the mechanical parts (no commits on `main`, no
+  conventional-commit prefixes, pinned force-pushes, Markdown lint after
+  each edit, the review reminder). `.claude/settings.json` registers them for
+  Claude Code and `.codex/hooks.json` for Codex.
+
 ## Audience
 
 Customers: people who test and fix websites, and the developers who connect ility
