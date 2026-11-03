@@ -28,9 +28,10 @@
 #   reaches the agent.
 #
 # Failure mode
-#   Fails open if node or markdownlint-cli2 can't be located (neither the
-#   repo's node_modules nor a markdownlint-cli2 on PATH). Skipping the scan
-#   beats blocking the agent where the toolchain isn't installed.
+#   This repo has no package.json, so the CLI comes from a markdownlint-cli2
+#   on PATH, else from `npx --yes markdownlint-cli2@0.17.2` (the version
+#   ility/ility pins; npm caches it after the first run). Fails open if
+#   none of those works: skipping the scan beats blocking the agent.
 #
 # Testing
 #   From the repo root, add a bare URL to index.mdx, then run:
@@ -67,8 +68,14 @@ CLI="$repo_root/node_modules/markdownlint-cli2/markdownlint-cli2-bin.mjs"
 run_lint=("$NODE_BIN" "$CLI")
 if [[ ! -f "$CLI" ]]; then
   global_cli="$(command -v markdownlint-cli2 2>/dev/null || true)"
-  [[ -n "$global_cli" ]] || exit 0
-  run_lint=("$global_cli")
+  npx_bin="$(dirname "$NODE_BIN")/npx"
+  if [[ -n "$global_cli" ]]; then
+    run_lint=("$global_cli")
+  elif [[ -x "$npx_bin" ]]; then
+    run_lint=("$npx_bin" --yes markdownlint-cli2@0.17.2)
+  else
+    exit 0
+  fi
 fi
 
 # Violations are reported relative to the run directory, so match on the

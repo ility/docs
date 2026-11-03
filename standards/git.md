@@ -47,8 +47,8 @@ in apps/web, so readers looked for a control that isn't there.
 
 ## Pull requests
 
-Mintlify deploys `docs.ilitylabs.com` on every push to `main`, so a pull
-request is the only way a change reaches `main`.
+Mintlify deploys `docs.ilitylabs.com` on every push to `main`, so change
+`main` only through a pull request.
 
 - **Agents open every PR as a draft and flip it to ready themselves.** Mark
   it ready when, and only when, all four of these hold:
@@ -95,7 +95,7 @@ request is the only way a change reaches `main`.
   end with a `Co-Authored-By:` trailer naming the model actually used:
 
   ```txt
-  Co-Authored-By: Claude <noreply@anthropic.com>
+  Co-Authored-By: Claude <model name> <noreply@anthropic.com>
   ```
 
 - **Merge with a merge commit.** Atomic commits only pay off when `main`

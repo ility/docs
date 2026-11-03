@@ -28,11 +28,12 @@ Read the standard before acting:
   [`standards/code-review.md`](standards/code-review.md).
 - Markdown and MDX: [`standards/markdown.md`](standards/markdown.md).
   `npx markdownlint-cli2@0.17.2` runs markdownlint with `.markdownlint-cli2.jsonc`
-  over every `.md` and `.mdx` file; CI runs it on every PR.
+  over every `.md` and `.mdx` file; CI runs it on every PR that touches them.
 - `.claude/hooks/` enforces the mechanical parts (no commits on `main`, no
   conventional-commit prefixes, pinned force-pushes, Markdown lint after
-  each edit, the review reminder). `.claude/settings.json` registers them for
-  Claude Code and `.codex/hooks.json` for Codex.
+  each edit, the review reminder). `.claude/settings.json` registers all of
+  them for Claude Code. `.codex/hooks.json` registers all but the Markdown
+  lint hook for Codex.
 
 ## Audience
 

@@ -11,6 +11,10 @@
           {
             "type": "command",
             "command": "'.claude/hooks/block-conventional-commits.sh'"
+          },
+          {
+            "type": "command",
+            "command": "'.claude/hooks/guard-force-push.sh'"
           }
         ]
       }
