@@ -1,9 +1,9 @@
 ---
 title: "About IlityBot"
-description: "How ility's crawler identifies itself, follows robots.txt, and how to allow it through your firewall or bot protection."
+description: "How Ility's crawler identifies itself, follows robots.txt, and how to allow it through your firewall or bot protection."
 ---
 
-IlityBot is the crawler ility uses to visit your site. Every crawl, scan, and health-check request ility makes comes from IlityBot. If your site blocks bots, allow IlityBot so ility can find and scan your pages.
+IlityBot is the crawler Ility uses to visit your site. Every crawl, scan, and health-check request Ility makes comes from IlityBot. If your site blocks bots, allow IlityBot so Ility can find and scan your pages.
 
 ## How IlityBot identifies itself
 
@@ -45,7 +45,7 @@ Crawl-delay: 2
 
 ## Verify requests with Web Bot Auth
 
-Anyone can copy a user agent. To prove a request really comes from ility, IlityBot signs its plain fetches with [Web Bot Auth](https://datatracker.ietf.org/wg/webbotauth/about/), which uses HTTP Message Signatures.
+Anyone can copy a user agent. To prove a request really comes from Ility, IlityBot signs its plain fetches with [Web Bot Auth](https://datatracker.ietf.org/wg/webbotauth/about/), which uses HTTP Message Signatures.
 
 - **Signed:** crawl requests and the fetches for `robots.txt` and sitemaps. Each carries `Signature`, `Signature-Input`, and `Signature-Agent` headers.
 - **Not signed:** requests made while a page is rendered in a browser during a scan. Allow these by user agent.
@@ -60,7 +60,7 @@ Bot protection services that support Web Bot Auth, such as Cloudflare, can fetch
 
 ## Allow IlityBot through your firewall
 
-If your site sits behind a firewall or bot protection, ility's requests may be challenged or blocked. Pages then fail with rate limiting or HTTP errors. See [When a page fails](/scans/run-a-scan#when-a-page-fails).
+If your site sits behind a firewall or bot protection, Ility's requests may be challenged or blocked. Pages then fail with rate limiting or HTTP errors. See [When a page fails](/scans/run-a-scan#when-a-page-fails).
 
 To let IlityBot through:
 
@@ -84,4 +84,4 @@ Create a WAF custom rule that matches requests where the user agent contains `Il
 
 Akamai, Vercel, Fastly, and similar services each have their own way to allow traffic. Look for a setting that allows requests by user agent, or that verifies bots with Web Bot Auth, and apply it to `IlityBot`.
 
-If ility still can't reach your pages, [contact us](mailto:support@ilitylabs.com).
+If Ility still can't reach your pages, [contact us](mailto:support@ilitylabs.com).

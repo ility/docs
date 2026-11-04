@@ -1,6 +1,6 @@
 ---
 title: "Common workflows"
-description: "Prompts that work well with the ility MCP server, plus tips, limits, and troubleshooting."
+description: "Prompts that work well with the Ility MCP server, plus tips, limits, and troubleshooting."
 ---
 
 You don't call the [tools](/mcp/tools) yourself. Name the site and say what you need, and the assistant picks the tools and chains them. The prompts below are starting points.
@@ -23,7 +23,7 @@ Use this in Claude Code, Cursor, or another coding assistant, with the site's co
 
 <Steps>
   <Step title="Ask for the fix">
-    For example: "Get the ility fix prompt for the 'Form elements must have labels' issue on example.com and fix it in this repo."
+    For example: "Get the Ility fix prompt for the 'Form elements must have labels' issue on example.com and fix it in this repo."
   </Step>
   <Step title="Review the change">
     The assistant pulls the failing markup and the fix guidance, finds the template that renders it, and proposes a change. Review the diff before you accept it.
@@ -57,14 +57,14 @@ Starting a scan is the only action that changes anything, and most assistants as
 
 - Scans test against the surface's WCAG target, or WCAG 2.1 AA when it uses the workspace default, unless the request names another level. Automated testing doesn't catch every barrier, so you still need manual review. See [What a scan checks](/scans/what-a-scan-checks).
 - Each tool call returns at most 100 items. The assistant pages through longer lists, so large sites take several calls.
-- The assistant can't change an issue's status, assign it, or comment on it. Do that in [ility](https://app.ilitylabs.com).
+- The assistant can't change an issue's status, assign it, or comment on it. Do that in [Ility](https://app.ilitylabs.com).
 
 ## Troubleshooting
 
 | Symptom | Likely cause | What to do |
 | --- | --- | --- |
-| The ility tools don't appear | The connector isn't connected, or it's turned off for this chat | Reconnect it in your client's connector settings, then start a new chat |
+| The Ility tools don't appear | The connector isn't connected, or it's turned off for this chat | Reconnect it in your client's connector settings, then start a new chat |
 | A site is missing | It's in another workspace | Ask the assistant to list your workspaces and use the right one. See [Choosing a workspace](/mcp/tools#choosing-a-workspace) |
-| An error names `api_triggers_not_entitled` | Your plan doesn't include API triggers | Start the scan in ility, or upgrade to Pro |
+| An error names `api_triggers_not_entitled` | Your plan doesn't include API triggers | Start the scan in Ility, or upgrade to Pro |
 | A scan failed with "Every page in this run failed to scan" | The site was unreachable, password-protected, or blocking the scanner | Check that the URL loads publicly, then scan again |
 | An issue is still open after a fix | No scan has run since you deployed | Rescan the affected pages and check again |

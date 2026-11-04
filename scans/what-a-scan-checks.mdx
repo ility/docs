@@ -5,7 +5,7 @@ description: "Which rules run, how they map to WCAG, and what automated coverage
 
 ## The engine
 
-ility scans each page in a real Chromium browser, so it sees the page as your visitors do, after scripts have run. The checks themselves come from [axe-core](https://github.com/dequelabs/axe-core), the open-source accessibility engine from Deque Systems.
+Ility scans each page in a real Chromium browser, so it sees the page as your visitors do, after scripts have run. The checks themselves come from [axe-core](https://github.com/dequelabs/axe-core), the open-source accessibility engine from Deque Systems.
 
 ## Which rules run
 
@@ -20,13 +20,13 @@ Every scan runs two kinds of rules.
   </Card>
 </CardGroup>
 
-ility only runs stable rules. Rules the engine marks as experimental or deprecated are left out, so every finding is one you can defend in an audit.
+Ility only runs stable rules. Rules the engine marks as experimental or deprecated are left out, so every finding is one you can defend in an audit.
 
 ## Automated coverage
 
 The **Automated coverage** card on a surface's **Overview** shows how much of the surface and of WCAG the last scans reached:
 
-- **Pages scanned**: how many of the pages ility knows about have been scanned.
+- **Pages scanned**: how many of the pages Ility knows about have been scanned.
 - **WCAG criteria evaluated**: the share of success criteria in your target that at least one automated check covers. It shows once the surface has an explicit [WCAG target](/surfaces/surface-settings).
 - **Passed**, **Failed**, and **Needs review**: how the individual checks came out. A check needs review when the engine found something it can't judge on its own, such as text over a background image.
 

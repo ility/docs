@@ -1,4 +1,4 @@
-# ility docs
+# Ility docs
 
 The source for [docs.ilitylabs.com](https://docs.ilitylabs.com), the customer
 documentation for ility. Mintlify deploys `main` on every push.

@@ -1,9 +1,9 @@
 ---
 title: "Scan pages behind a login"
-description: "Sign ility in to your site so crawls and scans reach pages that need an account."
+description: "Sign Ility in to your site so crawls and scans reach pages that need an account."
 ---
 
-By default, ility crawls and scans a surface as an anonymous visitor. If parts of your site are only visible after signing in, such as an account area or a staging site behind a password, set up a **scan login**. ility then signs in before it crawls or scans and tests the pages that account can see.
+By default, Ility crawls and scans a surface as an anonymous visitor. If parts of your site are only visible after signing in, such as an account area or a staging site behind a password, set up a **scan login**. Ility then signs in before it crawls or scans and tests the pages that account can see.
 
 Members and owners can set up a scan login. Viewers can see it but not change it.
 
@@ -27,7 +27,7 @@ On plans without login forms, choosing **Login form** shows a notice with a link
 3. Fill in the fields for that method (see below).
 4. Choose **Save login**.
 
-ility uses the login from the next crawl or scan.
+Ility uses the login from the next crawl or scan.
 
 ### HTTP basic auth
 
@@ -40,24 +40,24 @@ Enter the **Username** and **Password** the site's prompt expects.
 | **Username** | The test account's username or email. |
 | **Password** | The test account's password. |
 | **Login page URL** | The page with the sign-in form, such as `https://example.com/login`. It must be on the surface's site. |
-| **Logged-in check** | A CSS selector for something that only appears when signed in, such as `#account-menu`. Required. ility uses it to tell a successful login from a rejected one. |
+| **Logged-in check** | A CSS selector for something that only appears when signed in, such as `#account-menu`. Required. Ility uses it to tell a successful login from a rejected one. |
 
-Under **Field selectors (optional)** you can also set the **Username field**, **Password field**, and **Submit button**, such as `input[name=email]`, `input[type=password]`, and `button[type=submit]`. Leave them blank and ility finds the username and password fields itself and submits with Enter. Two-step forms, where the password field only appears after you submit the username, work without extra settings. Set the selectors when ility can't find your form's fields on its own.
+Under **Field selectors (optional)** you can also set the **Username field**, **Password field**, and **Submit button**, such as `input[name=email]`, `input[type=password]`, and `button[type=submit]`. Leave them blank and Ility finds the username and password fields itself and submits with Enter. Two-step forms, where the password field only appears after you submit the username, work without extra settings. Set the selectors when Ility can't find your form's fields on its own.
 
 ### The password is write-only
 
-ility stores the password encrypted and never shows it again. When a password is saved, the field stays empty and reads **A password is saved. Leave this blank to keep it.** Leave it blank when you save other changes to keep the stored password. Type a new one to replace it.
+Ility stores the password encrypted and never shows it again. When a password is saved, the field stays empty and reads **A password is saved. Leave this blank to keep it.** Leave it blank when you save other changes to keep the stored password. Type a new one to replace it.
 
-## How ility signs in
+## How Ility signs in
 
-- ility signs in once at the start of each crawl or scan, then reuses that session for every page.
+- Ility signs in once at the start of each crawl or scan, then reuses that session for every page.
 - A signed-in crawl also starts from the page your site shows right after login. Signed-in pages are often only linked from there.
-- If a page sends ility back to the login page, ility signs in again and retries that page once. A page that still lands on the login page fails as **Signed out**.
-- ility never opens URLs that look like sign-out links, such as `/logout`, because that would end the session for every page after it. A crawl skips them. A scan marks them as failed with **Sign-out link skipped**.
+- If a page sends Ility back to the login page, Ility signs in again and retries that page once. A page that still lands on the login page fails as **Signed out**.
+- Ility never opens URLs that look like sign-out links, such as `/logout`, because that would end the session for every page after it. A crawl skips them. A scan marks them as failed with **Sign-out link skipped**.
 
 ### When sign-in fails
 
-If ility can't sign in at all, it fails the whole crawl or scan instead of testing your site anonymously. The error starts with `Sign-in failed:` and says what went wrong, such as a rejected password, a selector that matched nothing, or a login page URL that isn't allowed. Fix the scan login in **Settings** and run the scan again.
+If Ility can't sign in at all, it fails the whole crawl or scan instead of testing your site anonymously. The error starts with `Sign-in failed:` and says what went wrong, such as a rejected password, a selector that matched nothing, or a login page URL that isn't allowed. Fix the scan login in **Settings** and run the scan again.
 
 See [When a page fails](/scans/run-a-scan#when-a-page-fails) for page-level failure reasons.
 
