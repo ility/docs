@@ -1,9 +1,9 @@
 ---
 title: "Tools"
-description: "The tools the ility MCP server offers, and how to point them at a workspace."
+description: "The tools the Ility MCP server offers, and how to point them at a workspace."
 ---
 
-Each tool calls the [ility API](/api/overview) on your behalf, so it returns the same data and the same errors an API client would see.
+Each tool calls the [Ility API](/api/overview) on your behalf, so it returns the same data and the same errors an API client would see.
 
 | Tool | What it does |
 | --- | --- |
@@ -25,7 +25,7 @@ Every tool except `trigger_scan` only reads. `trigger_scan` needs a plan that in
 Every tool except `list_workspaces` takes an optional `workspace_id`.
 
 - Without it, a tool works in the default workspace: the one you picked when you signed in, or the workspace an API key belongs to.
-- If you belong to several workspaces, the assistant can call `list_workspaces` and pass another workspace's id to work there. You can simply ask, for example "List the critical issues in the Acme workspace."
+- If you belong to several workspaces, the assistant can call `list_workspaces` and pass another workspace's id to work there. You can ask, for example "List the critical issues in the Acme workspace."
 - An API key only works in its own workspace. Naming another workspace returns an error rather than quietly using the key's workspace.
 
 ## Slugs and ids

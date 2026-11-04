@@ -1,6 +1,6 @@
-# ility customer docs — instructions for AI agents
+# Ility customer docs — instructions for AI agents
 
-This repository is the customer-facing documentation for **ility**, published by
+This repository is the customer-facing documentation for **Ility**, published by
 Mintlify at [docs.ilitylabs.com](https://docs.ilitylabs.com). Every push to `main` deploys.
 
 - Pages are MDX files with YAML frontmatter. Navigation and branding live in
@@ -37,8 +37,8 @@ Read the standard before acting:
 
 ## Audience
 
-Customers: people who test and fix websites, and the developers who connect ility
-to CI, scripts, and AI assistants. Not ility's own engineers. Leave out internal
+Customers: people who test and fix websites, and the developers who connect Ility
+to CI, scripts, and AI assistants. Not Ility's own engineers. Leave out internal
 architecture, infrastructure, and anything only staff can do.
 
 ## Terminology
@@ -46,7 +46,7 @@ architecture, infrastructure, and anything only staff can do.
 - The product is **Ility**, with a capital I. The company is **Ility Labs**.
   Lowercase only in the logo, package names, URLs, and code.
 - **Workspace**: the account a team shares. Not "organization" or "project".
-- **Surface**: one thing ility tests, today always a website. The API addresses
+- **Surface**: one thing Ility tests, today always a website. The API addresses
   the website behind a surface as a **domain**, by its slug.
 - **Issue** and **instance**: one problem with one fix, and each place it appears.
 - Roles are **owner**, **member**, and **viewer**.
