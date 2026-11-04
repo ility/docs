@@ -1,0 +1,63 @@
+---
+title: "Labels"
+description: "Group issues by who fixes them or where they show up, and filter any issue list by label."
+---
+
+Labels are names your team defines, such as **Theme**, **Plugin**, or **Mobile**. Use them to sort issues by who owns the fix or where the problem shows up, then filter any issue list down to one group.
+
+Labels belong to the workspace, so every surface shares the same set. An issue can carry up to 20 labels.
+
+## Create labels
+
+Owners and members with access to every surface manage labels under **Settings → Labels**.
+
+1. Under **New label**, enter a **Name**, and optionally a **Description**.
+2. Choose a **Color**.
+3. Choose **Create label**.
+
+Names are unique in a workspace, ignoring case, so you can't have both "Theme" and "theme".
+
+### Start from the suggested labels
+
+A new workspace has no labels. **Settings → Labels** suggests a starter set that many teams already use: **Content**, **Embed**, **Mobile**, **Plugin**, **Screen Reader**, and **Theme**. Choose **Add suggested labels** to add the ones you don't have yet. You can rename, recolor, or delete them afterward.
+
+## Edit or delete a label
+
+Each label in the list shows how many issues carry it, including resolved ones.
+
+- Choose **Edit** to change a label's name, color, or description. The change shows on every issue that carries the label.
+- Choose **Delete** to remove a label. ility tells you how many issues will lose it before you confirm with **Delete label**. Deleting a label removes it from every issue.
+
+## Label an issue
+
+Open an issue and find **Labels** in the sidebar.
+
+1. Choose **Add labels**, or **Edit labels** if the issue already has some.
+2. Check each label you want and uncheck any you don't. The menu stays open, so you can pick several in a row.
+
+Every change appears on the issue's timeline, with the label's name as it was at the time.
+
+## Filter by label
+
+Labels show as chips on each issue in your issue lists.
+
+- On a surface's issue list, choose **Filter**, then choose one or more labels under **Label**.
+- On the workspace **Issues** page, choose labels in the toolbar.
+
+When you choose more than one label, the list shows issues that carry any of them. If a filtered label has been deleted, the filter shows a **Deleted label** chip. Choose it to clear that filter.
+
+## Who can do what
+
+| | Owners and members | Members limited to some surfaces | Viewers |
+| --- | :---: | :---: | :---: |
+| See labels on issues | ✓ | ✓ | ✓ |
+| Label and unlabel issues | ✓ | ✓ | |
+| Create, edit, and delete labels | ✓ | | |
+
+Members limited to some surfaces can only label issues on the surfaces they can see. Viewers, including clients invited as viewers, can only see labels. A label's issue count only includes issues you can see. See [client access](/team/client-access).
+
+## Use labels from the API and MCP
+
+- [`GET /v1/labels`](/api-reference/issues/list-labels) lists the workspace's labels. To label an issue, send its full set of label ids as `label_ids` to [`PATCH /v1/issues/{id}`](/api-reference/issues/update-an-issue).
+- Pass one or more `label` ids to [`GET /v1/issues`](/api-reference/issues/list-issues) to filter issues by label.
+- In the [MCP server](/mcp/tools), `list_labels` lists labels, and `list_issues` takes a `label` filter. You can ask your assistant something like "List the open issues labeled Theme."

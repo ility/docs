@@ -954,6 +954,26 @@
           },
           {
             "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              ]
+            },
+            "required": false,
+            "name": "label",
+            "in": "query"
+          },
+          {
+            "schema": {
               "type": "integer",
               "minimum": 1
             },
@@ -1204,7 +1224,7 @@
           "Issues"
         ],
         "summary": "Update an issue",
-        "description": "Changes an issue's status, assignee, or external link. A status change can carry a short note, which appears on the timeline."
+        "description": "Changes an issue's status, assignee, labels, or external link. Send `label_ids` as the issue's full set of labels. A status change can carry a short note, which appears on the timeline."
       }
     },
     "/v1/issues/{id}/instances": {
@@ -1427,6 +1447,27 @@
         ],
         "summary": "Re-check an issue",
         "description": "Rescans the pages where the issue appears. With an API key, the domain's plan must include API triggers."
+      }
+    },
+    "/v1/labels": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LabelListResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Issues"
+        ],
+        "summary": "List labels",
+        "description": "Lists the workspace's issue labels by name, with each one's color, description, and how many issues you can see carry it. Filter issues by a label's `id`."
       }
     }
   },
@@ -2156,6 +2197,12 @@
           },
           "comment_count": {
             "type": "integer"
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IssueLabel"
+            }
           }
         },
         "required": [
@@ -2186,7 +2233,8 @@
           "last_seen_at",
           "wcag_criteria",
           "assignee",
-          "comment_count"
+          "comment_count",
+          "labels"
         ]
       },
       "IssueAssignee": {
@@ -2357,6 +2405,12 @@
               }
             ]
           },
+          "labels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IssueLabel"
+            }
+          },
           "active_recheck": {
             "anyOf": [
               {
@@ -2392,6 +2446,7 @@
           "embed_origin",
           "rule",
           "representative_instance",
+          "labels",
           "active_recheck"
         ]
       },
@@ -2583,6 +2638,26 @@
           "total"
         ]
       },
+      "IssueLabel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "color"
+        ]
+      },
       "IssueListResponse": {
         "type": "object",
         "properties": {
@@ -2690,6 +2765,61 @@
           "understanding_url"
         ]
       },
+      "Label": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "issue_count": {
+            "type": "integer"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "color",
+          "description",
+          "issue_count",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "LabelListResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Label"
+            }
+          }
+        },
+        "required": [
+          "items"
+        ]
+      },
       "MyWorkspaces": {
         "type": "object",
         "properties": {
@@ -2763,6 +2893,14 @@
             ],
             "maxLength": 2048,
             "format": "uri"
+          },
+          "label_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "maxItems": 20
           }
         }
       },
