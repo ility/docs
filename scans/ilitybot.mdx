@@ -1,0 +1,87 @@
+---
+title: "About IlityBot"
+description: "How ility's crawler identifies itself, follows robots.txt, and how to allow it through your firewall or bot protection."
+---
+
+IlityBot is the crawler ility uses to visit your site. Every crawl, scan, and health-check request ility makes comes from IlityBot. If your site blocks bots, allow IlityBot so ility can find and scan your pages.
+
+## How IlityBot identifies itself
+
+Every request carries a user agent that includes this token:
+
+```text
+(compatible; IlityBot/1.0; +https://ilitylabs.com/bot)
+```
+
+The full user agent is a desktop Chrome string with the IlityBot token at the end, for example:
+
+```text
+Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 (compatible; IlityBot/1.0; +https://ilitylabs.com/bot)
+```
+
+The Chrome version can change. Match on `IlityBot` rather than the whole string.
+
+## robots.txt
+
+IlityBot reads your site's `robots.txt` and follows it.
+
+- **Which group applies.** A group that names `IlityBot` takes priority over the `*` group. Without one, IlityBot follows the `*` group. The match ignores case and any `/1.0` version.
+- **Crawl-delay.** IlityBot honors `Crawl-delay` from the group that applies. It always waits at least 1 second between requests. A delay longer than 10 seconds is capped at 10 seconds.
+
+For example, this file keeps IlityBot out of `/admin/` and slows it to one request every 2 seconds, without changing the rules for other bots:
+
+```text robots.txt
+User-agent: *
+Disallow: /private/
+
+User-agent: IlityBot
+Disallow: /admin/
+Crawl-delay: 2
+```
+
+<Note>
+  A group that names IlityBot replaces the `*` group entirely. In the example above, IlityBot doesn't follow `Disallow: /private/`. Repeat any `*` rules you want IlityBot to follow in its own group.
+</Note>
+
+## Verify requests with Web Bot Auth
+
+Anyone can copy a user agent. To prove a request really comes from ility, IlityBot signs its plain fetches with [Web Bot Auth](https://datatracker.ietf.org/wg/webbotauth/about/), which uses HTTP Message Signatures.
+
+- **Signed:** crawl requests and the fetches for `robots.txt` and sitemaps. Each carries `Signature`, `Signature-Input`, and `Signature-Agent` headers.
+- **Not signed:** requests made while a page is rendered in a browser during a scan. Allow these by user agent.
+
+The `Signature-Agent` header names the origin that publishes IlityBot's public key. The key directory lives at this path on that origin:
+
+```text
+/.well-known/http-message-signatures-directory
+```
+
+Bot protection services that support Web Bot Auth, such as Cloudflare, can fetch this directory and verify signatures for you.
+
+## Allow IlityBot through your firewall
+
+If your site sits behind a firewall or bot protection, ility's requests may be challenged or blocked. Pages then fail with rate limiting or HTTP errors. See [When a page fails](/scans/run-a-scan#when-a-page-fails).
+
+To let IlityBot through:
+
+<Steps>
+  <Step title="Add an allow rule for the user agent">
+    In your firewall, WAF, or bot protection, create a rule that allows or skips challenges for requests whose user agent contains `IlityBot`.
+  </Step>
+  <Step title="Verify signatures where you can">
+    If your provider supports Web Bot Auth, turn on signature verification so it only trusts signed IlityBot requests. Keep the user agent rule too, because browser-rendered scan requests aren't signed.
+  </Step>
+  <Step title="Check rate limits">
+    If your provider rate limits by request count, exempt IlityBot or raise the limit. To slow IlityBot down instead, set `Crawl-delay` in `robots.txt`.
+  </Step>
+</Steps>
+
+### Cloudflare
+
+Create a WAF custom rule that matches requests where the user agent contains `IlityBot`, and set its action to skip the protections that challenge it. Cloudflare supports Web Bot Auth, so it can also verify IlityBot's signed requests. See Cloudflare's documentation on [WAF custom rules](https://developers.cloudflare.com/waf/custom-rules/) for the exact steps.
+
+### Other providers
+
+Akamai, Vercel, Fastly, and similar services each have their own way to allow traffic. Look for a setting that allows requests by user agent, or that verifies bots with Web Bot Auth, and apply it to `IlityBot`.
+
+If ility still can't reach your pages, [contact us](mailto:support@ilitylabs.com).
