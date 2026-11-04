@@ -1,0 +1,85 @@
+---
+title: "Scan pages behind a login"
+description: "Sign ility in to your site so crawls and scans reach pages that need an account."
+---
+
+By default, ility crawls and scans a surface as an anonymous visitor. If parts of your site are only visible after signing in, such as an account area or a staging site behind a password, set up a **scan login**. ility then signs in before it crawls or scans and tests the pages that account can see.
+
+Members and owners can set up a scan login. Viewers can see it but not change it.
+
+<Warning>
+  Use a dedicated test account, never a real person's. Give it access only to what you want scanned. Accounts that need a one-time code aren't supported yet.
+</Warning>
+
+## Choose a sign-in method
+
+| Method | Use it when | Plan |
+| --- | --- | --- |
+| **HTTP basic auth** | Your browser shows a username and password prompt before the site loads. This is common for staging sites. | Every plan |
+| **Login form** | Visitors sign in through a form on a page of your site. | Pro and Enterprise |
+
+On plans without login forms, choosing **Login form** shows a notice with a link to see plans. Basic auth stays available.
+
+## Set up a scan login
+
+1. Open the surface and choose **Settings** in the sidebar.
+2. In the **Scan login** card, pick a **Sign-in method**.
+3. Fill in the fields for that method (see below).
+4. Choose **Save login**.
+
+ility uses the login from the next crawl or scan.
+
+### HTTP basic auth
+
+Enter the **Username** and **Password** the site's prompt expects.
+
+### Login form
+
+| Field | What to enter |
+| --- | --- |
+| **Username** | The test account's username or email. |
+| **Password** | The test account's password. |
+| **Login page URL** | The page with the sign-in form, such as `https://example.com/login`. It must be on the surface's site. |
+| **Logged-in check** | A CSS selector for something that only appears when signed in, such as `#account-menu`. Required. ility uses it to tell a successful login from a rejected one. |
+
+Under **Field selectors (optional)** you can also set the **Username field**, **Password field**, and **Submit button**, such as `input[name=email]`, `input[type=password]`, and `button[type=submit]`. Leave them blank and ility finds the username and password fields itself and submits with Enter. Two-step forms, where the password field only appears after you submit the username, work without extra settings. Set the selectors when ility can't find your form's fields on its own.
+
+### The password is write-only
+
+ility stores the password encrypted and never shows it again. When a password is saved, the field stays empty and reads **A password is saved. Leave this blank to keep it.** Leave it blank when you save other changes to keep the stored password. Type a new one to replace it.
+
+## How ility signs in
+
+- ility signs in once at the start of each crawl or scan, then reuses that session for every page.
+- A signed-in crawl also starts from the page your site shows right after login. Signed-in pages are often only linked from there.
+- If a page sends ility back to the login page, ility signs in again and retries that page once. A page that still lands on the login page fails as **Signed out**.
+- ility never opens URLs that look like sign-out links, such as `/logout`, because that would end the session for every page after it. A crawl skips them. A scan marks them as failed with **Sign-out link skipped**.
+
+### When sign-in fails
+
+If ility can't sign in at all, it fails the whole crawl or scan instead of testing your site anonymously. The error starts with `Sign-in failed:` and says what went wrong, such as a rejected password, a selector that matched nothing, or a login page URL that isn't allowed. Fix the scan login in **Settings** and run the scan again.
+
+See [When a page fails](/scans/run-a-scan#when-a-page-fails) for page-level failure reasons.
+
+## Remove a scan login
+
+Set **Sign-in method** to **None (scan as a visitor)** and choose **Remove login**. Later crawls and scans run anonymously.
+
+## Manage a scan login with the API
+
+Read, set, and remove a scan login with `GET`, `PUT`, and `DELETE` on `/v1/domains/{slug}/scan-auth`. The API never returns the password. `has_password` says whether one is stored.
+
+```bash
+curl -X PUT https://app.ilitylabs.com/v1/domains/example-com/scan-auth \
+  -H "Authorization: Bearer $ILITY_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "method": "form",
+    "username": "a11y-test@example.com",
+    "password": "correct-horse-battery-staple",
+    "login_url": "https://example.com/login",
+    "logged_in_selector": "#account-menu"
+  }'
+```
+
+Omit `password` on a later `PUT` to keep the stored one. `PUT` returns `403` for `form` on a plan without login forms, `400` for an off-site login URL or a missing logged-in check, and `503` when scan logins aren't available. In that case `GET` returns `available: false`. See [Set a domain's scan login](/api-reference/domains/set-a-domains-scan-login) for the full request and response.
