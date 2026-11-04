@@ -89,7 +89,7 @@ OPERATIONS = {
     ("/v1/issues/{id}", "patch"): (
         "Issues",
         "Update an issue",
-        "Changes an issue's status, assignee, or external link. A status change can carry a short note, which appears on the timeline.",
+        "Changes an issue's status, assignee, labels, or external link. Send `label_ids` as the issue's full set of labels. A status change can carry a short note, which appears on the timeline.",
     ),
     ("/v1/issues/{id}/instances", "get"): (
         "Issues",
@@ -105,6 +105,11 @@ OPERATIONS = {
         "Issues",
         "Re-check an issue",
         "Rescans the pages where the issue appears. With an API key, the domain's plan must include API triggers.",
+    ),
+    ("/v1/labels", "get"): (
+        "Issues",
+        "List labels",
+        "Lists the workspace's issue labels by name, with each one's color, description, and how many issues you can see carry it. Filter issues by a label's `id`.",
     ),
 }
 

@@ -9,7 +9,7 @@ Labels belong to the workspace, so every surface shares the same set. An issue c
 
 ## Create labels
 
-Owners and members manage labels under **Settings → Labels**.
+Owners and members with access to every surface manage labels under **Settings → Labels**.
 
 1. Under **New label**, enter a **Name**, and optionally a **Description**.
 2. Choose a **Color**.
@@ -23,7 +23,7 @@ A new workspace has no labels. **Settings → Labels** suggests a starter set th
 
 ## Edit or delete a label
 
-Each label in the list shows how many issues carry it.
+Each label in the list shows how many issues carry it, including resolved ones.
 
 - Choose **Edit** to change a label's name, color, or description. The change shows on every issue that carries the label.
 - Choose **Delete** to remove a label. ility tells you how many issues will lose it before you confirm with **Delete label**. Deleting a label removes it from every issue.
@@ -41,23 +41,23 @@ Every change appears on the issue's timeline, with the label's name as it was at
 
 Labels show as chips on each issue in your issue lists.
 
-- On a surface's issue list, open the filters and choose one or more labels under **Label**.
+- On a surface's issue list, choose **Filter**, then choose one or more labels under **Label**.
 - On the workspace **Issues** page, choose labels in the toolbar.
 
 When you choose more than one label, the list shows issues that carry any of them. If a filtered label has been deleted, the filter shows a **Deleted label** chip. Choose it to clear that filter.
 
 ## Who can do what
 
-| | Owners and members | Viewers | Clients with access to some surfaces |
-| --- | --- | --- | --- |
-| See labels on issues | Yes | Yes | Yes |
-| Label and unlabel issues | Yes | No | Yes, on surfaces they can see |
-| Create, edit, and delete labels | Yes | No | No |
+| | Owners and members | Members limited to some surfaces | Viewers |
+| --- | :---: | :---: | :---: |
+| See labels on issues | ✓ | ✓ | ✓ |
+| Label and unlabel issues | ✓ | ✓ | |
+| Create, edit, and delete labels | ✓ | | |
 
-A label's issue count only includes issues the viewer can see. See [client access](/team/client-access).
+Members limited to some surfaces can only label issues on the surfaces they can see. Viewers, including clients invited as viewers, can only see labels. A label's issue count only includes issues you can see. See [client access](/team/client-access).
 
 ## Use labels from the API and MCP
 
-- `GET /v1/labels` lists the workspace's labels. To label an issue, send its full set of label ids as `label_ids` to `PATCH /v1/issues/{id}`.
-- Pass one or more `label` ids to `GET /v1/issues` to filter issues by label.
+- [`GET /v1/labels`](/api-reference/issues/list-labels) lists the workspace's labels. To label an issue, send its full set of label ids as `label_ids` to [`PATCH /v1/issues/{id}`](/api-reference/issues/update-an-issue).
+- Pass one or more `label` ids to [`GET /v1/issues`](/api-reference/issues/list-issues) to filter issues by label.
 - In the [MCP server](/mcp/tools), `list_labels` lists labels, and `list_issues` takes a `label` filter. You can ask your assistant something like "List the open issues labeled Theme."
