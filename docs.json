@@ -101,6 +101,7 @@
             "pages": [
               "issues/understanding-issues",
               "issues/working-with-issues",
+              "issues/labels",
               "issues/accessibility-score"
             ]
           },
