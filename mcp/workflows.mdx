@@ -29,7 +29,7 @@ Use this in Claude Code, Cursor, or another coding assistant, with the site's co
     The assistant pulls the failing markup and the fix guidance, finds the template that renders it, and proposes a change. Review the diff before you accept it.
   </Step>
   <Step title="Confirm the fix">
-    Deploy the change, then rescan the affected pages. The issue resolves once a scan no longer finds it.
+    Deploy the change, then ask the assistant to recheck the issue. It rescans every page where the issue is open, and the issue resolves once a scan no longer finds it.
   </Step>
 </Steps>
 
@@ -37,6 +37,7 @@ Use this in Claude Code, Cursor, or another coding assistant, with the site's co
 
 - "Start a WCAG 2.2 AA scan of staging.example.com."
 - "Scan only the unscanned pages on example.com."
+- "Rescan the pricing page on example.com."
 - "Is that scan done yet?"
 - "Show any failed scans this week and why they failed."
 
