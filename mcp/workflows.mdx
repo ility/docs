@@ -7,7 +7,7 @@ You don't call the [tools](/mcp/tools) yourself. Name the site and say what you 
 
 ## Check a site's health
 
-- "What's the accessibility score for example.com, and how many critical and serious issues are open?"
+- "How many critical and serious issues are open on example.com?"
 - "Compare open issue counts across all our sites, worst first."
 
 ## Triage issues
@@ -45,11 +45,11 @@ Starting a scan is the only action that changes anything, and most assistants as
 
 ## Report to a client or stakeholder
 
-- "Summarize the open issues for example.com as a short client update: the score, the top five issues, and what we're fixing first."
+- "Summarize the open issues for example.com as a short client update: the open issue counts, the top five issues, and what we're fixing first."
 
 ## Tips
 
-- **Separate WCAG failures from best practices.** Best-practice findings can outnumber WCAG failures, and they don't affect the score. Ask for "WCAG failures only" when compliance is the question. See [WCAG and best practices](/issues/understanding-issues).
+- **Separate WCAG failures from best practices.** Best-practice findings can outnumber WCAG failures, and they don't count against your WCAG conformance. Ask for "WCAG failures only" when compliance is the question. See [WCAG and best practices](/issues/understanding-issues).
 - **Ask for other statuses when you need them.** Issue lists show open issues unless you ask for resolved, won't fix, or false positive issues too.
 - **Fix shared templates first.** One issue can cover many pages. If an issue affects 140 pages, fixing the shared template clears it everywhere.
 - **Run fix prompts where the code is.** A fix prompt contains the failing markup, not the source file, so the assistant needs your codebase open to find the right template.

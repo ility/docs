@@ -63,12 +63,12 @@ A large site can take a while. Poll every 30 seconds or so rather than continuou
 
 ## 4. Read the results
 
-The domain summary has the score and open issue counts by severity:
+The domain summary has the open issue counts by severity:
 
 ```bash
 curl -s https://app.ilitylabs.com/v1/domains/example-com/summary \
   -H "Authorization: Bearer $ILITY_API_KEY" \
-  | jq '{score, band, severity_breakdown}'
+  | jq '{open_count, severity_breakdown}'
 ```
 
 To list the open critical issues, pass the domain's `id` from step 1 as `DOMAIN_ID`:
