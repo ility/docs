@@ -23,7 +23,7 @@ The Chrome version can change. Match on `IlityBot` rather than the whole string.
 
 ## robots.txt
 
-IlityBot reads your site's `robots.txt` and follows it.
+By default, IlityBot reads your site's `robots.txt` and follows it.
 
 - **Which group applies.** A group that names `IlityBot` takes priority over the `*` group. Without one, IlityBot follows the `*` group. The match ignores case and any `/1.0` version.
 - **Crawl-delay.** IlityBot honors `Crawl-delay` from the group that applies. It always waits at least 1 second between requests. A delay longer than 10 seconds is capped at 10 seconds.
@@ -42,6 +42,38 @@ Crawl-delay: 2
 <Note>
   A group that names IlityBot replaces the `*` group entirely. In the example above, IlityBot doesn't follow `Disallow: /private/`. Repeat any `*` rules you want IlityBot to follow in its own group.
 </Note>
+
+### When robots.txt blocks every page
+
+If `robots.txt` blocks IlityBot from every page it would crawl, Ility fetches nothing and the crawl ends as **Failed**. The reason says that `robots.txt` blocks IlityBot from every page and points you to the **Respect robots.txt** setting. A crawl that `robots.txt` blocks only in part completes as usual with the pages it was allowed to visit.
+
+### Ignore robots.txt for a surface
+
+Staging and preview sites often block every crawler with a file like this:
+
+```text robots.txt
+User-agent: *
+Disallow: /
+```
+
+To crawl a site like this that you're allowed to test, open the surface's **Settings** and turn off **Respect robots.txt**. Owners and members can change it. When it's off, IlityBot ignores `robots.txt` completely for that surface's crawls:
+
+- No `Disallow` rules apply.
+- `Crawl-delay` is ignored, so IlityBot waits its default 1 second between requests.
+- `Sitemap:` lines aren't read. A site that lists its sitemap only in `robots.txt` is crawled from `/sitemap.xml` or by following links.
+
+See [Surface settings](/surfaces/surface-settings#crawl-and-scheduling).
+
+### URLs IlityBot always skips
+
+IlityBot never crawls a built-in list of URLs that aren't worth testing on any site, even when **Respect robots.txt** is off:
+
+- WordPress admin, login, and API endpoints, such as `/wp-admin/`, `/wp-login.php`, `/wp-json/`, `/wp-cron.php`, and `/xmlrpc.php`
+- Cloudflare edge endpoints under `/cdn-cgi/`
+- Server metadata under `/.well-known/`
+- Links that change state on the server, such as WooCommerce `add-to-cart` links and WordPress `replytocom` comment-reply links
+
+When a crawl signs in with a [scan login](/surfaces/scan-behind-a-login), the page it lands on after signing in is never skipped.
 
 ## Verify requests with Web Bot Auth
 

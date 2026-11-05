@@ -25,6 +25,7 @@ The WCAG target decides which rules count. A 2.1 AA target runs every rule mappe
 | Setting | What it does |
 | --- | --- |
 | **Include query parameters when crawling** | Treat URLs that differ only by query string, such as `/products?page=2`, as separate pages. Leave this off for most sites. |
+| **Respect robots.txt** | Skip pages the site's `robots.txt` blocks for IlityBot. On by default. Turn it off for a site you're allowed to test that blocks crawlers, such as a staging site with `Disallow: /`. When it's off, sitemaps listed only in `robots.txt` aren't read either. See [About IlityBot](/scans/ilitybot#robots-txt). |
 | **Scheduled scanning** | Scan the surface automatically once a week, so new issues and fixes show up without anyone pressing **Run scan**. Requires a paid plan or an active trial. |
 
 Choose **Save changes** when you're done.

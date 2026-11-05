@@ -36,6 +36,18 @@ Ility starts mapping the site straight away and scans the first page it finds, s
   Discovery crawling is included in paid plans and in your trial. Reading a sitemap is available on every plan.
 </Note>
 
+## When a crawl fails
+
+A crawl runs in the background, so Ility shows why it failed where you'll see it:
+
+- **Activity** shows the reason in the crawl's **Progress** cell.
+- The surface's **Overview** and **Crawled URLs** pages show a **The last crawl failed** notice with the reason. Owners and members also get an **Open surface settings** link, where most causes are fixed.
+
+Common reasons include:
+
+- **robots.txt blocks every page.** Turn off **Respect robots.txt** in the surface settings if you're allowed to test the site. See [About IlityBot](/scans/ilitybot#when-robots-txt-blocks-every-page).
+- **The scan login can't sign in.** Check the [scan login](/surfaces/scan-behind-a-login).
+
 ## Manage pages
 
 The **Crawled URLs** view of a surface lists every page Ility knows about. From there you can:
