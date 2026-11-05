@@ -99,12 +99,11 @@
             ]
           },
           {
-            "group": "Issues and scores",
+            "group": "Issues",
             "pages": [
               "issues/understanding-issues",
               "issues/working-with-issues",
-              "issues/labels",
-              "issues/accessibility-score"
+              "issues/labels"
             ]
           },
           {
@@ -158,6 +157,10 @@
     ]
   },
   "redirects": [
+    {
+      "source": "/issues/accessibility-score",
+      "destination": "/issues/understanding-issues"
+    },
     {
       "source": "/quickstart",
       "destination": "/get-started/quickstart"
