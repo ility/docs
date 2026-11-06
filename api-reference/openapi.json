@@ -26,6 +26,9 @@
       "name": "Domains"
     },
     {
+      "name": "Crawls"
+    },
+    {
       "name": "Scans"
     },
     {
@@ -320,6 +323,75 @@
         ],
         "summary": "Get a domain",
         "description": "Returns one domain's settings, plan, and entitlements."
+      },
+      "patch": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true,
+            "name": "slug",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchDomainBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Domain"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Viewer role, a non-owner archive, or the scheduledScans entitlement is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Domains"
+        ],
+        "summary": "Update a domain",
+        "description": "Updates one or more of the domain's settings and returns the updated domain. Send only the fields you want to change. Set `crawl_respect_robots` to `false` to crawl a site whose robots.txt blocks IlityBot. Returns `403` for a viewer."
       }
     },
     "/v1/domains/{slug}/summary": {
@@ -362,6 +434,87 @@
         ],
         "summary": "Get a domain summary",
         "description": "Returns the domain's accessibility score and band, open issue counts by severity and WCAG level, page counts, and its last scan."
+      }
+    },
+    "/v1/domains/{slug}/crawls": {
+      "post": {
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": true,
+            "name": "slug",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCrawlRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrawlJob"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden (viewer role, a discovery crawl without the fullCrawl entitlement, or an API key on a domain with no programmatic triggers: reason 'api_triggers_not_entitled')",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Domain not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Active crawl exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CrawlConflictResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Crawls"
+        ],
+        "summary": "Start a crawl",
+        "description": "Queues a crawl that discovers the domain's pages, or reads them from a sitemap with `source: sitemap`. Set `respect_robots` to override the domain's `crawl_respect_robots` setting for this crawl only. Returns `409` when a crawl is already running for the domain."
       }
     },
     "/v1/domains/{slug}/scan-auth": {
@@ -1725,6 +1878,180 @@
           "done_through"
         ]
       },
+      "CrawlConflictResponse": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string"
+          },
+          "existing_crawl": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "status": {
+                "type": "string"
+              },
+              "started_at": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "id",
+              "status",
+              "started_at"
+            ]
+          }
+        },
+        "required": [
+          "detail",
+          "existing_crawl"
+        ]
+      },
+      "CrawlJob": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "workspace_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "domain_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "trigger_source": {
+            "type": "string"
+          },
+          "triggered_by_user_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sitemap_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "config_snapshot": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "pages_discovered": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "error": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Why the crawl failed, when `status` is `failed`. A crawl that robots.txt blocks from every page fails with a reason that names the Respect robots.txt setting."
+          },
+          "started_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "completed_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "cancel_requested_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "workspace_id",
+          "domain_id",
+          "status",
+          "source",
+          "trigger_source",
+          "triggered_by_user_id",
+          "sitemap_url",
+          "config_snapshot",
+          "pages_discovered",
+          "error",
+          "started_at",
+          "completed_at",
+          "cancel_requested_at",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "CreateCrawlRequest": {
+        "type": "object",
+        "properties": {
+          "sitemap_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "max_pages": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000
+          },
+          "max_depth": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 20
+          },
+          "follow_subdomains": {
+            "type": "boolean"
+          },
+          "respect_robots": {
+            "type": "boolean",
+            "description": "Follow the site's robots.txt for this crawl only. Defaults to the domain's `crawl_respect_robots` setting."
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "discover",
+              "sitemap"
+            ]
+          },
+          "first_page_scan": {
+            "type": "boolean"
+          }
+        }
+      },
       "CreateScansRequest": {
         "type": "object",
         "properties": {
@@ -1826,6 +2153,10 @@
           "crawl_include_query_params": {
             "type": "boolean"
           },
+          "crawl_respect_robots": {
+            "type": "boolean",
+            "description": "Whether crawls follow the site's robots.txt. Defaults to `true`."
+          },
           "scan_schedule_enabled": {
             "type": "boolean"
           },
@@ -1878,6 +2209,7 @@
           "environment",
           "enabled_engine_ids",
           "crawl_include_query_params",
+          "crawl_respect_robots",
           "scan_schedule_enabled",
           "plan_tier",
           "page_blocks",
@@ -3023,6 +3355,55 @@
         "required": [
           "items"
         ]
+      },
+      "PatchDomainBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "wcag_level": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 16
+          },
+          "environment": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 255
+          },
+          "enabled_engine_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "crawl_include_query_params": {
+            "type": "boolean"
+          },
+          "crawl_respect_robots": {
+            "type": "boolean",
+            "description": "Set to `false` to ignore the site's robots.txt on this domain's crawls, for example on a staging site that disallows every crawler. When off, robots.txt `Disallow` rules, `Crawl-delay`, and `Sitemap:` lines are all ignored."
+          },
+          "scan_schedule_enabled": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "archived"
+            ]
+          }
+        }
       },
       "PatchIssueBody": {
         "type": "object",
