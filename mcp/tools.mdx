@@ -21,7 +21,7 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 | `scan_page` | Scans one page, by its id from `find_page`. Optionally choose a WCAG version and level. |
 | `recheck_issue` | Rescans every page where an issue is still open, to check a fix. Instances that are gone are resolved when the scans finish. |
 
-`trigger_scan`, `scan_page`, and `recheck_issue` start scans. Every other tool only reads. The three scan tools need a plan that includes API triggers. Without one, it returns an error naming `api_triggers_not_entitled`.
+`trigger_scan`, `scan_page`, and `recheck_issue` start scans. Every other tool only reads. The three scan tools need a plan that includes API triggers. Without one, they return an error naming `api_triggers_not_entitled`.
 
 ## Choosing a workspace
 
