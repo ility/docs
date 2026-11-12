@@ -29,11 +29,11 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 
 `trigger_scan`, `scan_page`, and `recheck_issue` start scans. The three scan tools need a plan that includes API triggers. Without one, they return an error naming `api_triggers_not_entitled`.
 
-`comment_on_issue`, `set_issue_status`, `assign_issue`, and `set_issue_labels` change an issue. Each change shows on the issue's timeline under your name, marked as made through the assistant. Every other tool only reads.
+`comment_on_issue`, `set_issue_status`, `assign_issue`, and `set_issue_labels` change an issue. Each change shows on the issue's timeline under your name, marked with the assistant or API key it came through. Every other tool only reads.
 
 ## Linking to an issue
 
-`list_issues`, `get_issue`, `get_issue_fix_prompt`, and the tools that change an issue return its `app_url`: the issue's page in Ility, such as `https://app.ilitylabs.com/surfaces/<surface id>/issues/<issue id>`. Ask the assistant to put that link in a pull request, commit message, or ticket, so reviewers can open the issue in one click. Anyone who follows the link signs in to Ility and needs access to the issue's workspace.
+`list_issues`, `get_issue`, `get_issue_fix_prompt`, `set_issue_status`, `assign_issue`, and `set_issue_labels` return an issue's `app_url`: the issue's page in Ility, such as `https://app.ilitylabs.com/surfaces/<surface id>/issues/<issue id>`. Ask the assistant to put that link in a pull request, commit message, or ticket, so reviewers can open the issue in one click. Anyone who follows the link signs in to Ility and needs access to the issue's workspace.
 
 ## Choosing a workspace
 
