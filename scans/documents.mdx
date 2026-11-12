@@ -1,0 +1,60 @@
+---
+title: "Documents on your site"
+description: "See the PDF, Word, PowerPoint, and Excel files your site links to, and which pages link to each one."
+---
+
+Many sites publish documents as well as pages: annual reports, forms, menus, meeting minutes. People who use screen readers and other assistive technology need those files to work too. Ility finds the documents your site links to and lists them next to its pages, so you can see what's published and where.
+
+## How Ility finds documents
+
+When Ility crawls a surface, it records every link to a document it finds on your pages. It recognizes these formats:
+
+| Format | File types |
+| --- | --- |
+| PDF | `.pdf` |
+| Word | `.docx`, and the older `.doc` |
+| PowerPoint | `.pptx`, and the older `.ppt` |
+| Excel | `.xlsx`, and the older `.xls` |
+
+Ility recognizes a document by the end of its URL. A link with no file extension, such as `/download?id=42`, is recognized when the server answers with a document file type.
+
+Documents follow the same rules as pages:
+
+- Ility follows your site's `robots.txt`. See [About IlityBot](/scans/ilitybot).
+- Ility only lists documents on the surface's own site. A file hosted somewhere else, such as a file-sharing service, isn't listed.
+- Documents count toward a crawl's page limit, the same as pages.
+
+## See a surface's documents
+
+Open a surface and choose **Documents** in the sidebar. It sits under **Crawled URLs**, which lists web pages only.
+
+For each document, the list shows:
+
+- **File**: the file name.
+- **Format**: PDF, Word, PowerPoint, Excel, or an older Office format.
+- **Linked from**: how many of your pages link to it.
+- **Status**: what Ility can tell you about it. See [Statuses](#statuses).
+
+Use the **Format** filter to show one format at a time.
+
+Choose a document to open it. Its page shows the file's full address, the advice for its format, and every page that links to it, with the text of each link. Use that list to decide what to do with the file: fix it, replace it with a web page, or remove the links to it.
+
+## Statuses
+
+| Status | Applies to | What to do |
+| --- | --- | --- |
+| **Not tested yet** | PDF files | Nothing yet. See [PDF testing](#pdf-testing). |
+| **Check in Word**, **Check in PowerPoint**, or **Check in Excel** | `.docx`, `.pptx`, and `.xlsx` files | Open the file in its app and choose **Review** > **Check Accessibility** to find and fix problems. |
+| **Convert or remove** | `.doc`, `.ppt`, and `.xls` files | Save the file in the current format, or remove it if nobody needs it. These older formats can't carry the structure that screen readers need. |
+
+Ility doesn't test Word, PowerPoint, or Excel files itself. Those apps have their own accessibility checker, which knows the file format best.
+
+## PDF testing
+
+<Note>
+  PDF testing is on its way. Until it arrives, every PDF shows **Not tested yet**, and scans don't open PDFs.
+</Note>
+
+Ility will test each PDF against PDF/UA-1, the accessibility standard for PDF files, using the open-source [veraPDF](https://verapdf.org) validator. What fails will become ordinary issues on the surface, which you can assign, label, and track like any other issue. This page will cover how to read PDF results once they're available.
+
+Automated checks find some problems in a PDF, not all of them. A person still needs to review things like whether alt text describes an image and whether the reading order makes sense.
