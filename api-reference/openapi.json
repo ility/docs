@@ -1826,7 +1826,13 @@
           "crawl_include_query_params": {
             "type": "boolean"
           },
+          "crawl_respect_robots": {
+            "type": "boolean"
+          },
           "scan_schedule_enabled": {
+            "type": "boolean"
+          },
+          "availability_checks_enabled": {
             "type": "boolean"
           },
           "plan_tier": {
@@ -1878,7 +1884,9 @@
           "environment",
           "enabled_engine_ids",
           "crawl_include_query_params",
+          "crawl_respect_robots",
           "scan_schedule_enabled",
+          "availability_checks_enabled",
           "plan_tier",
           "page_blocks",
           "page_allowance",
@@ -1938,6 +1946,9 @@
           "scheduled_scans": {
             "type": "boolean"
           },
+          "availability_checks": {
+            "type": "boolean"
+          },
           "api_triggers": {
             "type": "boolean"
           },
@@ -1948,6 +1959,7 @@
         "required": [
           "full_crawl",
           "scheduled_scans",
+          "availability_checks",
           "api_triggers",
           "true_user_auth"
         ]
@@ -2248,6 +2260,10 @@
             ],
             "format": "uuid"
           },
+          "app_url": {
+            "type": "string",
+            "format": "uri"
+          },
           "external_url": {
             "type": [
               "string",
@@ -2383,6 +2399,7 @@
           "domain_name",
           "group_id",
           "surface_id",
+          "app_url",
           "external_url",
           "external_provider",
           "external_ref",
@@ -2466,6 +2483,10 @@
               "string",
               "null"
             ]
+          },
+          "app_url": {
+            "type": "string",
+            "format": "uri"
           },
           "external_url": {
             "type": [
@@ -2593,6 +2614,7 @@
           "severity",
           "status",
           "latest_help_text",
+          "app_url",
           "external_url",
           "external_provider",
           "external_ref",
@@ -2646,6 +2668,10 @@
               "null"
             ]
           },
+          "app_url": {
+            "type": "string",
+            "format": "uri"
+          },
           "prompt": {
             "type": "string"
           }
@@ -2653,6 +2679,7 @@
         "required": [
           "issue_id",
           "issue_number",
+          "app_url",
           "prompt"
         ]
       },
@@ -3463,7 +3490,8 @@
             "type": "string",
             "enum": [
               "no_active_pages",
-              "no_unscanned_pages"
+              "no_unscanned_pages",
+              "document_not_scannable"
             ]
           }
         },
