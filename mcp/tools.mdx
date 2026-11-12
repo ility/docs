@@ -20,8 +20,20 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 | `trigger_scan` | Starts a scan of a website. Choose all pages or only unscanned ones, and optionally a WCAG version and level. |
 | `scan_page` | Scans one page, by its id from `find_page`. Optionally choose a WCAG version and level. |
 | `recheck_issue` | Rescans every page where an issue is still open, to check a fix. Instances that are gone are resolved when the scans finish. |
+| `get_issue_timeline` | One issue's history, oldest first: comments, status changes, assignments, labels, and rechecks. |
+| `list_members` | Lists the workspace's members, with the user ids `assign_issue` takes. |
+| `comment_on_issue` | Adds a comment to an issue. Markdown works. |
+| `set_issue_status` | Changes an issue's status to open, resolved, won't fix, or false positive, with an optional note saying why. |
+| `assign_issue` | Assigns an issue to a workspace member, or unassigns it. |
+| `set_issue_labels` | Replaces an issue's labels with the ones you list. Labels left out are removed. |
 
-`trigger_scan`, `scan_page`, and `recheck_issue` start scans. Every other tool only reads. The three scan tools need a plan that includes API triggers. Without one, it returns an error naming `api_triggers_not_entitled`.
+`trigger_scan`, `scan_page`, and `recheck_issue` start scans. The three scan tools need a plan that includes API triggers. Without one, they return an error naming `api_triggers_not_entitled`.
+
+`comment_on_issue`, `set_issue_status`, `assign_issue`, and `set_issue_labels` change an issue. Each change shows on the issue's timeline under your name, marked as made through the assistant. Every other tool only reads.
+
+## Linking to an issue
+
+`list_issues`, `get_issue`, `get_issue_fix_prompt`, and the tools that change an issue return its `app_url`: the issue's page in Ility, such as `https://app.ilitylabs.com/surfaces/<surface id>/issues/<issue id>`. Ask the assistant to put that link in a pull request, commit message, or ticket, so reviewers can open the issue in one click. Anyone who follows the link signs in to Ility and needs access to the issue's workspace.
 
 ## Choosing a workspace
 
