@@ -9,6 +9,7 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 | --- | --- |
 | `list_workspaces` | Lists the workspaces you belong to, with each one's id, name, your role, and which one tools use by default. |
 | `list_domains` | Lists the websites in a workspace, with their slug, URL, plan, and latest scan state. |
+| `get_domain` | One website by slug: its name, URL, plan, scan settings, and the surface it belongs to in Ility. |
 | `get_domain_summary` | One website's accessibility summary: open issue counts by severity and pages scanned. |
 | `list_issues` | Lists issues, newest first. Filter by domain, scan, page, rule, severity, status, or [label](/issues/labels), or search the issue text. Only open issues unless you ask for other statuses. |
 | `list_labels` | Lists the workspace's issue labels, with each one's id, name, color, and how many issues carry it. |
@@ -31,6 +32,20 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 
 `comment_on_issue`, `set_issue_status`, `assign_issue`, and `set_issue_labels` change an issue. Each change shows on the issue's timeline under your name, marked with the assistant or API key it came through. Every other tool only reads.
 
+## Working in Ility inside Claude
+
+In Claude, three more tools open an interactive Ility view next to the conversation, so you can look through and change things yourself rather than through the assistant:
+
+| Tool | What it opens |
+| --- | --- |
+| `open_ility` | Your workspace's sites, with open issue counts by severity and when each was last scanned. |
+| `open_domain` | One site: its open issues, filterable by severity, its recent scans, and **Start scan**. |
+| `open_issue` | One issue: set its status with a note, **Re-check** it, post a comment, read its activity, and **Open in Ility** or **Fix with Claude**. |
+
+Ask, for example, "Open my Ility sites" or "Show me this issue in Ility." Claude shows a card with **Open**, which opens the view in a side pane where Claude offers one, or full screen. Everything you do there goes through the same tools, permissions, and plan limits as the assistant's own calls, and the assistant sees what you changed.
+
+In apps that can't show interactive views, these tools return the same data as `list_domains`, `get_domain_summary`, and `get_issue`.
+
 ## Linking to an issue
 
 `list_issues`, `get_issue`, `get_issue_fix_prompt`, `set_issue_status`, `assign_issue`, and `set_issue_labels` return an issue's `app_url`: the issue's page in Ility, such as `https://app.ilitylabs.com/surfaces/<surface id>/issues/<issue id>`. Ask the assistant to put that link in a pull request, commit message, or ticket, so reviewers can open the issue in one click. Anyone who follows the link signs in to Ility and needs access to the issue's workspace.
@@ -45,6 +60,6 @@ Every tool except `list_workspaces` takes an optional `workspace_id`.
 
 ## Slugs and ids
 
-Domain tools, `list_scans`, and `trigger_scan` name a site by its **slug**, such as `www-example-com`. `list_issues` filters by the domain's **id** instead. Both come from `list_domains`, and the assistant handles the lookup when you name the site.
+Domain tools, `list_scans`, and `trigger_scan` name a site by its **slug**, such as `www-example-com`. `list_issues` filters by the domain's **id** instead. Both come from `list_domains` or `get_domain`, and the assistant handles the lookup when you name the site.
 
 For prompts that work well, see [Common workflows](/mcp/workflows).
