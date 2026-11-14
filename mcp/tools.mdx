@@ -8,8 +8,8 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 | Tool | What it does |
 | --- | --- |
 | `list_workspaces` | Lists the workspaces you belong to, with each one's id, name, your role, and which one tools use by default. |
-| `list_domains` | Lists the websites in a workspace, with their slug, URL, plan, and latest scan state. |
-| `get_domain` | One website by slug: its name, URL, plan, scan settings, and the surface it belongs to in Ility. |
+| `list_domains` | Lists the websites in a workspace, with their slug, URL, and latest scan state. |
+| `get_domain` | One website by slug: its name, URL, what the plan allows, scan settings, and the surface it belongs to in Ility. |
 | `get_domain_summary` | One website's accessibility summary: open issue counts by severity and pages scanned. |
 | `list_issues` | Lists issues, newest first. Filter by domain, scan, page, rule, severity, status, or [label](/issues/labels), or search the issue text. Only open issues unless you ask for other statuses. |
 | `list_labels` | Lists the workspace's issue labels, with each one's id, name, color, and how many issues carry it. |
@@ -28,7 +28,7 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 | `assign_issue` | Assigns an issue to a workspace member, or unassigns it. |
 | `set_issue_labels` | Replaces an issue's labels with the ones you list. Labels left out are removed. |
 
-`trigger_scan`, `scan_page`, and `recheck_issue` start scans. The three scan tools need a plan that includes API triggers. Without one, they return an error naming `api_triggers_not_entitled`.
+`trigger_scan`, `scan_page`, and `recheck_issue` start scans. `trigger_scan` and `scan_page` need a plan that includes API triggers. Without one, they return an error naming `api_triggers_not_entitled`. `recheck_issue` works on every plan. Every scan counts toward the workspace's scanned URLs for the month, and a scan that needs more than are left returns an error naming `scan_allowance_reached`. A re-check can run a little past the limit so you can confirm a fix.
 
 `comment_on_issue`, `set_issue_status`, `assign_issue`, and `set_issue_labels` change an issue. Each change shows on the issue's timeline under your name, marked with the assistant or API key it came through. Every other tool only reads.
 

@@ -6,7 +6,7 @@ description: "Scan a site after each deploy, wait for the scan to finish, and re
 This guide starts a scan with the API, waits for it to finish, and fails the build if the surface has open critical issues. It uses `curl` and `jq`, so it runs in most CI systems.
 
 <Note>
-  Starting scans with an API key needs a plan that includes API triggers: Pro, an active trial, or Enterprise.
+  Starting scans with an API key needs a plan that includes API triggers: Plus, Pro, an active trial, or Enterprise. Each scan counts toward the workspace's scanned URLs for the month.
 </Note>
 
 ## 1. Find the domain's slug
