@@ -34,15 +34,15 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 
 ## Working in Ility inside Claude
 
-In Claude, three more tools open an interactive Ility view next to the conversation, so you can look through and change things yourself rather than through the assistant:
+In Claude and other apps that show interactive views, three more tools open an interactive Ility view next to the conversation, so you can look through and change things yourself rather than through the assistant:
 
 | Tool | What it opens |
 | --- | --- |
 | `open_ility` | Your workspace's sites, with open issue counts by severity and when each was last scanned. |
 | `open_domain` | One site: its open issues, filterable by severity, its recent scans, and **Start scan**. |
-| `open_issue` | One issue: set its status with a note, **Re-check** it, post a comment, read its activity, and **Open in Ility** or **Fix with Claude**. |
+| `open_issue` | One issue: set its status with an optional note, **Re-check** it, post a comment, and read its activity. **Open in Ility** opens the issue in the app. **Fix with Claude** asks Claude, in the conversation, to start a fix. |
 
-Ask, for example, "Open my Ility sites" or "Show me this issue in Ility." Claude shows a card with **Open**, which opens the view in a side pane where Claude offers one, or full screen. Everything you do there goes through the same tools, permissions, and plan limits as the assistant's own calls, and the assistant sees what you changed.
+Ask, for example, "Open my Ility sites" or "Show me this issue in Ility." Claude shows a card with **Open**, which opens the view in a side pane where Claude offers one, or full screen. Everything you do there goes through the same tools and permissions as the assistant's own calls. When you start a scan, change an issue's status, or re-check an issue, the assistant is told, so it can pick up from there.
 
 In apps that can't show interactive views, these tools return the same data as `list_domains`, `get_domain_summary`, and `get_issue`.
 
@@ -60,6 +60,6 @@ Every tool except `list_workspaces` takes an optional `workspace_id`.
 
 ## Slugs and ids
 
-Domain tools, `list_scans`, and `trigger_scan` name a site by its **slug**, such as `www-example-com`. `list_issues` filters by the domain's **id** instead. Both come from `list_domains` or `get_domain`, and the assistant handles the lookup when you name the site.
+Domain tools, `list_scans`, and `trigger_scan` name a site by its **slug**, such as `www-example-com`. `list_issues` filters by the domain's **id** instead. Both come from `list_domains`. `get_domain` also returns a site's id when you already have its slug. The assistant handles the lookup when you name the site.
 
 For prompts that work well, see [Common workflows](/mcp/workflows).
