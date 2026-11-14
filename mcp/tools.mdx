@@ -28,7 +28,7 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 | `assign_issue` | Assigns an issue to a workspace member, or unassigns it. |
 | `set_issue_labels` | Replaces an issue's labels with the ones you list. Labels left out are removed. |
 
-`trigger_scan`, `scan_page`, and `recheck_issue` start scans. The three scan tools need a plan that includes API triggers. Without one, they return an error naming `api_triggers_not_entitled`.
+`trigger_scan`, `scan_page`, and `recheck_issue` start scans. `trigger_scan` and `scan_page` need a plan that includes API triggers. Without one, they return an error naming `api_triggers_not_entitled`. `recheck_issue` works on every plan. Every scan counts toward the workspace's scanned URLs for the month, and a scan that needs more than are left returns an error naming `scan_allowance_reached`.
 
 `comment_on_issue`, `set_issue_status`, `assign_issue`, and `set_issue_labels` change an issue. Each change shows on the issue's timeline under your name, marked with the assistant or API key it came through. Every other tool only reads.
 
