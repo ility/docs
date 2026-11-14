@@ -21,6 +21,10 @@ Only workspace owners can manage keys, and only while signed in to the app.
   </Step>
 </Steps>
 
+<Note>
+  How many keys a workspace can have depends on its plan. The Free plan has none. At the limit, **Create key** shows a message that says so. Revoke a key you no longer use, or change the plan on the **Billing** page.
+</Note>
+
 Keys look like `ilk_1a2b3c4d_…`. The short part after `ilk_` is the key's prefix. Ility shows the prefix in the key list so you can tell keys apart, but it never shows the full key again.
 
 ## Use a key
@@ -41,7 +45,6 @@ The same key works with the [MCP server](/mcp/connect).
 - If the person who created a key leaves the workspace, every key they created there stops working immediately.
 - A key can't create, list, or revoke keys.
 - Starting scans and crawls needs a plan that includes API triggers. See [API overview](/api/overview#what-a-key-can-do).
-- How many keys a workspace can have depends on its plan. The Free plan has none. When you reach the limit, **Create key** fails with a message that says so; revoke a key you no longer use, or change the plan on the **Billing** page.
 
 ## See and revoke keys
 
