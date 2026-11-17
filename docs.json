@@ -118,6 +118,13 @@
             ]
           },
           {
+            "group": "Reports",
+            "pages": [
+              "reports/scan-reports",
+              "reports/share-a-report"
+            ]
+          },
+          {
             "group": "Team",
             "pages": [
               "team/members-and-roles",

@@ -1,0 +1,99 @@
+---
+title: "Share a report"
+description: "Send a report to someone without an Ility account, and find out when they read it."
+---
+
+A share link lets anyone read a report without signing in. When they open it, Ility tells you, so you know when to follow up. Use it to send a status report to a client, or a baseline to a prospect.
+
+<Note>
+Share links need a paid plan, and the **owner** or **member** role. Viewers can't share reports.
+</Note>
+
+## Create a share link
+
+1. Open a report. See [Open a report](/reports/scan-reports#open-a-report).
+2. If you want the reader to see a particular comparison, pick it under **Compare with** first. The link keeps it.
+3. Choose **Share**.
+4. Fill in the optional fields:
+   - **Prepared for**: who the report is for. It's shown at the top of the report.
+   - **Message**: a note shown above the report.
+   - **Link expires**: **Never**, or in 7, 30, or 90 days.
+5. Choose **Create link**, then **Copy**.
+
+The link is shown only once. If you lose it, create another one and turn off the old one.
+
+## What the reader sees
+
+The link opens the report on its own page, with your note and no Ility menus. The reader can choose **Download PDF** to keep a copy.
+
+The page tells search engines not to index it. Even so, anyone who has the link can read the report, so send it only to the people it's meant for.
+
+## Know when it's read
+
+A view is counted once the report has been on screen for five seconds. That leaves out the link checkers in email systems, which open links without anyone reading them. These views aren't counted:
+
+- Automated tools, such as link previews and crawlers.
+- Members of your workspace who are signed in.
+- The same reader opening the link again within 30 minutes.
+
+When a link is first opened, the person who shared it gets a notification in Ility and an email. After that they get at most one an hour for each link. The email follows their email notification setting.
+
+If the reader's browser asks not to be tracked, with Do Not Track or Global Privacy Control, the view still counts, but Ility keeps only its time.
+
+## Manage share links
+
+Open a surface, choose **Reports**, and look under **Shared links**. For each link you see who it's for, whether it's active, how many times it's been viewed, when it was last opened, and its recent views.
+
+To stop a link working, choose **Turn off**. Anyone who opens it then sees that the link has been turned off. This can't be undone, but you can create a new link.
+
+## Send views to Slack or another tool
+
+Workspace owners can send every report view to Slack, or to a tool such as Attio or Zapier, so the whole team hears about it.
+
+1. Go to **Settings**, then **Integrations**.
+2. Under **Report notifications**, choose **Add destination**.
+3. Under **Send to**, choose **Slack** or **Webhook**.
+4. Give it a **Name**, and paste its **Address**:
+   - **Slack**: the address of an incoming webhook for the channel. It starts with `https://hooks.slack.com/services/`.
+   - **Webhook**: any `https` address that accepts a JSON `POST`, such as an Attio workflow's **Webhook received** trigger or a Zapier catch hook.
+5. Choose **Add destination**. For a webhook, copy the signing secret now. It's shown only once.
+
+Choose **Send test** to send a sample notice. Each destination shows whether its last notice arrived.
+
+### Webhook payload
+
+Each view is sent as a `report.viewed` event:
+
+```json
+{
+  "id": "1f0c6a52-6c3e-4f8e-9a51-2a4e6b1d9c07",
+  "type": "report.viewed",
+  "test": false,
+  "created_at": "2026-11-17T15:04:05.000Z",
+  "data": {
+    "workspace_id": "…",
+    "report_share_id": "…",
+    "site": { "name": "example.com", "base_url": "https://www.example.com", "slug": "example-com" },
+    "recipient": "Example Law",
+    "viewed_at": "2026-11-17T15:04:05.000Z",
+    "browser": "Chrome on macOS",
+    "do_not_track": false,
+    "view_count": 1,
+    "shared_at": "2026-11-16T09:00:00.000Z",
+    "app_url": "https://app.ilitylabs.com/domains/example-com/reports"
+  }
+}
+```
+
+- `browser` is `null` when the reader asked not to be tracked.
+- `id` is the same if a notice is sent again, so you can ignore repeats.
+- `test` is `true` for **Send test**.
+
+### Check the signature
+
+Each request has an `Ility-Signature` header like `t=1763391845,v1=5257a8…`. To check that a request came from Ility:
+
+1. Take `t` and the raw request body, and join them with a period: `<t>.<body>`.
+2. Compute the HMAC-SHA256 of that string. Use the whole signing secret as the key, including `whsec_`.
+3. Compare the hex result with `v1` in constant time.
+4. Reject the request if `t` is more than five minutes from your clock.
