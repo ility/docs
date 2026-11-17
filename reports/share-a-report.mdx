@@ -6,7 +6,7 @@ description: "Send a report to someone without an Ility account, and find out wh
 A share link lets anyone read a report without signing in. When they open it, Ility tells you, so you know when to follow up. Use it to send a status report to a client, or a baseline to a prospect.
 
 <Note>
-Share links need a paid plan, and the **owner** or **member** role. Viewers can't share reports.
+Share links need a paid plan (see **Billing** in the app), and the owner or member role. Viewers can't share reports.
 </Note>
 
 ## Create a share link
@@ -30,7 +30,7 @@ The page tells search engines not to index it. Even so, anyone who has the link 
 
 ## Know when it's read
 
-A view is counted once the report has been on screen for five seconds. That leaves out the link checkers in email systems, which open links without anyone reading them. These views aren't counted:
+A view is counted once the report has been on screen for five seconds, in a browser a person is using. The link checkers in email systems, which open links without anyone reading them, aren't counted. These views aren't counted either:
 
 - Automated tools, such as link previews and crawlers.
 - Members of your workspace who are signed in.
@@ -44,11 +44,11 @@ If the reader's browser asks not to be tracked, with Do Not Track or Global Priv
 
 Open a surface, choose **Reports**, and look under **Shared links**. For each link you see who it's for, whether it's active, how many times it's been viewed, when it was last opened, and its recent views.
 
-To stop a link working, choose **Turn off**. Anyone who opens it then sees that the link has been turned off. This can't be undone, but you can create a new link.
+To stop a link working, choose **Turn off**, then **Turn off link**. Owners and members can turn links off. Anyone who opens it then sees that the link has been turned off. This can't be undone, but you can create a new link.
 
 ## Send views to Slack or another tool
 
-Workspace owners can send every report view to Slack, or to a tool such as Attio or Zapier, so the whole team hears about it.
+Workspace owners can send report notices to Slack, or to a tool such as Attio or Zapier, so the whole team hears about them.
 
 1. Go to **Settings**, then **Integrations**.
 2. Under **Report notifications**, choose **Add destination**.
@@ -62,7 +62,7 @@ Choose **Send test** to send a sample notice. Each destination shows whether its
 
 ### Webhook payload
 
-Each view is sent as a `report.viewed` event:
+Each notice is sent as a `report.viewed` event. Notices follow the same limit as yours: the first view of a link, then at most one an hour. `view_count` holds the link's total views.
 
 ```json
 {
@@ -91,9 +91,11 @@ Each view is sent as a `report.viewed` event:
 
 ### Check the signature
 
-Each request has an `Ility-Signature` header like `t=1763391845,v1=5257a8…`. To check that a request came from Ility:
+Each request has an `Ility-Signature` header like `t=1794927845,v1=5257a8…`. To check that a request came from Ility:
 
 1. Take `t` and the raw request body, and join them with a period: `<t>.<body>`.
 2. Compute the HMAC-SHA256 of that string. Use the whole signing secret as the key, including `whsec_`.
 3. Compare the hex result with `v1` in constant time.
 4. Reject the request if `t` is more than five minutes from your clock.
+
+Each request also has an `Ility-Event-Id` header with the event's `id`. A retry keeps the same `id`, so use it to skip a notice you've already handled.

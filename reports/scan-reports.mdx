@@ -18,14 +18,14 @@ Reports appear after a surface's first full-site scan finishes.
 
 ## What a report shows
 
-- **Summary**: how many issues the scan found, and whether any fail a WCAG success criterion.
+- **Summary**: how many issues fail a WCAG success criterion, and what share of the automated checks passed.
 - **Issues at a glance**: counts by severity, and how many pages are affected.
 - **WCAG failures by cause**: issues grouped by the rule that found them, with the success criteria each group fails and example pages.
 - **Best-practice findings**: issues that don't map to a WCAG success criterion.
-- **Change since** an earlier scan: what was fixed, what's new, and how the counts moved.
+- **Change since** an earlier scan: which issues no longer appear, which are new, and how failed checks and affected places moved.
 - **How this was measured**: the scan's date, the pages it tested, and what automated testing can and can't find.
 
-Issues you've marked **False positive** are left out of every count, so a report never repeats a finding your team has rejected. Fixing an issue later doesn't change an earlier scan's report: each report shows what that scan found.
+Issues you've marked **False positive** are left out of every issue count and group, so a report never repeats a finding your team has rejected. Check counts still include them, because a check is the raw result of one rule on one page. Fixing an issue later doesn't change an earlier scan's report: each report shows what that scan found.
 
 <Note>
 Automated testing covers only part of WCAG. A report with no WCAG failures says that automated testing found none. It never says a site meets WCAG.
@@ -33,8 +33,8 @@ Automated testing covers only part of WCAG. A report with no WCAG failures says 
 
 ## Compare with a different scan
 
-A report compares with the previous full-site scan by default. To compare with another one, choose it under **Compare with**. You can pick any earlier full-site scan of the surface.
+A report compares with the previous full-site scan by default. To compare with another one, choose it under **Compare with**. You can pick any earlier full-site scan of the surface made with the same scan engine.
 
 ## Save a report as a PDF
 
-Use your browser's print command and choose **Save as PDF**. Someone you've shared a report with can choose **Download PDF** on the shared page. See [Share a report](/reports/share-a-report).
+For a clean PDF, create a share link and choose **Download PDF** on the shared page. Printing the report inside the app also prints the app's menus and controls. See [Share a report](/reports/share-a-report).
