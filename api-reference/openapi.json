@@ -1805,10 +1805,7 @@
             "format": "date-time"
           },
           "wcag_level": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": "string"
           },
           "environment": {
             "type": [
@@ -1828,6 +1825,18 @@
           },
           "crawl_respect_robots": {
             "type": "boolean"
+          },
+          "render_wait_selector": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "render_wait_timeout_ms": {
+            "type": [
+              "integer",
+              "null"
+            ]
           },
           "scan_schedule_enabled": {
             "type": "boolean"
@@ -1885,6 +1894,8 @@
           "enabled_engine_ids",
           "crawl_include_query_params",
           "crawl_respect_robots",
+          "render_wait_selector",
+          "render_wait_timeout_ms",
           "scan_schedule_enabled",
           "availability_checks_enabled",
           "plan_tier",
@@ -1954,6 +1965,9 @@
           },
           "true_user_auth": {
             "type": "boolean"
+          },
+          "report_sharing": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -1961,7 +1975,8 @@
           "scheduled_scans",
           "availability_checks",
           "api_triggers",
-          "true_user_auth"
+          "true_user_auth",
+          "report_sharing"
         ]
       },
       "DomainListItem": {
@@ -3349,6 +3364,9 @@
           },
           "skipped": {
             "type": "integer"
+          },
+          "render_warnings": {
+            "type": "integer"
           }
         },
         "required": [
@@ -3357,7 +3375,8 @@
           "running",
           "complete",
           "failed",
-          "skipped"
+          "skipped",
+          "render_warnings"
         ]
       },
       "ScanPageResult": {
@@ -3416,6 +3435,45 @@
               "null"
             ]
           },
+          "render": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "node_count": {
+                "type": "integer"
+              },
+              "text_length": {
+                "type": "integer"
+              },
+              "content_found": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "node_count",
+              "text_length",
+              "content_found"
+            ]
+          },
+          "render_warning": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "almost_no_content",
+                  "content_wait_timed_out"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "has_page_screenshot": {
+            "type": "boolean"
+          },
           "started_at": {
             "type": [
               "string",
@@ -3449,6 +3507,9 @@
           "page_group",
           "error",
           "failure_kind",
+          "render",
+          "render_warning",
+          "has_page_screenshot",
           "started_at",
           "completed_at",
           "duration_ms"
@@ -3490,6 +3551,7 @@
             "type": "string",
             "enum": [
               "no_active_pages",
+              "no_scannable_pages",
               "no_unscanned_pages",
               "document_not_scannable"
             ]
