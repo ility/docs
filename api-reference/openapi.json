@@ -1919,7 +1919,8 @@
             "type": [
               "number",
               "null"
-            ]
+            ],
+            "description": "Covered criteria divided by target criteria, from 0 to 1. Null when the target has no criteria."
           },
           "evaluated": {
             "type": "integer"
