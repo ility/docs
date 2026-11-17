@@ -57,6 +57,16 @@
     ],
     "display": "header"
   },
+  "integrations": {
+    "cookies": {
+      "key": "ility-analytics",
+      "value": "on"
+    },
+    "posthog": {
+      "apiKey": "phc_mzNbrhweUTZ3Ce3pvWJRGy2LvbmNGzw4aHDdspiT5rtk",
+      "sessionRecording": false
+    }
+  },
   "api": {
     "playground": {
       "display": "interactive"
