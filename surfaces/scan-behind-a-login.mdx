@@ -33,6 +33,8 @@ Ility uses the login from the next crawl or scan.
 
 Enter the **Username** and **Password** the site's prompt expects.
 
+Ility opens your site once with them before the first page. If the site rejects them, the crawl or scan fails right away. If the site redirects to another of its hosts, such as from `example.com` to `www.example.com`, Ility signs in there instead. A scan login covers one host, so a crawl that follows subdomains is signed in on the main host only.
+
 ### Login form
 
 | Field | What to enter |
@@ -52,12 +54,13 @@ Ility stores the password encrypted and never shows it again. When a password is
 
 - Ility signs in once at the start of each crawl or scan, then reuses that session for every page.
 - A signed-in crawl also starts from the page your site shows right after login. Signed-in pages are often only linked from there.
-- If a page sends Ility back to the login page, Ility signs in again and retries that page once. A page that still lands on the login page fails as **Signed out**.
+- If a page sends Ility back to the login page, Ility first checks whether it's still signed in. If it is, the test account probably can't see that page, and the page fails as **Signed out**. If it isn't, Ility signs in again and retries the page once.
+- On a signed-in surface, the first scan after a crawl waits until the crawl finishes, so the two don't sign each other out.
 - Ility never opens URLs that look like sign-out links, such as `/logout`, because that would end the session for every page after it. A crawl skips them. A scan marks them as failed with **Sign-out link skipped**.
 
 ### When sign-in fails
 
-If Ility can't sign in at all, it fails the whole crawl or scan instead of testing your site anonymously. The error starts with `Sign-in failed:` and says what went wrong, such as a rejected password, a selector that matched nothing, or a login page URL that isn't allowed. Fix the scan login in **Settings** and run the scan again.
+If Ility can't sign in at all, it fails the whole crawl or scan instead of testing your site anonymously. The error starts with `Sign-in failed:` and says what went wrong, such as a rejected password, a selector that matched nothing, a login page URL that isn't allowed, or a login form on a plan that doesn't include login forms. Fix the scan login in **Settings** and run the scan again.
 
 See [When a page fails](/scans/run-a-scan#when-a-page-fails) for page-level failure reasons.
 
