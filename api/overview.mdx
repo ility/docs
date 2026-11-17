@@ -32,7 +32,9 @@ Some actions need more than a key:
 
 | Action | Requirement |
 | --- | --- |
-| Start a scan, re-check an issue, or start a crawl | The domain's plan must include **API triggers** (Pro, an active trial, or Enterprise). Otherwise the request fails with `403` and `reason: "api_triggers_not_entitled"`. |
+| Start or resume a scan, rescan a rule, or start a crawl | The workspace's plan must include API triggers: Plus, Pro, an active trial, or Enterprise. Otherwise the request fails with `403` and `reason: "api_triggers_not_entitled"`. |
+| Re-check one issue | Works on every plan that has API keys. The Free plan has none, but it can re-check through the [MCP server](/mcp/overview). A re-check counts toward the month's scanned URLs, and it can run a little past them so you can confirm a fix. |
+| Any scan | Every scan counts toward the workspace's scanned URLs for the month. When a scan needs more than are left, the request fails with `402` and `reason: "scan_allowance_reached"`. |
 | Create, list, or revoke keys | Only possible when signed in to the app as an owner. A key can't manage keys. |
 
 ## Domains, surfaces, and slugs
@@ -45,7 +47,7 @@ Errors return a non-2xx status and a body with a human-readable `detail`. Many a
 
 ```json
 {
-  "detail": "programmatic scan and crawl triggers require a paid plan for this domain",
+  "detail": "starting scans and crawls through the API or MCP needs the Plus or Pro plan",
   "reason": "api_triggers_not_entitled"
 }
 ```
@@ -53,6 +55,7 @@ Errors return a non-2xx status and a body with a human-readable `detail`. Many a
 | Status | Meaning |
 | --- | --- |
 | `400` | The request was invalid. `detail` says what to fix. |
+| `402` | The workspace has used its scanned URLs for the month (`reason: "scan_allowance_reached"`). `resets_at` says when the count resets. A workspace owner can add URLs or change the plan on the **Billing** page. |
 | `403` | The key is missing, invalid, or revoked (`detail` says so), or it isn't allowed to do this (check `reason`). |
 | `404` | The resource doesn't exist in this workspace. |
 | `409` | Conflicts with the current state, for example a scan is already running. |
