@@ -77,7 +77,7 @@ Match the existing tone of each repository's `README.md` and agent instructions.
   sentence.
 - The company is **Ility Labs**.
 - Lowercase only where the source is lowercase: the logo, package and repository
-  names (`ility-core`, `ility/docs`), URLs, and code.
+  names (`ility-engine`, `ility/docs`), URLs, and code.
 - Never write "ILITY", "iLity", or "ility" in prose.
 
 ## "We" and "Ility"
@@ -200,5 +200,5 @@ Three messages to return to:
 ## Rule content
 
 Rule titles, `why` text, and remediation notes are the most-read product copy.
-`ility-core` keeps the rule-specific guidance (title format, `why` length, and
+`ility-engine` keeps the rule-specific guidance (title format, `why` length, and
 examples) next to the rules, and it follows this guide.
