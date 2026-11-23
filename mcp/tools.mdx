@@ -46,6 +46,8 @@ Ask, for example, "Open my Ility sites" or "Show me this issue in Ility." Claude
 
 In apps that can't show interactive views, these tools return the same data as `list_domains`, `get_domain_summary`, and `get_issue`.
 
+When the assistant starts a scan with `trigger_scan`, Claude also shows a scan card in the conversation. The card follows the scan's progress page by page. When the scan finishes, it shows the site's open issues by severity, and the assistant is told the result. **Open** brings that site into the side pane, and **Open in Ility** opens the site in the app. If a scan of the site is already running, the card follows that scan instead.
+
 ## Linking to an issue
 
 `list_issues`, `get_issue`, `get_issue_fix_prompt`, `set_issue_status`, `assign_issue`, and `set_issue_labels` return an issue's `app_url`: the issue's page in Ility, such as `https://app.ilitylabs.com/surfaces/<surface id>/issues/<issue id>`. Ask the assistant to put that link in a pull request, commit message, or ticket, so reviewers can open the issue in one click. Anyone who follows the link signs in to Ility and needs access to the issue's workspace.
