@@ -49,6 +49,19 @@ In apps that can't show interactive views, these tools return the same data as `
 
 When the assistant starts a scan with `trigger_scan`, Claude also shows a scan card in the conversation. The card follows the scan's progress page by page. When the scan finishes, it shows the site's open issues by severity, and the assistant is told the result. **Open** brings that site into the side pane, and **Open in Ility** opens the site in the app. If a scan of the site is already running, the card follows that scan instead.
 
+### Letting the assistant work in the view
+
+Where Claude supports app tools, the open view gives the assistant four tools of its own. None of them changes anything in Ility.
+
+| Tool | What it does |
+| --- | --- |
+| `view_state` | Tells the assistant what you're looking at: the sites list, a site's open issues and the ones you selected, or an issue. |
+| `view_show_site` | Opens a site in the view, optionally filtered to one severity. |
+| `view_show_issue` | Opens an issue in the view. |
+| `view_select_issues` | Selects issues on a site's screen, so you can **Resolve** them, or mark them **Won't fix** or **False positive**, in one step. |
+
+Ask, for example, "Which of the issues I'm looking at are on the checkout page?" or "Select the contrast issues so I can mark them won't fix." The assistant selects; you choose what happens to the issues. Claude asks before each of these calls. Claude offers app tools to some organizations only, so far.
+
 ## Linking to an issue
 
 `list_issues`, `get_issue`, `get_issue_fix_prompt`, `set_issue_status`, `assign_issue`, and `set_issue_labels` return an issue's `app_url`: the issue's page in Ility, such as `https://app.ilitylabs.com/surfaces/<surface id>/issues/<issue id>`. Ask the assistant to put that link in a pull request, commit message, or ticket, so reviewers can open the issue in one click. Anyone who follows the link signs in to Ility and needs access to the issue's workspace.
