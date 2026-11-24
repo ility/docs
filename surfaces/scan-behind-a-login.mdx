@@ -62,12 +62,12 @@ Ility stores the password encrypted and never shows it again. When a password is
 
 If Ility can't sign in at all, it fails the whole crawl or scan instead of testing your site anonymously. The error starts with `Sign-in failed:` and says what went wrong, such as a rejected password, a selector that matched nothing, a login page URL that isn't allowed, or a login form on a plan that doesn't include login forms. Fix the scan login in **Settings** and run the scan again.
 
-A login often stops working without anyone noticing: someone changes the test account's password, the sign-in form changes, or the account loses access to some pages. Ility tells you when that happens, so fewer issues never reads as progress:
+A login often stops working without anyone noticing: someone changes the test account's password, the sign-in form changes, or the account loses access to some pages. When Ility detects this, it shows a notice, so fewer issues is less likely to read as progress:
 
-- **Ility couldn't sign in to this site.** A full scan failed to sign in. The surface's **Overview** shows this until a later full scan finishes. Your issues stay as the last scan left them.
-- **Ility was signed out on some pages.** A scan finished, but some pages showed a sign-in form in place of their content, even after Ility signed in again. Ility didn't scan those pages, so their issues aren't marked resolved. The page list shows them as **Signed out**.
+- **Ility couldn't sign in to this site**: a full scan failed because the site didn't accept the scan login. The surface's **Overview** shows this until a later full scan finishes. Your issues stay as the last scan left them.
+- **Ility was signed out on some pages**: a full scan finished, but some pages showed a sign-in form in place of their content, even after Ility signed in again. Ility didn't scan those pages, so their issues aren't marked resolved. The scan's page list shows them as **Signed out**.
 
-If you can edit the surface, both notices link to its settings, where you can check the **Scan login**. A scan where every page was signed out fails, and the **Overview** says so the same way.
+If you can edit the surface, both notices link to its settings, where you can check the **Scan login**. A full scan where every page was signed out fails, and the **Overview** shows **Ility was signed out on some pages** until a later full scan finishes.
 
 See [When a page fails](/scans/run-a-scan#when-a-page-fails) for page-level failure reasons.
 
