@@ -40,11 +40,13 @@ In Claude and other apps that show interactive views, three more tools open an i
 | --- | --- |
 | `open_ility` | Your workspace's sites, with open issue counts by severity and when each was last scanned. |
 | `open_domain` | One site: its open issues, filterable by severity, its recent scans, and **Start scan**. |
-| `open_issue` | One issue: set its status with an optional note, **Re-check** it, post a comment, and read its activity. **Open in Ility** opens the issue in the app. **Fix with Claude** asks Claude, in the conversation, to start a fix. |
+| `open_issue` | One issue: set its status with an optional note, choose its assignee and labels, **Re-check** it, post a comment, and read its activity. **Open in Ility** opens the issue in the app. **Fix with Claude** asks Claude, in the conversation, to start a fix. |
 
 Ask, for example, "Open my Ility sites" or "Show me this issue in Ility." Claude shows a card with **Open**, which opens the view in a side pane where Claude offers one, or full screen. Everything you do there goes through the same tools and permissions as the assistant's own calls. When you start a scan, change an issue's status, or re-check an issue, the assistant is told, so it can pick up from there.
 
 In apps that can't show interactive views, these tools return the same data as `list_domains`, `get_domain_summary`, and `get_issue`.
+
+When the assistant starts a scan with `trigger_scan`, Claude also shows a scan card in the conversation. The card follows the scan's progress page by page. When the scan finishes, it shows the site's open issues by severity, and the assistant is told the result. **Open** brings that site into the side pane, and **Open in Ility** opens the site in the app. If a scan of the site is already running, the card follows that scan instead.
 
 ## Linking to an issue
 
