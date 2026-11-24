@@ -35,6 +35,15 @@ In assistants that support MCP Tasks, the assistant waits for these scans to fin
 
 `comment_on_issue`, `set_issue_status`, `set_issues_status`, `assign_issue`, and `set_issue_labels` change issues. Each change shows on the issue's timeline under your name, marked with the assistant or API key it came through. Every other tool only reads.
 
+## Questions the assistant asks you
+
+In apps that support MCP elicitation, two tools can ask you a question before they finish:
+
+- **Before a bulk status change.** `set_issues_status` asks you to confirm, for example "Change 12 issues to Won't fix?". Nothing changes until you accept. If you decline or close the question, nothing changes, and the assistant is told so.
+- **When your plan doesn't include API triggers.** Instead of only an error, `trigger_scan` and `scan_page` offer to open the **Billing** page, where a workspace owner can change the plan. Once the plan includes API triggers, the scan starts when the assistant tries again. If you decline, the assistant gets the `api_triggers_not_entitled` error and suggests starting the scan in Ility.
+
+In apps without elicitation, there's no question: `set_issues_status` makes the change right away, and the scan tools return the `api_triggers_not_entitled` error. Bulk changes you choose in the Ility view, such as **Resolve** on selected issues, don't ask again, because you already chose them. See [Working in Ility inside Claude](#working-in-ility-inside-claude).
+
 ## Working in Ility inside Claude
 
 In Claude and other apps that show interactive views, three more tools open an interactive Ility view next to the conversation, so you can look through and change things yourself rather than through the assistant:
