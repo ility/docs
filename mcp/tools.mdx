@@ -31,7 +31,7 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 
 `trigger_scan`, `scan_page`, and `recheck_issue` start scans. `trigger_scan` and `scan_page` need a plan that includes API triggers. Without one, they return an error naming `api_triggers_not_entitled`. `recheck_issue` works on every plan. Every scan counts toward the workspace's scanned URLs for the month, and a scan that needs more than are left returns an error naming `scan_allowance_reached`. A re-check can run a little past the limit so you can confirm a fix.
 
-In assistants that support MCP Tasks, such as Claude, these three tools wait for their scans to finish. The assistant gets the finished scans back, and for `recheck_issue` the issue as it now stands, so it doesn't have to check `get_scan` on its own. Other assistants get the queued scans right away and follow them with `get_scan`.
+In assistants that support MCP Tasks, the assistant waits for these scans to finish. It gets the finished scans back, and for `recheck_issue` the issue as it now stands, so it doesn't have to check `get_scan` on its own. Other assistants get the queued scans right away and follow them with `get_scan`.
 
 `comment_on_issue`, `set_issue_status`, `set_issues_status`, `assign_issue`, and `set_issue_labels` change issues. Each change shows on the issue's timeline under your name, marked with the assistant or API key it came through. Every other tool only reads.
 
