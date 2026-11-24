@@ -89,7 +89,8 @@
             "pages": [
               "index",
               "get-started/quickstart",
-              "get-started/concepts"
+              "get-started/concepts",
+              "get-started/search-and-help"
             ]
           },
           {
@@ -121,7 +122,8 @@
             "group": "Reports",
             "pages": [
               "reports/scan-reports",
-              "reports/share-a-report"
+              "reports/share-a-report",
+              "reports/evidence-packets"
             ]
           },
           {
@@ -129,6 +131,12 @@
             "pages": [
               "team/members-and-roles",
               "team/client-access"
+            ]
+          },
+          {
+            "group": "Billing",
+            "pages": [
+              "billing/plans-and-usage"
             ]
           },
           {

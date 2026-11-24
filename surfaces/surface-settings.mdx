@@ -1,6 +1,6 @@
 ---
 title: "Surface settings"
-description: "Choose the WCAG target, engines, crawl behavior, and scan schedule for each surface."
+description: "Choose the WCAG target, engines, page rendering, crawl behavior, scan schedule, and availability checks for each surface."
 ---
 
 Open a surface and choose **Settings** in the sidebar. Members and owners can change settings. Viewers see a view-only notice instead.
@@ -16,12 +16,24 @@ Open a surface and choose **Settings** in the sidebar. Members and owners can ch
 
 The WCAG target decides which rules count. A 2.1 AA target runs every rule mapped to a level A or AA success criterion in WCAG 2.0 or 2.1. Best-practice rules run on every scan, whatever the target. See [What a scan checks](/scans/what-a-scan-checks).
 
+## Page rendering
+
+Use these settings for a site that builds its pages in the browser, such as a single-page app or an e-learning course. Before it reads a page, Ility waits for some visible text, for up to 10 seconds.
+
+| Setting | What it does |
+| --- | --- |
+| **Wait for element** | A CSS selector, such as `main .lesson`, for an element that appears once a page has rendered. Ility waits for it on every page instead of for visible text, so choose an element every page has. A page without it waits the full time. |
+| **Longest wait (seconds)** | From 1 to 30. Leave it blank for 10. |
+
 ## Crawl and scheduling
 
 | Setting | What it does |
 | --- | --- |
 | **Include query parameters when crawling** | Treat URLs that differ only by query string, such as `/products?page=2`, as separate pages. Leave this off for most sites. |
 | **Scheduled scanning** | Scan the surface automatically, so new issues and fixes show up without anyone pressing **Run scan**. Choose **How often**: **Monthly**, **Weekly**, or **Daily**. Your plan sets the most frequent choice. Automatic scans count toward the workspace's scanned URLs. They pause when those run out or when a payment is overdue. |
+| **Availability checks** | Check every five minutes that the homepage and key pages answer, and tell members when the site goes down or comes back. Availability checks need the Plus or Pro plan, and they don't count toward scanned URLs. |
+
+See [Plans and usage](/billing/plans-and-usage) for what each plan includes.
 
 Choose **Save changes** when you're done.
 

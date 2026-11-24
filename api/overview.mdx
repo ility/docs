@@ -56,7 +56,7 @@ Errors return a non-2xx status and a body with a human-readable `detail`. Many a
 | --- | --- |
 | `400` | The request was invalid. `detail` says what to fix. |
 | `402` | The workspace has used its scanned URLs for the month (`reason: "scan_allowance_reached"`). `resets_at` says when the count resets. A workspace owner can add URLs or change the plan on the **Billing** page. |
-| `403` | The key is missing, invalid, or revoked (`detail` says so), or it isn't allowed to do this (check `reason`). |
+| `403` | The key is missing, invalid, or revoked (`detail` says so), or it isn't allowed to do this (check `reason`). For example, `reason: "plan_required"` means the workspace's plan doesn't include it, and `required_plan` names the plan that does. See [Plans and usage](/billing/plans-and-usage). |
 | `404` | The resource doesn't exist in this workspace. |
 | `409` | Conflicts with the current state, for example a scan is already running. |
 | `422` | The request can't be carried out, for example there are no pages to scan. |

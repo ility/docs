@@ -1,0 +1,89 @@
+---
+title: "Plans and usage"
+description: "What each plan includes, what counts as a scanned URL, and what happens when a trial ends or a payment fails."
+---
+
+Every workspace has one plan. The plan decides what the workspace can do, and its size decides how many surfaces it holds and how many URLs it can scan each month. For prices and the numbers behind each size, see the [pricing page](https://ilitylabs.com/pricing).
+
+Ility has four plans:
+
+- **Free**: one surface, for trying Ility.
+- **Plus**: for one organization testing its own sites.
+- **Pro**: for agencies and teams that look after many sites.
+- **Enterprise**: for more surfaces, single sign-on, or custom terms. It's set up with our sales team, not on the **Billing** page.
+
+Each plan includes everything in the plan before it.
+
+## What each plan includes
+
+| | Free | Plus | Pro |
+| --- | :---: | :---: | :---: |
+| Find pages, scan, triage issues, copy fix prompts, and use the [browser extension](/extension/install) | Yes | Yes | Yes |
+| Read results through the [MCP server](/mcp/overview) | Yes | Yes | Yes |
+| Read results through the [API](/api/overview) | No | Yes | Yes |
+| Most frequent [scheduled scan](/surfaces/surface-settings#crawl-and-scheduling) | Monthly | Weekly | Daily |
+| [Availability checks](/surfaces/surface-settings#crawl-and-scheduling) | No | Yes | Yes |
+| Start scans through the API and MCP server | No | Yes | Yes |
+| [API keys](/api/api-keys) | No | Yes | Yes |
+| [Share links](/reports/share-a-report) for reports | No | Yes | Yes |
+| [Evidence packets](/reports/evidence-packets) | No | Yes | Yes |
+| Send issues to GitHub or Asana | No | Yes | Yes |
+| [Login form](/surfaces/scan-behind-a-login) scan logins | No | No | Yes |
+| Manual review sessions | No | No | Yes |
+
+Pro allows more API keys than Plus. Free workspaces have room for fewer people than paid plans. The [pricing page](https://ilitylabs.com/pricing) has the details.
+
+When your plan doesn't include something, Ility says which plan does. Through the API, the request fails with `403` and a `reason`. Most plan gates use `reason: "plan_required"`, with `required_plan` naming the plan. Starting scans uses `api_triggers_not_entitled`, sharing a report uses `report_sharing_not_entitled`, and a workspace at its key limit gets `api_key_limit_reached`.
+
+## The Pro trial
+
+Every new workspace starts with a free 14-day trial of Pro. You don't need a card to start it. A banner at the top of the app counts down the days that are left.
+
+When the trial ends, the workspace moves to Free unless an owner chooses a plan. The **Billing** page recommends a plan based on how the workspace used its trial. Your surfaces, scans, and issues are kept.
+
+## Scanned URLs
+
+Each plan includes a number of scanned URLs a month. Scanning one page or one document once uses one scanned URL.
+
+These never count:
+
+- Finding pages, with a discovery crawl or a sitemap.
+- Availability checks.
+- Pages that fail to load. Ility gives those back when the scan finishes.
+
+Usage resets on the first day of each month, UTC. Owners get an email when the workspace has used 75%, 90%, and 100% of its URLs for the month.
+
+### When the month's URLs run out
+
+Unless overages are on, new scans wait until the reset, and automatic scans pause. Re-checking a single issue still works for a few URLs past the limit, so you can confirm a fix. Through the API, a scan that needs more URLs than are left fails with `402` and `reason: "scan_allowance_reached"`.
+
+To keep scanning, an owner can do one of these on the **Billing** page:
+
+- Add **Extra URL blocks** to the plan.
+- Under **When you reach your limit**, choose **Allow overages up to a monthly budget**. Ility then buys extra URLs as you need them, up to that budget, and invoices them after the month ends. Overages are available on paid plans.
+- Change to a bigger plan or size.
+
+## Change your plan
+
+Choose **Billing** in the sidebar. Only owners can change the plan. Anyone else who opens the page sees that a workspace owner manages plan changes. The **Billing and usage** page shows the current plan, how many URLs each surface used this month, and the overage setting.
+
+- Under **Choose a plan**, pick Plus or Pro, a size, and monthly or yearly billing, then choose **Continue to checkout**. Once you have a plan, choose **Change plan**, adjust it, then choose **Apply change**.
+- A bigger plan takes effect right away, and the difference is invoiced now. A smaller plan takes effect at renewal.
+- Choose **Manage payment and invoices** to update your card or download invoices.
+
+Changing plans never deletes anything. If a workspace moves to a plan without a feature, what it made stays readable. For example, existing evidence packets can still be downloaded. If it has more surfaces than its new size holds, they all keep working, but you can't add or restore a surface until you archive enough to fit. Archived surfaces keep their history.
+
+For Enterprise, email [sales+enterprise@ilitylabs.com](mailto:sales+enterprise@ilitylabs.com).
+
+## When a payment fails
+
+The app shows **Payment failed** at the top of every page, and owners see **Update payment**. Update the card to keep monitoring running.
+
+- After 14 days overdue, automatic scans and availability checks stop.
+- After 30 days overdue, no new scans, crawls, or re-checks can start, and no surfaces can be added.
+
+Your data is kept the whole time. Everything starts again once the payment goes through.
+
+## Free workspaces that aren't used
+
+If nobody signs in to a Free workspace for 60 days, its automatic scans pause. They start again the next time someone signs in.
