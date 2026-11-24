@@ -32,7 +32,7 @@ Each plan includes everything in the plan before it.
 
 Pro allows more API keys than Plus. Free workspaces have room for fewer people than paid plans. The [pricing page](https://ilitylabs.com/pricing) has the details.
 
-When your plan doesn't include something, Ility says which plan does. Through the API, the request fails with `403` and `reason: "plan_required"`, and `required_plan` names the plan.
+When your plan doesn't include something, Ility says which plan does. Through the API, the request fails with `403` and a `reason`. Most plan gates use `reason: "plan_required"`, with `required_plan` naming the plan. Starting scans uses `api_triggers_not_entitled`, sharing a report uses `report_sharing_not_entitled`, and a workspace at its key limit gets `api_key_limit_reached`.
 
 ## The Pro trial
 
