@@ -51,16 +51,16 @@ When the assistant starts a scan with `trigger_scan`, Claude also shows a scan c
 
 ### Letting the assistant work in the view
 
-Where Claude supports app tools, the open view gives the assistant four tools of its own. None of them changes anything in Ility.
+In versions of Claude that let an open view offer tools to the assistant, the Ility view gives it four tools of its own. None of them changes anything in Ility. Elsewhere, the view still opens, but the assistant can't see or change what's on it.
 
 | Tool | What it does |
 | --- | --- |
-| `view_state` | Tells the assistant what you're looking at: the sites list, a site's open issues and the ones you selected, or an issue. |
+| `view_state` | Tells the assistant what you're looking at: the sites list, a site's open issues, its severity filter, and the issues you selected, or an issue. |
 | `view_show_site` | Opens a site in the view, optionally filtered to one severity. |
 | `view_show_issue` | Opens an issue in the view. |
-| `view_select_issues` | Selects issues on a site's screen, so you can **Resolve** them, or mark them **Won't fix** or **False positive**, in one step. |
+| `view_select_issues` | Selects issues on a site's screen, so you can **Resolve** them, or mark them **Won't fix** or **False positive**, in one step. It replaces your current selection, and works only on issues shown on screen. |
 
-Ask, for example, "Which of the issues I'm looking at are on the checkout page?" or "Select the contrast issues so I can mark them won't fix." The assistant selects; you choose what happens to the issues. Claude asks before each of these calls.
+Ask, for example, "Which of the issues I'm looking at are serious?" or "Select the contrast issues so I can mark them won't fix." The assistant selects; you choose what happens to the issues. Claude asks your permission before using these tools, unless you've allowed them.
 
 ## Linking to an issue
 
