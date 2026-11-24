@@ -54,13 +54,20 @@ Ility stores the password encrypted and never shows it again. When a password is
 
 - Ility signs in once at the start of each crawl or scan, then reuses that session for every page.
 - A signed-in crawl also starts from the page your site shows right after login. Signed-in pages are often only linked from there.
-- If a page sends Ility back to the login page, Ility first checks whether it's still signed in. If it is, the test account probably can't see that page, and the page fails as **Signed out**. If it isn't, Ility signs in again and retries the page once. Ility signs in again at most three times per crawl or scan.
+- If a page sends Ility back to the login page, or shows a sign-in form where its content should be, Ility first checks whether it's still signed in. If it is, the test account probably can't see that page, and the page fails as **Signed out**. If it isn't, Ility signs in again and retries the page once. Ility signs in again at most three times per crawl or scan.
 - On a signed-in surface, the scan a crawl starts on its first page runs after the crawl finishes, so the two don't sign each other out. If the crawl fails or is canceled, that scan doesn't run. Scans you start yourself don't wait, so on a site that allows one session per account, two signed-in scans at once can still sign each other out.
 - Ility never opens URLs that look like sign-out links, such as `/logout`, because that would end the session for every page after it. A crawl skips them. A scan marks them as failed with **Sign-out link skipped**.
 
 ### When sign-in fails
 
 If Ility can't sign in at all, it fails the whole crawl or scan instead of testing your site anonymously. The error starts with `Sign-in failed:` and says what went wrong, such as a rejected password, a selector that matched nothing, a login page URL that isn't allowed, or a login form on a plan that doesn't include login forms. Fix the scan login in **Settings** and run the scan again.
+
+A login often stops working without anyone noticing: someone changes the test account's password, the sign-in form changes, or the account loses access to some pages. Ility tells you when that happens, so fewer issues never reads as progress:
+
+- **Ility couldn't sign in to this site.** A full scan failed to sign in. The surface's **Overview** shows this until a later full scan finishes. Your issues stay as the last scan left them.
+- **Ility was signed out on some pages.** A scan finished, but some pages showed a sign-in form in place of their content, even after Ility signed in again. Ility didn't scan those pages, so their issues aren't marked resolved. The page list shows them as **Signed out**.
+
+Both notices link to the surface settings, where you can check the **Scan login**.
 
 See [When a page fails](/scans/run-a-scan#when-a-page-fails) for page-level failure reasons.
 
