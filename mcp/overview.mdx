@@ -36,7 +36,7 @@ The server also gives your assistant three skills: step-by-step instructions for
 
 - **Fix an issue** (`fix-issue`): finds the cause of an issue in your site's codebase, proposes the change, and links the pull request back to the issue. Works best in a coding assistant such as Claude Code.
 - **Triage a site's issues** (`triage-issues`): ranks a site's open issues by who they affect and how widely, groups the ones with a shared cause, and proposes owners and labels. It changes nothing in Ility until you agree.
-- **Confirm a fix** (`verify-fix`): rescans the affected pages after a fix is live and tells you which instances are resolved and which remain.
+- **Confirm a fix** (`verify-fix`): rescans the affected pages after a fix is live and tells you whether Ility still finds the issue.
 
 The skills check what your plan includes. On a plan without API triggers, they re-check issues instead of starting scans, or point you to the app.
 
