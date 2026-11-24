@@ -33,6 +33,15 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 
 `comment_on_issue`, `set_issue_status`, `set_issues_status`, `assign_issue`, and `set_issue_labels` change issues. Each change shows on the issue's timeline under your name, marked with the assistant or API key it came through. Every other tool only reads.
 
+## Questions the assistant asks you
+
+In apps that support MCP elicitation, such as Claude, two tools can ask you a question before they finish:
+
+- **Before a bulk status change.** `set_issues_status` asks you to confirm, for example "Change 12 issues to Won't fix?". Nothing changes until you accept. If you decline, the assistant is told that nothing changed.
+- **When your plan doesn't include API triggers.** Instead of only an error, `trigger_scan` and `scan_page` offer to open the **Billing** page. If you change your plan there, the scan starts when the assistant tries again. If you don't, the assistant gets the same `api_triggers_not_entitled` error as before.
+
+In apps without elicitation, these tools work as described above, with no question. Your choices in the Ility view, such as **Resolve** on selected issues, don't ask again, because you already chose them.
+
 ## Working in Ility inside Claude
 
 In Claude and other apps that show interactive views, three more tools open an interactive Ility view next to the conversation, so you can look through and change things yourself rather than through the assistant:
