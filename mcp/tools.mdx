@@ -25,7 +25,7 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 | `list_members` | Lists the workspace's members, with the user ids `assign_issue` takes. |
 | `comment_on_issue` | Adds a comment to an issue. Markdown works. |
 | `set_issue_status` | Changes an issue's status to open, resolved, won't fix, or false positive, with an optional note saying why. |
-| `set_issues_status` | Changes the status of up to 100 issues at once, with an optional note. Issues already in that status are left as they are. |
+| `set_issues_status` | Changes the status of up to 100 issues at once, with an optional note. Issues already in that status are left as they are. If any issue isn't found, none of them change. |
 | `assign_issue` | Assigns an issue to a workspace member, or unassigns it. |
 | `set_issue_labels` | Replaces an issue's labels with the ones you list. Labels left out are removed. |
 
