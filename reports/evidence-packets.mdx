@@ -1,0 +1,46 @@
+---
+title: "Evidence packets"
+description: "Download a dated record of what Ility tested on a surface, what it found, and when each issue was fixed."
+---
+
+Sometimes someone asks you to show your accessibility work: a procurement questionnaire, an internal audit, or a customer's legal team. If Ility has been scanning a surface, it already holds that record. An evidence packet turns it into two files you can hand over:
+
+- A CSV issue register, with one row per issue.
+- A PDF evidence document.
+
+Evidence packets need the Plus or Pro plan. See [Plans and usage](/billing/plans-and-usage).
+
+## What a packet covers
+
+A packet covers one surface and everything Ility knows about it when you generate it:
+
+- The scan record: which scans ran and how many pages they tested.
+- Each issue's history, with timestamps: when it was found, when its status changed, and whether a later scan confirmed the fix.
+- How issues break down by severity and by WCAG success criterion.
+- Automated coverage.
+
+A packet reports automated results only. It doesn't include a manual audit, testing with assistive technology, or human review of the WCAG criteria that automated testing can't check. Every page says so. A passing automated result isn't a conformance claim, and a packet isn't a VPAT.
+
+## Generate a packet
+
+<Steps>
+  <Step title="Open the surface's evidence">
+    Open a surface and choose **Evidence** in the sidebar.
+  </Step>
+  <Step title="Generate the packet">
+    Choose **Generate evidence packet**. Ility builds it in the background, which usually takes under a minute. You can leave the page while it works.
+  </Step>
+  <Step title="Download the files">
+    When **Evidence packet ready** appears, choose **Download CSV** or **Download PDF**.
+  </Step>
+</Steps>
+
+Anyone who can open the surface can generate and download its packets, including viewers.
+
+## Download an earlier packet
+
+**Recent packets** lists the surface's last five packets, with when each was generated and how many issues, scans, and pages it covers. Choose **CSV** or **PDF** next to a packet to download it again without building a new one.
+
+If a download fails, the packet may no longer be available. Generate a new one.
+
+Packets you already generated stay downloadable if the workspace moves to a plan without evidence packets.
