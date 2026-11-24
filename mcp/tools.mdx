@@ -31,6 +31,8 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 
 `trigger_scan`, `scan_page`, and `recheck_issue` start scans. `trigger_scan` and `scan_page` need a plan that includes API triggers. Without one, they return an error naming `api_triggers_not_entitled`. `recheck_issue` works on every plan. Every scan counts toward the workspace's scanned URLs for the month, and a scan that needs more than are left returns an error naming `scan_allowance_reached`. A re-check can run a little past the limit so you can confirm a fix.
 
+In assistants that support MCP Tasks, the assistant waits for these scans to finish. It gets the finished scans back, and for `recheck_issue` the issue as it now stands, so it doesn't have to check `get_scan` on its own. Other assistants get the queued scans right away and follow them with `get_scan`.
+
 `comment_on_issue`, `set_issue_status`, `set_issues_status`, `assign_issue`, and `set_issue_labels` change issues. Each change shows on the issue's timeline under your name, marked with the assistant or API key it came through. Every other tool only reads.
 
 ## Questions the assistant asks you
@@ -38,7 +40,7 @@ Each tool calls the [Ility API](/api/overview) on your behalf, so it sees the sa
 In apps that support MCP elicitation, such as Claude, two tools can ask you a question before they finish:
 
 - **Before a bulk status change.** `set_issues_status` asks you to confirm, for example "Change 12 issues to Won't fix?". Nothing changes until you accept. If you decline, the assistant is told that nothing changed.
-- **When your plan doesn't include API triggers.** Instead of only an error, `trigger_scan` and `scan_page` offer to open the **Billing** page. If you change your plan there, the scan starts when the assistant tries again. If you don't, the assistant gets the same `api_triggers_not_entitled` error as before.
+- **When your plan doesn't include API triggers.** Instead of only an error, `trigger_scan` and `scan_page` offer to open the **Billing** page. If you change your plan there, the scan starts when the assistant tries again. If you don't, the assistant gets the `api_triggers_not_entitled` error and is told you didn't upgrade.
 
 In apps without elicitation, these tools work as described above, with no question. Your choices in the Ility view, such as **Resolve** on selected issues, don't ask again, because you already chose them.
 
@@ -57,6 +59,19 @@ Ask, for example, "Open my Ility sites" or "Show me this issue in Ility." Claude
 In apps that can't show interactive views, these tools return the same data as `list_domains`, `get_domain_summary`, and `get_issue`.
 
 When the assistant starts a scan with `trigger_scan`, Claude also shows a scan card in the conversation. The card follows the scan's progress page by page. When the scan finishes, it shows the site's open issues by severity, and the assistant is told the result. **Open** brings that site into the side pane, and **Open in Ility** opens the site in the app. If a scan of the site is already running, the card follows that scan instead.
+
+### Letting the assistant work in the view
+
+In versions of Claude that let an open view offer tools to the assistant, the Ility view gives it four tools of its own. None of them changes anything in Ility. Elsewhere, the view still opens, but the assistant can't see or change what's on it.
+
+| Tool | What it does |
+| --- | --- |
+| `view_state` | Tells the assistant what you're looking at: the sites list, a site's open issues, its severity filter, and the issues you selected, or an issue. |
+| `view_show_site` | Opens a site in the view, optionally filtered to one severity. |
+| `view_show_issue` | Opens an issue in the view. |
+| `view_select_issues` | Selects issues on a site's screen, so you can **Resolve** them, or mark them **Won't fix** or **False positive**, in one step. It replaces your current selection, and works only on issues shown on screen. |
+
+Ask, for example, "Which of the issues I'm looking at are serious?" or "Select the contrast issues so I can mark them won't fix." The assistant selects; you choose what happens to the issues. Claude asks your permission before using these tools, unless you've allowed them.
 
 ## Linking to an issue
 
