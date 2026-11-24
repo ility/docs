@@ -80,6 +80,23 @@ Match the existing tone of each repository's `README.md` and agent instructions.
   names (`ility-engine`, `ility/docs`), URLs, and code.
 - Never write "ILITY", "iLity", or "ility" in prose.
 
+## Terms
+
+Use one name for each thing. The
+[Ility glossary](https://app.notion.com/p/422c8f98de6681678388ecf554f1865a) is
+the source of truth for product terms. For each term it gives the word to use,
+the words to avoid, a short definition, and where the term shows up. It lives in
+the Ility Labs Notion workspace, so only people at Ility Labs can open it.
+
+- Link to the glossary instead of copying it into another file.
+- In copy people read, use the glossary's word, even where a code identifier
+  still says something else: the app says **surface**, though the API path is
+  `/v1/domains`.
+- If the word you need isn't there, or two words compete, ask in the pull
+  request or issue before you pick one.
+- If you can't open the glossary, follow the **Names** section above and the
+  words the app already uses, and raise any new term in your pull request.
+
 ## "We" and "Ility"
 
 - The product never says "we". Ility scans, finds, reports, and loads. It doesn't

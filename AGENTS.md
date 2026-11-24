@@ -43,6 +43,11 @@ architecture, infrastructure, and anything only staff can do.
 
 ## Terminology
 
+The [Ility glossary](https://app.notion.com/p/422c8f98de6681678388ecf554f1865a)
+in Notion is the source of truth for product terms. The list below is the
+subset these docs use most. Where the two differ, follow the glossary and
+update this list in the same pull request.
+
 - The product is **Ility**, with a capital I. The company is **Ility Labs**.
   Lowercase only in the logo, package names, URLs, and code.
 - **Workspace**: the account a team shares. Not "organization" or "project".
