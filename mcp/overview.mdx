@@ -30,4 +30,14 @@ The assistant can list your workspaces, surfaces, scans, and issues, read an iss
 
 Through MCP, the assistant never has more access than a member, even if you're an owner. It can't delete anything, change billing, or manage keys and members.
 
+## Skills
+
+The server also gives your assistant three skills: step-by-step instructions for common jobs. Clients that support skills over MCP, such as Claude, offer them as soon as you connect Ility, with nothing else to install. Your client may ask you to approve them first.
+
+- **Fix an issue** (`fix-issue`): finds the cause of an issue in your site's codebase, proposes the change, and links the pull request back to the issue. Works best in a coding assistant such as Claude Code.
+- **Triage a site's issues** (`triage-issues`): ranks a site's open issues by who they affect and how widely, groups the ones with a shared cause, and proposes owners and labels. It changes nothing in Ility until you agree.
+- **Confirm a fix** (`verify-fix`): rescans the affected pages after a fix is live and tells you which instances are resolved and which remain.
+
+The skills check what your plan includes. On a plan without API triggers, they re-check issues instead of starting scans, or point you to the app.
+
 Starting a scan needs a plan that includes API triggers: Plus, Pro, an active trial, or Enterprise. Reading, and re-checking a single issue, work on every plan.
