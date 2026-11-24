@@ -90,10 +90,12 @@ the Ility Labs Notion workspace, so only people at Ility Labs can open it.
 
 - Link to the glossary instead of copying it into another file.
 - In copy people read, use the glossary's word, even where a code identifier
-  still says something else: the button says **Re-check**, the MCP tool is
-  `recheck_issue`.
-- If the word you need isn't there, or two words compete, ask before you pick
-  one.
+  still says something else: the app says **surface**, though the API path is
+  `/v1/domains`.
+- If the word you need isn't there, or two words compete, ask in the pull
+  request or issue before you pick one.
+- If you can't open the glossary, follow the **Names** section above and the
+  words the app already uses, and raise any new term in your pull request.
 
 ## "We" and "Ility"
 
