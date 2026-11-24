@@ -37,12 +37,12 @@ In assistants that support MCP Tasks, the assistant waits for these scans to fin
 
 ## Questions the assistant asks you
 
-In apps that support MCP elicitation, such as Claude, two tools can ask you a question before they finish:
+In apps that support MCP elicitation, two tools can ask you a question before they finish:
 
-- **Before a bulk status change.** `set_issues_status` asks you to confirm, for example "Change 12 issues to Won't fix?". Nothing changes until you accept. If you decline, the assistant is told that nothing changed.
-- **When your plan doesn't include API triggers.** Instead of only an error, `trigger_scan` and `scan_page` offer to open the **Billing** page. If you change your plan there, the scan starts when the assistant tries again. If you don't, the assistant gets the `api_triggers_not_entitled` error and is told you didn't upgrade.
+- **Before a bulk status change.** `set_issues_status` asks you to confirm, for example "Change 12 issues to Won't fix?". Nothing changes until you accept. If you decline or close the question, nothing changes, and the assistant is told so.
+- **When your plan doesn't include API triggers.** Instead of only an error, `trigger_scan` and `scan_page` offer to open the **Billing** page, where a workspace owner can change the plan. Once the plan includes API triggers, the scan starts when the assistant tries again. If you decline, the assistant gets the `api_triggers_not_entitled` error and suggests starting the scan in Ility.
 
-In apps without elicitation, these tools work as described above, with no question. Your choices in the Ility view, such as **Resolve** on selected issues, don't ask again, because you already chose them.
+In apps without elicitation, there's no question: `set_issues_status` makes the change right away, and the scan tools return the `api_triggers_not_entitled` error. Bulk changes you choose in the Ility view, such as **Resolve** on selected issues, don't ask again, because you already chose them. See [Working in Ility inside Claude](#working-in-ility-inside-claude).
 
 ## Working in Ility inside Claude
 
